@@ -35,6 +35,9 @@ ARP poruke se prenose unutar Ethernet okvira, pri čemu se u polju EtherType nal
 - **Target protocol address (TPA)** – IP adresa odredišta čija se MAC adresa traži.
 
 Kombinacijom ovih polja, ARP omogućava da čvor jednoznačno identifikuje ko traži adresu (sender) i za koju IP adresu (target) želi da dobije MAC adresu.
+Na narednoj slici prikazan je proces ARP komunikacije, uključujući ARP request i ARP reply:
+<img width="969" height="318" alt="image" src="https://github.com/user-attachments/assets/e8967027-e905-416d-b946-0181bdc3e6f3" />
+
 
 ## Popis signala
 
