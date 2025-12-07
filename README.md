@@ -36,3 +36,26 @@ ARP poruke se prenose unutar Ethernet okvira, pri čemu se u polju EtherType nal
 
 Kombinacijom ovih polja, ARP omogućava da čvor jednoznačno identifikuje ko traži adresu (sender) i za koju IP adresu (target) želi da dobije MAC adresu.
 
+## Popis signala
+
+Ulazni signali:
+| Signal      | Tip | Opis                                 |
+| ----------- | --- | ------------------------------------ |
+| `clock`     | IN  | Sistemski takt                       |
+| `reset`     | IN  | Reset modula                         |
+| `in_data`   | IN  | Ulazni bajt Ethernet rama            |
+| `in_valid`  | IN  | Ulazni bajt je ispravan              |
+| `in_sop`    | IN  | Početak paketa                       |
+| `in_eop`    | IN  | Kraj paketa                          |
+| `in_ready`  | OUT | Modul može primiti novi bajt         |
+| `out_ready` | IN  | Spoljni modul spreman da primi izlaz |
+
+Izlazni signali: 
+| Signal      | Tip | Opis                      |
+| ----------- | --- | ------------------------- |
+| `out_data`  | OUT | Bajt po bajt ARP odgovora |
+| `out_valid` | OUT | Izlazni podatak je važeći |
+| `out_sop`   | OUT | Početak ARP odgovora      |
+| `out_eop`   | OUT | Kraj ARP odgovora         |
+
+
