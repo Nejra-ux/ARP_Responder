@@ -47,23 +47,15 @@ ARP header sadrži više različitih polja. Ispod se nalaze navedeni dijelovi AR
 
 Kao što se može vidjeti u formatu ARP paketa, ARP header se sastoji od više različitih polja. Njihovi nazivi su:
 
-Hardware Type
-
-Protocol Type
-
-Hardware Address Length
-
-Protocol Address Length
-
-Operation Code
-
-Source MAC Address
-
-Source Protocol Address (IP)
-
-Target MAC Address
-
-Target Protocol Address (IP)
+- Hardware Type
+- Protocol Type
+- Hardware Address Length
+- Protocol Address Length
+- Operation Code
+- Source MAC Address
+- Source Protocol Address (IP)
+- Target MAC Address
+- Target Protocol Address (IP)
 
 
 
