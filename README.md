@@ -36,7 +36,8 @@ ARP poruke se prenose unutar Ethernet okvira, pri čemu se u polju EtherType nal
 
 Kombinacijom ovih polja, ARP omogućava da čvor jednoznačno identifikuje ko traži adresu (sender) i za koju IP adresu (target) želi da dobije MAC adresu.
 Na narednoj slici prikazan je proces ARP komunikacije, uključujući ARP request i ARP reply:
-<img width="969" height="318" alt="image" src="https://github.com/user-attachments/assets/e8967027-e905-416d-b946-0181bdc3e6f3" />
+<img width="987" height="799" alt="image" src="https://github.com/user-attachments/assets/bd80100d-f5b2-4fc2-bf94-2921d3f7d430" />
+
 
 
 ## Popis signala
