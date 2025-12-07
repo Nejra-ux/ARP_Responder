@@ -64,6 +64,7 @@ Kao što se može vidjeti u formatu ARP paketa, ARP header se sastoji od više r
 U ovom projektu implementira se VHDL modul ARP Responder, čija je uloga da odgovori na ARP upite za rezoluciju MAC adrese lokalnog čvora. Modul prima Ethernet/ARP okvire putem Avalon-ST interfejsa i generiše odgovarajući ARP reply kada je ciljna IP adresa jednaka adresi konfigurisanog čvora.
 IP adresa i MAC adresa uređaja definišu se kao generički parametri prilikom instanciranja modula, što omogućava jednostavnu integraciju u različite mrežne konfiguracije. Komunikacija preko ulaznih i izlaznih portova odvija se korištenjem ready/valid rukovanja, koje obezbjeđuje pouzdan prijenos podataka kroz tok.
 U nastavku je prikazan popis svih signala korištenih u ARP Responder modulu. 
+
 Ulazni signali:
 | Signal      | Tip | Opis                                 |
 | ----------- | --- | ------------------------------------ |
