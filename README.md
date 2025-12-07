@@ -38,6 +38,33 @@ Kombinacijom ovih polja, ARP omogućava da čvor jednoznačno identifikuje ko tr
 Na narednoj slici prikazan je proces ARP komunikacije, uključujući ARP request i ARP reply:
 <img width="987" height="799" alt="image" src="https://github.com/user-attachments/assets/bd80100d-f5b2-4fc2-bf94-2921d3f7d430" />
 
+## ARP Paket
+
+ARP paket se sastoji od Ethernet frame headera i ARP headera. Dužina Ethernet frame headera je 14 bajtova, dok je dužina ARP headera 28 bajtova. Informacije vezane za Address Resolution Protocol nalaze se upravo u ovom dijelu.
+U ARP paketu, EtherType u Ethernet zaglavlju ima vrijednost 0x0806. Ostali dijelovi Ethernet headera isti su kao i kod drugih Ethernet paketa.
+ARP header sadrži više različitih polja. Ispod se nalaze navedeni dijelovi ARP headera, jedan po jedan.
+<img width="1131" height="582" alt="image" src="https://github.com/user-attachments/assets/bc90bd7e-3b97-43aa-a1e2-2c374282ac84" />
+
+Kao što se može vidjeti u formatu ARP paketa, ARP header se sastoji od više različitih polja. Njihovi nazivi su:
+
+Hardware Type
+
+Protocol Type
+
+Hardware Address Length
+
+Protocol Address Length
+
+Operation Code
+
+Source MAC Address
+
+Source Protocol Address (IP)
+
+Target MAC Address
+
+Target Protocol Address (IP)
+
 
 
 ## Popis signala
