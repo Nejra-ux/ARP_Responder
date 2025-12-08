@@ -77,12 +77,6 @@ U nastavku je prikazan popis svih signala korištenih u ARP Responder modulu:
 - `out_eop`: End of Packet za izlaz
 - `out_ready`: Ready signal za izlaz (primalac spreman).
 
-## WaveDrom dijagram
-Wavedrom dijagram je kreiran pomoću WaveDrom alata i prikazan je u fajlu `waveform.json`. Dijagrami pokrivaju sljedeće scenarije:
-- **Ulazni signali**: Prijem ARP Request poruke (28 bajtova) kroz Avalon-ST interfejs
-- **Izlazni signali**: Slanje ARP Reply poruke (28 bajtova) kroz Avalon-ST interfejs
-- **Ready/Valid handshaking**: Pravilno rukovanje ready i valid signalima
-- **SOP/EOP signali**: Označavanje početka i kraja paketa.
 
 ## FSM (Finite State Machine) dizajn
 FSM dijagram je kreiran pomoću draw.io alata i sačuvan u fajlu `fsm_diagram.drawio`.
@@ -117,7 +111,14 @@ FSM dijagram je kreiran pomoću draw.io alata i sačuvan u fajlu `fsm_diagram.dr
 6. **WAIT_EOP**: Čekanje na kraj paketa
    - Ako je paket završen prije nego što je primljeno 28 bajtova
    - Prelaz u `IDLE` kada je `in_eop = '1'.
-  
+
+
+## WaveDrom dijagram
+Wavedrom dijagram je kreiran pomoću WaveDrom alata i prikazan je u fajlu `waveform.json`. Dijagrami pokrivaju sljedeće scenarije:
+- **Ulazni signali**: Prijem ARP Request poruke (28 bajtova) kroz Avalon-ST interfejs
+- **Izlazni signali**: Slanje ARP Reply poruke (28 bajtova) kroz Avalon-ST interfejs
+- **Ready/Valid handshaking**: Pravilno rukovanje ready i valid signalima
+- **SOP/EOP signali**: Označavanje početka i kraja paketa.
 
 ## VHDL implementacija
 
