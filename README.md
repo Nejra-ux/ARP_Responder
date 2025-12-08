@@ -108,7 +108,7 @@ Očekivani elementi ARP odgovora:
 * `out_valid = '1'` tijekom slanja svih bajtova
 * `out_eop = '1'` na posljednjem bajtu
 
-**Scenarij:** *Generira li modul ispravan ARP odgovor?*
+**Scenarij:** *Generiše li modul ispravan ARP odgovor?*
 
 
 ### **5. Pasivni scenarij čekanja**
