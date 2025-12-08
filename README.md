@@ -74,21 +74,25 @@ U nastavku je prikazan popis svih signala korištenih u ARP Responder modulu:
 | **4. ARP Reply (ne Request)** | Primi ARP Reply umjesto Requesta | Ignoriše okvir i vraća se u IDLE stanje |
 | **5. Backpressure test** | `out_ready = '0'` tokom slanja odgovora | Pauzira slanje dok `out_ready` ne postane `'1'` |
 
+## WaveDrom dijagram
+Wavedrom dijagram je kreiran pomoću WaveDrom alata i prikazan je u fajlu `waveform.json`. Dijagrami pokrivaju sljedeće scenarije:
 
 ## FSM (Finite State Machine) dizajn
 FSM dijagram je kreiran pomoću draw.io alata i sačuvan u fajlu `fsm_diagram.drawio`.
+
 ### Opis stanja FSM-a
-
-
-
-
-## WaveDrom dijagram
-Wavedrom dijagram je kreiran pomoću WaveDrom alata i prikazan je u fajlu `waveform.json`. Dijagrami pokrivaju sljedeće scenarije:
 
 
 ## VHDL implementacija
 
 VHDL kod je implementiran u fajlu `arp_responder.vhd`. Modul implementira:
+
+## Verifikacija pomoću simulacijskog alata ModelSim
+
+## Zaključak
+
+## Literatura
+[1] Avalon Interface Specification, Intel Quartus Prime Design Suite 20.1, v2022.01.24
 
 
 
