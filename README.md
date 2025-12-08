@@ -137,11 +137,13 @@ VHDL kod je implementiran u fajlu `arp_responder.vhd`. Modul implementira:
 ## Zaključak
 
 ## Literatura
-[1] Avalon Interface Specification, Intel Quartus Prime Design Suite 20.1, v2022.01.24
 
-[2] Spurgeon, Charles E., and Joann Zimmerman. *Ethernet: The Definitive Guide: Designing and Managing Local Area Networks*. 2nd ed., O'Reilly, 2025.
+1. **Intel**. *Avalon Interface Specification, Intel Quartus Prime Design Suite 20.1*, v2022.01.24.  
+   
+2. **Spurgeon, Charles E.**, **Zimmerman, Joann**. *Ethernet: The Definitive Guide: Designing and Managing Local Area Networks*. 2nd ed. O'Reilly, 2025.
 
-[3] Deepankar Medhi, Karthikeyan Ramasamy. *Network Routing: Algorithms, Protocols, and Architectures*. Morgan Kaufmann, 2007. (Includes CD-ROM)
+3. **Medhi, Deepankar**, **Ramasamy, Karthikeyan**. *Network Routing: Algorithms, Protocols, and Architectures*. Morgan Kaufmann, 2007. (Includes CD-ROM).
+
 
 
 
