@@ -77,40 +77,22 @@ U nastavku je prikazan popis svih signala korištenih u ARP Responder modulu:
 - `out_eop`: End of Packet za izlaz
 - `out_ready`: Ready signal za izlaz (primalac spreman).
 
+## Scenariji za testiranje
+
+| Scenarij | Opis | Očekivani rezultat |
+|----------|------|-------------------|
+| **1. Validan ARP Request za našu IP** | Primi ARP request za konfiguriranu IP adresu | Pošalje ARP Reply sa našom MAC adresom |
+| **2. ARP Request za drugu IP** | Primi ARP request za neku drugu IP adresu | Ne šalje odgovor i vraća se u IDLE stanje |
+| **3. Non-ARP paket** | Primi Ethernet okvir koji nije ARP | Ignoriše paket i vraća se u IDLE stanje |
+| **4. ARP Reply (ne Request)** | Primi ARP Reply umjesto Requesta | Ignoriše okvir i vraća se u IDLE stanje |
+| **5. Backpressure test** | `out_ready = '0'` tokom slanja odgovora | Pauzira slanje dok `out_ready` ne postane `'1'` |
+
 
 ## FSM (Finite State Machine) dizajn
 FSM dijagram je kreiran pomoću draw.io alata i sačuvan u fajlu `fsm_diagram.drawio`.
 ### Opis stanja FSM-a
 
-1. **IDLE**: Početno stanje - modul čeka na početak novog paketa
-   - `in_ready = '1'` - modul spreman za prijem
-   - Prelaz u `RECEIVE_HEADER` kada je `in_valid = '1'` i `in_sop = '1'`
 
-2. **RECEIVE_HEADER**: Prijem ARP header-a (prvih 8 bajtova)
-   - Prijem prvih 8 bajtova ARP poruke
-   - Prelaz u `RECEIVE_BODY` kada je `byte_counter >= 7`
-
-3. **RECEIVE_BODY**: Prijem ARP body-a (preostalih 20 bajtova)
-   - Prijem preostalih 20 bajtova ARP poruke
-   - Prelaz u `CHECK_REQUEST` kada je `byte_counter >= 27`
-   - Prelaz u `WAIT_EOP` ako je `in_eop = '1'` prije nego što je poruka kompletna
-
-4. **CHECK_REQUEST**: Provjera da li je validan ARP Request
-   - Provjera ARP header polja (Hardware Type, Protocol Type, itd.)
-   - Provjera da li je Operation = Request (0x0001)
-   - Provjera da li Target IP odgovara IP_ADDRESS parametru
-   - Prelaz u `SEND_REPLY` ako je validan Request
-   - Prelaz u `IDLE` ako nije validan Request
-
-5. **SEND_REPLY**: Slanje ARP Reply poruke
-   - Generisanje i slanje ARP Reply poruke (28 bajtova)
-   - `out_sop = '1'` na početku paketa
-   - `out_eop = '1'` na kraju paketa
-   - Prelaz u `IDLE` kada je `reply_byte_counter = 27` i `out_ready = '1'`
-
-6. **WAIT_EOP**: Čekanje na kraj paketa
-   - Ako je paket završen prije nego što je primljeno 28 bajtova
-   - Prelaz u `IDLE` kada je `in_eop = '1'.
 
 
 ## WaveDrom dijagram
