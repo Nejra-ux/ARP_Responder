@@ -79,7 +79,7 @@ U nastavku je prikazan popis svih signala korištenih u ARP Responder modulu:
 
 ## FSM (Finite State Machine) dizajn
 FSM dijagram je kreiran pomoću draw.io alata i sačuvan u fajlu `fsm_diagram.drawio`.
-### 4.1. Opis stanja FSM-a
+### Opis stanja FSM-a
 
 1. **IDLE**: Početno stanje - modul čeka na početak novog paketa
    - `in_ready = '1'` - modul spreman za prijem
