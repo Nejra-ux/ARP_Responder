@@ -78,7 +78,7 @@ U nastavku je prikazan popis svih signala korištenih u ARP Responder modulu:
 - `out_ready`: Ready signal za izlaz (primalac spreman).
 
 ## WaveDrom dijagram
-Wavedrom dijagram je kreiran pomoću WaveDrom alata i prikazan je u fajlu `waveform.json`. Dijagrami pokrivaju sledeće scenarije:
+Wavedrom dijagram je kreiran pomoću WaveDrom alata i prikazan je u fajlu `waveform.json`. Dijagrami pokrivaju sljedeće scenarije:
 - **Ulazni signali**: Prijem ARP Request poruke (28 bajtova) kroz Avalon-ST interfejs
 - **Izlazni signali**: Slanje ARP Reply poruke (28 bajtova) kroz Avalon-ST interfejs
 - **Ready/Valid handshaking**: Pravilno rukovanje ready i valid signalima
