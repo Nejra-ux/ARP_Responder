@@ -63,26 +63,53 @@ Kao što se može vidjeti u formatu ARP paketa, ARP header se sastoji od više r
 
 U ovom projektu implementira se VHDL modul ARP Responder, čija je uloga da odgovori na ARP upite za rezoluciju MAC adrese lokalnog čvora. Modul prima Ethernet/ARP okvire putem Avalon-ST interfejsa i generiše odgovarajući ARP reply kada je ciljna IP adresa jednaka adresi konfigurisanog čvora.
 IP adresa i MAC adresa uređaja definišu se kao generički parametri prilikom instanciranja modula, što omogućava jednostavnu integraciju u različite mrežne konfiguracije. Komunikacija preko ulaznih i izlaznih portova odvija se korištenjem ready/valid rukovanja, koje obezbjeđuje pouzdan prijenos podataka kroz tok.
-U nastavku je prikazan popis svih signala korištenih u ARP Responder modulu. 
+U nastavku je prikazan popis svih signala korištenih u ARP Responder modulu: 
+- `clock`: Takt signal
+- `reset`: Reset signal (aktivna visoka vrednost)
+- `in_data[7:0]`: Ulazni podaci (bajt po bajt)
+- `in_valid`: Validnost ulaznih podataka
+- `in_sop`: Start of Packet za ulaz
+- `in_eop`: End of Packet za ulaz
+- `in_ready`: Ready signal za ulaz (modul spreman za prijem)
+- `out_data[7:0]`: Izlazni podaci (bajt po bajt)
+- `out_valid`: Validnost izlaznih podataka
+- `out_sop`: Start of Packet za izlaz
+- `out_eop`: End of Packet za izlaz
+- `out_ready`: Ready signal za izlaz (primalac spreman)
 
-Ulazni signali:
-| Signal      | Tip | Opis                                 |
-| ----------- | --- | ------------------------------------ |
-| `clock`     | IN  | Sistemski takt                       |
-| `reset`     | IN  | Reset modula                         |
-| `in_data`   | IN  | Ulazni bajt Ethernet rama            |
-| `in_valid`  | IN  | Ulazni bajt je ispravan              |
-| `in_sop`    | IN  | Početak paketa                       |
-| `in_eop`    | IN  | Kraj paketa                          |
-| `in_ready`  | OUT | Modul može primiti novi bajt         |
-| `out_ready` | IN  | Spoljni modul spreman da primi izlaz |
+## FSM (Finite State Machine) dizajn
+FSM dijagram je kreiran pomoću draw.io alata i sačuvan u fajlu `fsm_diagram.drawio`.
+### 4.1. Opis stanja FSM-a
 
-Izlazni signali: 
-| Signal      | Tip | Opis                      |
-| ----------- | --- | ------------------------- |
-| `out_data`  | OUT | Bajt po bajt ARP odgovora |
-| `out_valid` | OUT | Izlazni podatak je važeći |
-| `out_sop`   | OUT | Početak ARP odgovora      |
-| `out_eop`   | OUT | Kraj ARP odgovora         |
+1. **IDLE**: Početno stanje - modul čeka na početak novog paketa
+   - `in_ready = '1'` - modul spreman za prijem
+   - Prelaz u `RECEIVE_HEADER` kada je `in_valid = '1'` i `in_sop = '1'`
+
+2. **RECEIVE_HEADER**: Prijem ARP header-a (prvih 8 bajtova)
+   - Prijem prvih 8 bajtova ARP poruke
+   - Prelaz u `RECEIVE_BODY` kada je `byte_counter >= 7`
+
+3. **RECEIVE_BODY**: Prijem ARP body-a (preostalih 20 bajtova)
+   - Prijem preostalih 20 bajtova ARP poruke
+   - Prelaz u `CHECK_REQUEST` kada je `byte_counter >= 27`
+   - Prelaz u `WAIT_EOP` ako je `in_eop = '1'` prije nego što je poruka kompletna
+
+4. **CHECK_REQUEST**: Provjera da li je validan ARP Request
+   - Provjera ARP header polja (Hardware Type, Protocol Type, itd.)
+   - Provjera da li je Operation = Request (0x0001)
+   - Provjera da li Target IP odgovara IP_ADDRESS parametru
+   - Prelaz u `SEND_REPLY` ako je validan Request
+   - Prelaz u `IDLE` ako nije validan Request
+
+5. **SEND_REPLY**: Slanje ARP Reply poruke
+   - Generisanje i slanje ARP Reply poruke (28 bajtova)
+   - `out_sop = '1'` na početku paketa
+   - `out_eop = '1'` na kraju paketa
+   - Prelaz u `IDLE` kada je `reply_byte_counter = 27` i `out_ready = '1'`
+
+6. **WAIT_EOP**: Čekanje na kraj paketa
+   - Ako je paket završen prije nego što je primljeno 28 bajtova
+   - Prelaz u `IDLE` kada je `in_eop = '1'.
+
 
 
