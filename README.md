@@ -66,13 +66,58 @@ U nastavku je prikazan popis svih signala korištenih u ARP Responder modulu:
 
 ## Scenariji za testiranje
 
-| Scenarij | Opis | Očekivani rezultat |
-|----------|------|-------------------|
-| **1. Validan ARP Request za našu IP** | Primi ARP request za konfiguriranu IP adresu | Pošalje ARP Reply sa našom MAC adresom |
-| **2. ARP Request za drugu IP** | Primi ARP request za neku drugu IP adresu | Ne šalje odgovor i vraća se u IDLE stanje |
-| **3. Non-ARP paket** | Primi Ethernet okvir koji nije ARP | Ignoriše paket i vraća se u IDLE stanje |
-| **4. ARP Reply (ne Request)** | Primi ARP Reply umjesto Requesta | Ignoriše okvir i vraća se u IDLE stanje |
-| **5. Backpressure test** | `out_ready = '0'` tokom slanja odgovora | Pauzira slanje dok `out_ready` ne postane `'1'` |
+### **1. Testiranje reset stanja**
+
+Testbench na početku drži `reset = '1'` tijekom 5 ciklusa, čime se provjerava ulazak modula u početno stanje. Nakon toga reset se spušta na `0`, što omogućuje testiranje pravilnog izlaska iz reset faze.
+
+**Scenarij:** *Može li ARP responder ispravno startati i biti spreman primiti podatke nakon reseta?*
+
+
+### **2. Slanje kompletnog ARP request okvira byte-po-byte**
+
+Simulira se stvarni protok ARP paketa preko ulaznog streaming sučelja.
+Svaki bajt okvira šalje se u jednom taktu:
+
+* `in_sop = '1'` samo na prvom bajtu (početak paketa)
+* `in_eop = '1'` samo na zadnjem bajtu (kraj paketa)
+
+ARP request u testu sadržava:
+
+* broadcast MAC destinaciju
+* EtherType `0x0806`
+* ARP operation = request
+* target IP = **192.168.1.1** (IP adresa modula)
+
+**Scenarij:** *Prepoznaje li modul ARP request koji je namijenjen njegovoj IP adresi?*
+
+
+### **3. Testiranje `in_ready` handshake-a**
+
+Iako testbench aktivno ne mijenja `in_ready`, očekuje se da modul ispravno upravlja handshake signalima i da nema zastoja u prijemu podataka.
+
+**Scenarij:** *Može li modul prihvatiti ulazne podatke bez stalla?*
+
+### **4. Očekivanje generiranja ARP reply okvira**
+
+Nakon što se kompletan ARP request pošalje, simulacija čeka još 100 ciklusa kako bi se omogućilo generiranje odgovora.
+
+Očekivani elementi ARP odgovora:
+
+* `out_sop = '1'` na početku odgovora
+* ispravno formiran ARP reply s ispravnim MAC i IP poljima
+* `out_valid = '1'` tijekom slanja svih bajtova
+* `out_eop = '1'` na posljednjem bajtu
+
+**Scenarij:** *Generira li modul ispravan ARP odgovor?*
+
+
+### **5. Pasivni scenarij čekanja**
+
+Nakon slanja ulaznog paketa, testbench ne šalje ništa dalje, čime se provjerava stabilnost dizajna.
+
+**Scenarij:** *Ostaje li modul stabilan nakon obrade paketa i bez dodatnog inputa?*
+
+
 
 ## WaveDrom dijagram
 Wavedrom dijagram je kreiran pomoću WaveDrom alata i prikazan je u fajlu `waveform.json`. Dijagrami pokrivaju sljedeće scenarije:
