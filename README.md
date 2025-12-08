@@ -97,9 +97,9 @@ Iako testbench aktivno ne mijenja `in_ready`, očekuje se da modul ispravno upra
 
 **Scenarij:** *Može li modul prihvatiti ulazne podatke bez stalla?*
 
-### **4. Očekivanje generiranja ARP reply okvira**
+### **4. Očekivanje generisanja ARP reply okvira**
 
-Nakon što se kompletan ARP request pošalje, simulacija čeka još 100 ciklusa kako bi se omogućilo generiranje odgovora.
+Nakon što se kompletan ARP request pošalje, simulacija čeka još 100 ciklusa kako bi se omogućilo generisanje odgovora.
 
 Očekivani elementi ARP odgovora:
 
