@@ -143,6 +143,9 @@ VHDL kod je implementiran u fajlu `arp_responder.vhd`. Modul implementira:
 2. **Spurgeon, Charles E.**, **Zimmerman, Joann**. *Ethernet: The Definitive Guide: Designing and Managing Local Area Networks*. 2nd ed. O'Reilly, 2025.
 
 3. **Medhi, Deepankar**, **Ramasamy, Karthikeyan**. *Network Routing: Algorithms, Protocols, and Architectures*. Morgan Kaufmann, 2007. (Includes CD-ROM).
+4. [ResearchGate: ARP Spoofing Solutions](https://www.researchgate.net/publication/276282183_Various_Solutions_for_Address_Resolution_Protocol_Spoofing_Attacks)
+
+
 
 
 
