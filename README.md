@@ -66,51 +66,28 @@ U nastavku je prikazan popis svih signala korištenih u ARP Responder modulu:
 
 ## Scenariji za testiranje
 
-### **1. Testiranje reset stanja**
+Validacija ARP Responder modula izvršena je kroz tri ključna scenarija koji pokrivaju ispravno procesiranje, filtriranje saobraćaja i ignorisanje nepodržanih protokola.
 
-Testbench na početku drži `reset = '1'` tijekom 5 ciklusa, čime se provjerava ulazak modula u početno stanje. Nakon toga reset se spušta na `0`, što omogućuje testiranje pravilnog izlaska iz reset faze.
+### **1. Validna ARP rezolucija (Target IP Match)**
+Ovo je osnovni scenarij u kojem modul prima ARP zahtjev koji je namijenjen upravo njemu.
 
-**Scenarij:** *Može li ARP responder ispravno startati i biti spreman primiti podatke nakon reseta?*
+*   **Ulaz:** Testbench šalje broadcast **ARP Request** u kojem je `Target IP` jednak IP adresi modula (npr. `192.168.1.1`).
+*   **Proces:** Modul detektuje ispravan `EtherType (0x0806)` i poklapanje IP adrese.
+*   **Rezultat:** Modul generiše **ARP Reply** (unicast) sa svojom MAC adresom. Izlazni signal `out_valid` postaje aktivan.
 
+### **2. Filtriranje tuđih zahtjeva (Target IP Mismatch)**
+Provjera da li modul ispravno ignoriše ARP zahtjeve koji su namijenjeni drugim uređajima u mreži.
 
-### **2. Slanje kompletnog ARP request okvira byte-po-byte**
+*   **Ulaz:** Testbench šalje **ARP Request** u kojem je `Target IP` neka druga adresa (npr. `192.168.1.50`), različita od adrese modula.
+*   **Proces:** Modul parsira paket, ali utvrđuje da se tražena IP adresa **ne poklapa** sa njegovom.
+*   **Rezultat:** Modul odbacuje paket i **ne šalje odgovor**. Linija `out_valid` ostaje neaktivna ('0').
 
-Simulira se stvarni protok ARP paketa preko ulaznog streaming sučelja.
-Svaki bajt okvira šalje se u jednom taktu:
+### **3. Ignorisanje Non-ARP saobraćaja**
+Testiranje robusnosti dizajna na saobraćaj koji nije vezan za ARP protokol.
 
-* `in_sop = '1'` samo na prvom bajtu (početak paketa)
-* `in_eop = '1'` samo na zadnjem bajtu (kraj paketa)
-
-ARP request u testu sadržava:
-
-* broadcast MAC destinaciju
-* EtherType `0x0806`
-* ARP operation = request
-* target IP = **192.168.1.1** (IP adresa modula)
-
-**Scenarij:** *Prepoznaje li modul ARP request koji je namijenjen njegovoj IP adresi?*
-
-
-### **3. Očekivanje generisanja ARP reply okvira**
-
-Nakon što se kompletan ARP request pošalje, simulacija čeka još 100 ciklusa kako bi se omogućilo generisanje odgovora.
-
-Očekivani elementi ARP odgovora:
-
-* `out_sop = '1'` na početku odgovora
-* ispravno formiran ARP reply s ispravnim MAC i IP poljima
-* `out_valid = '1'` tijekom slanja svih bajtova
-* `out_eop = '1'` na posljednjem bajtu
-
-**Scenarij:** *Generiše li modul ispravan ARP odgovor?*
-
-
-### **4. Pasivni scenarij čekanja**
-
-Nakon slanja ulaznog paketa, testbench ne šalje ništa dalje, čime se provjerava stabilnost dizajna.
-
-**Scenarij:** *Ostaje li modul stabilan nakon obrade paketa i bez dodatnog inputa?*
-
+*   **Ulaz:** Testbench šalje Ethernet okvir koji nije ARP (npr. IPv4 paket gdje je `EtherType = 0x0800`).
+*   **Proces:** Modul provjerava `EtherType` polje u zaglavlju.
+*   **Rezultat:** Pošto `EtherType` nije `0x0806`, modul momentalno prestaje sa obradom i ignoriše ostatak paketa. Nema reakcije na izlazu.
 
 
 ## WaveDrom dijagram
