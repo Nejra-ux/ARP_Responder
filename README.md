@@ -85,9 +85,9 @@ Provjera da li modul ispravno ignoriše ARP zahtjeve koji su namijenjeni drugim 
 ### **3. Ignorisanje Non-ARP saobraćaja**
 Testiranje robusnosti dizajna na saobraćaj koji nije vezan za ARP protokol.
 
-*   **Ulaz:** Testbench šalje Ethernet okvir koji nije ARP (npr. IPv4 paket gdje je `EtherType = 0x0800`).
-*   **Proces:** Modul provjerava `EtherType` polje u zaglavlju.
-*   **Rezultat:** Pošto `EtherType` nije `0x0806`, modul momentalno prestaje sa obradom i ignoriše ostatak paketa. Nema reakcije na izlazu.
+*   **Ulaz:** Testbench šalje Ethernet okvir koji nije ARP (npr. IPv4 paket gdje je EtherType = `0x0800`), ili ARP okvir kod kojeg Opcode ≠ `0x0001` (npr. ARP Reply).
+*   **Proces:** Modul provjerava `EtherType` polje u zaglavlju, a zatim i `Opcode` polje unutar ARP headera.
+*   **Rezultat:** Pošto `EtherType` nije `0x0806` ili `Opcode` nije `0x0001`, modul momentalno prestaje sa obradom i ignoriše ostatak paketa. Nema reakcije na izlazu.
 
 
 ## WaveDrom dijagram
