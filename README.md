@@ -91,13 +91,7 @@ ARP request u testu sadržava:
 **Scenarij:** *Prepoznaje li modul ARP request koji je namijenjen njegovoj IP adresi?*
 
 
-### **3. Testiranje `in_ready` handshake-a**
-
-Iako testbench aktivno ne mijenja `in_ready`, očekuje se da modul ispravno upravlja handshake signalima i da nema zastoja u prijemu podataka.
-
-**Scenarij:** *Može li modul prihvatiti ulazne podatke bez stalla?*
-
-### **4. Očekivanje generisanja ARP reply okvira**
+### **3. Očekivanje generisanja ARP reply okvira**
 
 Nakon što se kompletan ARP request pošalje, simulacija čeka još 100 ciklusa kako bi se omogućilo generisanje odgovora.
 
@@ -111,7 +105,7 @@ Očekivani elementi ARP odgovora:
 **Scenarij:** *Generiše li modul ispravan ARP odgovor?*
 
 
-### **5. Pasivni scenarij čekanja**
+### **4. Pasivni scenarij čekanja**
 
 Nakon slanja ulaznog paketa, testbench ne šalje ništa dalje, čime se provjerava stabilnost dizajna.
 
