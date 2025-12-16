@@ -16,14 +16,15 @@ Kada čvor želi poslati IP paket ka određenoj IPv4 adresi u istoj lokalnoj mre
    - IP/MAC adrese pošiljaoca zahtjeva u odgovarajućim poljima.
 4. Pošiljalac ažurira svoju ARP tabelu, upisuje par (IP, MAC) i omogućava slanje IP paketa ka tom odredištu koristeći dobijenu MAC adresu.
 
-Na ovaj način ARP obezbjeđuje osnovnu funkcionalnost mapiranja IP → MAC u lokalnoj mreži, bez koje IPv4 saobraćaj ne bi mogao biti isporučen na podatkovnom nivou.
+Na narednoj slici prikazan je proces ARP komunikacije, uključujući ARP request i ARP reply:
+<img width="600" height="500" alt="image" src="https://github.com/user-attachments/assets/bd80100d-f5b2-4fc2-bf94-2921d3f7d430" />
 
 ## ARP protokol
 
 ARP paket se sastoji od Ethernet frame headera i ARP headera. Dužina Ethernet frame headera je 14 bajtova, dok je dužina ARP headera 28 bajtova. Informacije vezane za Address Resolution Protocol nalaze se upravo u ovom dijelu.
 U ARP paketu, EtherType u Ethernet zaglavlju ima vrijednost 0x0806. Ostali dijelovi Ethernet headera isti su kao i kod drugih Ethernet paketa.
 ARP header sadrži više različitih polja. Ispod se nalaze navedeni dijelovi ARP headera, jedan po jedan.
-<img width="1131" height="582" alt="image" src="https://github.com/user-attachments/assets/bc90bd7e-3b97-43aa-a1e2-2c374282ac84" />
+<img width="900" height="500" alt="image" src="https://github.com/user-attachments/assets/bc90bd7e-3b97-43aa-a1e2-2c374282ac84" />
 
 Kao što se može vidjeti u formatu ARP paketa, ARP header se sastoji od više različitih polja. Njihovi nazivi su:
 
@@ -41,10 +42,6 @@ Kao što se može vidjeti u formatu ARP paketa, ARP header se sastoji od više r
 - **Target protocol address (TPA)** – IP adresa odredišta čija se MAC adresa traži.
 
 Kombinacijom ovih polja, ARP omogućava da čvor jednoznačno identifikuje ko traži adresu (sender) i za koju IP adresu (target) želi da dobije MAC adresu.
-Na narednoj slici prikazan je proces ARP komunikacije, uključujući ARP request i ARP reply:
-<img width="987" height="799" alt="image" src="https://github.com/user-attachments/assets/bd80100d-f5b2-4fc2-bf94-2921d3f7d430" />
-
-
 
 ## Opis projekta i popis signala
 
