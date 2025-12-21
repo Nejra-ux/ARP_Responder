@@ -72,12 +72,27 @@ Ovo je osnovni scenarij u kojem modul prima ARP zahtjev koji je namijenjen uprav
 *   **Proces:** Modul detektuje ispravan `EtherType (0x0806)` i poklapanje IP adrese.
 *   **Rezultat:** Modul generiše **ARP Reply** (unicast) sa svojom MAC adresom. Izlazni signal `out_valid` postaje aktivan.
 
+<p align="center">
+  <img src="Idejni%20koncepti/ARP_Scenarij_1.drawio.png" width="500"><br>
+  <em>Slika 3: UML sekvencijalni dijagram – validna ARP rezolucija</em>
+</p>
+
+
 ### **2. Filtriranje tuđih zahtjeva (Target IP Mismatch)**
 Provjera da li modul ispravno ignoriše ARP zahtjeve koji su namijenjeni drugim uređajima u mreži.
 
 *   **Ulaz:** Testbench šalje **ARP Request** u kojem je `Target IP` neka druga adresa (npr. `192.168.1.50`), različita od adrese modula.
 *   **Proces:** Modul parsira paket, ali utvrđuje da se tražena IP adresa **ne poklapa** sa njegovom.
 *   **Rezultat:** Modul odbacuje paket i **ne šalje odgovor**. Linija `out_valid` ostaje neaktivna ('0').
+  
+<p align="center">
+  <img src="Idejni%20koncepti/ARP_Scenarij_2.drawio.png" width="500"><br>
+  <em>Slika 4: UML sekvencijalni dijagram – Target IP mismatch</em>
+</p>
+
+
+
+
 
 ### **3. Ignorisanje nevažećeg saobraćaja (Non-ARP i Non-Request ARP)**
 Testiranje robusnosti dizajna na okvire koji nisu relevantni za ARP rezoluciju.
@@ -85,6 +100,11 @@ Testiranje robusnosti dizajna na okvire koji nisu relevantni za ARP rezoluciju.
 * **Ulaz:** Testbench šalje Ethernet okvir koji nije ARP (npr. IPv4 paket gdje je `EtherType = 0x0800`), ili ARP okvir koji nije zahtjev za rezoluciju (npr. `EtherType = 0x0806`, ali `Opcode ≠ 0x0001`), ili ARP okvir sa neispravnim formatom za Ethernet/IPv4 (npr. `HTYPE ≠ 0x0001`, `PTYPE ≠ 0x0800`, `HLEN ≠ 6`, `PLEN ≠ 4`).
 * **Proces:** Modul prvo provjerava EtherType polje u Ethernet zaglavlju. Ako je okvir ARP, dodatno provjerava validnost ARP hedera (`HTYPE/PTYPE/HLEN/PLEN`) i `Opcode` polje unutar ARP zaglavlja.
 * **Rezultat:** Pošto okvir nije relevantan za ARP Request obradu (`EtherType ≠ 0x0806` ili ARP nije validan ili `Opcode ≠ 0x0001`), modul momentalno prestaje sa obradom i ignoriše ostatak paketa. Nema reakcije na izlazu (ne šalje se ARP Reply, out_valid ostaje neaktivan '0').
+  
+<p align="center">
+  <img src="Idejni%20koncepti/ARP_Scenarij_3.drawio.png" width="600"><br>
+  <em>Slika 4: UML sekvencijalni dijagram – ignorisanje nevažećeg saobraćaja</em>
+</p>
 
 ## WaveDrom dijagram
 Wavedrom dijagram je kreiran pomoću WaveDrom alata i prikazan je u fajlu `waveform.json`. Dijagrami pokrivaju sljedeće scenarije:
