@@ -79,13 +79,12 @@ Provjera da li modul ispravno ignoriše ARP zahtjeve koji su namijenjeni drugim 
 *   **Proces:** Modul parsira paket, ali utvrđuje da se tražena IP adresa **ne poklapa** sa njegovom.
 *   **Rezultat:** Modul odbacuje paket i **ne šalje odgovor**. Linija `out_valid` ostaje neaktivna ('0').
 
-### **3. Ignorisanje Non-ARP saobraćaja**
-Testiranje robusnosti dizajna na saobraćaj koji nije vezan za ARP protokol.
+### **3. Ignorisanje nevažećeg saobraćaja (Non-ARP i Non-Request ARP)**
+Testiranje robusnosti dizajna na okvire koji nisu relevantni za ARP rezoluciju.
 
-*   **Ulaz:** Testbench šalje Ethernet okvir koji nije ARP (npr. IPv4 paket gdje je EtherType = `0x0800`), ili ARP okvir kod kojeg Opcode ≠ `0x0001` (npr. ARP Reply).
-*   **Proces:** Modul provjerava `EtherType` polje u zaglavlju, a zatim i `Opcode` polje unutar ARP headera.
-*   **Rezultat:** Pošto `EtherType` nije `0x0806` ili `Opcode` nije `0x0001`, modul momentalno prestaje sa obradom i ignoriše ostatak paketa. Nema reakcije na izlazu.
-
+* **Ulaz:** Testbench šalje Ethernet okvir koji nije ARP (npr. IPv4 paket gdje je `EtherType = 0x0800`), ili ARP okvir koji nije zahtjev za rezoluciju (npr. `EtherType = 0x0806`, ali `Opcode ≠ 0x0001`), ili ARP okvir sa neispravnim formatom za Ethernet/IPv4 (npr. `HTYPE ≠ 0x0001`, `PTYPE ≠ 0x0800`, `HLEN ≠ 6`, `PLEN ≠ 4`).
+* **Proces:** Modul prvo provjerava EtherType polje u Ethernet zaglavlju. Ako je okvir ARP, dodatno provjerava validnost ARP hedera (`HTYPE/PTYPE/HLEN/PLEN`) i `Opcode` polje unutar ARP zaglavlja.
+* **Rezultat:** Pošto okvir nije relevantan za ARP Request obradu (`EtherType ≠ 0x0806` ili ARP nije validan ili `Opcode ≠ 0x0001`), modul momentalno prestaje sa obradom i ignoriše ostatak paketa. Nema reakcije na izlazu (ne šalje se ARP Reply, out_valid ostaje neaktivan '0').
 
 ## WaveDrom dijagram
 Wavedrom dijagram je kreiran pomoću WaveDrom alata i prikazan je u fajlu `waveform.json`. Dijagrami pokrivaju sljedeće scenarije:
