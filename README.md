@@ -20,7 +20,7 @@ Na narednoj slici prikazan je proces ARP komunikacije, uključujući ARP request
 
 <p align="center">
 <img width="600" height="500" alt="image" src="https://github.com/user-attachments/assets/bd80100d-f5b2-4fc2-bf94-2921d3f7d430" /><br>
-  <em> Slika 1. Proces ARP komunikacije [2]</em>
+  <em> Slika 1. Proces ARP komunikacije [1]</em>
 </p>
 
 
@@ -28,7 +28,7 @@ Na narednoj slici prikazan je proces ARP komunikacije, uključujući ARP request
 ## ARP protokol
 
 ARP paket se sastoji od Ethernet frame headera i ARP headera. Dužina Ethernet frame headera je 14 bajtova, dok je dužina ARP headera 28 bajtova. Informacije vezane za Address Resolution Protocol nalaze se upravo u ovom dijelu.
-U ARP paketu, EtherType u Ethernet zaglavlju ima vrijednost 0x0806. Ostali dijelovi Ethernet headera isti su kao i kod drugih Ethernet paketa.
+U ARP paketu, EtherType u Ethernet zaglavlju ima vrijednost 0x0806 [2]. Ostali dijelovi Ethernet headera isti su kao i kod drugih Ethernet paketa.
 ARP header sadrži više različitih polja. Ispod se nalaze navedeni dijelovi ARP headera, jedan po jedan.
 
 <p align="center">
@@ -137,16 +137,18 @@ VHDL kod je implementiran u fajlu `arp_responder.vhd`. Modul implementira:
 
 ## Literatura
 
-[1] **Intel**. *Avalon Interface Specification, Intel Quartus Prime Design Suite 20.1*, v2022.01.24.  
    
-[2] **Spurgeon, Charles E.**, **Zimmerman, Joann**. *Ethernet: The Definitive Guide: Designing and Managing Local Area Networks*. 2nd ed. O'Reilly, 2025.
+[1] **Spurgeon, Charles E.**, **Zimmerman, Joann**. *Ethernet: The Definitive Guide: Designing and Managing Local Area Networks*. 2nd ed. O'Reilly, 2025.
 
-[3] **Medhi, Deepankar**, **Ramasamy, Karthikeyan**. *Network Routing: Algorithms, Protocols, and Architectures*. Morgan Kaufmann, 2007. (Includes CD-ROM).
+[2] **Medhi, Deepankar**, **Ramasamy, Karthikeyan**. *Network Routing: Algorithms, Protocols, and Architectures*. Morgan Kaufmann, 2007. (Includes CD-ROM).
 
-[4] [ResearchGate: ARP Spoofing Solutions](https://www.researchgate.net/publication/276282183_Various_Solutions_for_Address_Resolution_Protocol_Spoofing_Attacks)
+[3] “Address Resolution Protocol (ARP),” IPCisco. [Online]. Available: https://ipcisco.com/lesson/address-resolution-protocol-arp/. 
 
-[5] [Fortinet: What is ARP?](https://www.fortinet.com/resources/cyberglossary/what-is-arp)
+[4] A. Author et al., “Various Solutions for Address Resolution Protocol Spoofing Attacks,” ResearchGate. [Online]. Available: https://www.researchgate.net/publication/276282183_Various_Solutions_for_Address_Resolution_Protocol_Spoofing_Attacks. 
 
+[5] “What is ARP?,” Fortinet. [Online]. Available: https://www.fortinet.com/resources/cyberglossary/what-is-arp. 
+
+[6] **Intel**. *Avalon Interface Specification, Intel Quartus Prime Design Suite 20.1*, v2022.01.24.  
 
 
 
