@@ -14,17 +14,29 @@ Kada čvor želi poslati IP paket ka određenoj IPv4 adresi u istoj lokalnoj mre
    - svoju MAC adresu,
    - svoju IP adresu (kao potvrdu),
    - IP/MAC adrese pošiljaoca zahtjeva u odgovarajućim poljima.
-4. Pošiljalac ažurira svoju ARP tabelu, upisuje par (IP, MAC) i omogućava slanje IP paketa ka tom odredištu koristeći dobijenu MAC adresu.
+4. Pošiljalac ažurira svoju ARP tabelu, upisuje par (IP, MAC) i omogućava slanje IP paketa ka tom odredištu koristeći dobijenu MAC adresu [1].
 
 Na narednoj slici prikazan je proces ARP komunikacije, uključujući ARP request i ARP reply:
-<img width="600" height="500" alt="image" src="https://github.com/user-attachments/assets/bd80100d-f5b2-4fc2-bf94-2921d3f7d430" />
+
+<p align="center">
+<img width="600" height="500" alt="image" src="https://github.com/user-attachments/assets/bd80100d-f5b2-4fc2-bf94-2921d3f7d430" /><br>
+  <em> Slika 1. Proces ARP komunikacije [2]</em>
+</p>
+
+
 
 ## ARP protokol
 
 ARP paket se sastoji od Ethernet frame headera i ARP headera. Dužina Ethernet frame headera je 14 bajtova, dok je dužina ARP headera 28 bajtova. Informacije vezane za Address Resolution Protocol nalaze se upravo u ovom dijelu.
 U ARP paketu, EtherType u Ethernet zaglavlju ima vrijednost 0x0806. Ostali dijelovi Ethernet headera isti su kao i kod drugih Ethernet paketa.
 ARP header sadrži više različitih polja. Ispod se nalaze navedeni dijelovi ARP headera, jedan po jedan.
-<img width="900" height="500" alt="image" src="https://github.com/user-attachments/assets/bc90bd7e-3b97-43aa-a1e2-2c374282ac84" />
+
+<p align="center">
+ <img width="900" height="500" alt="image" src="https://github.com/user-attachments/assets/bc90bd7e-3b97-43aa-a1e2-2c374282ac84" /><br>
+  <em> Slika 2. Dijelovi ARP headera [3]</em>
+</p>
+
+
 
 Kao što se može vidjeti u formatu ARP paketa, ARP header se sastoji od više različitih polja. Njihovi nazivi su:
 
@@ -39,7 +51,7 @@ Kao što se može vidjeti u formatu ARP paketa, ARP header se sastoji od više r
 - **Sender hardware address (SHA)** – MAC adresa pošiljaoca ARP poruke.
 - **Sender protocol address (SPA)** – IP adresa pošiljaoca ARP poruke.
 - **Target hardware address (THA)** – MAC adresa odredišta (kod ARP Requesta se često stavlja nula, jer još nije poznata).
-- **Target protocol address (TPA)** – IP adresa odredišta čija se MAC adresa traži.
+- **Target protocol address (TPA)** – IP adresa odredišta čija se MAC adresa traži [3].
 
 Kombinacijom ovih polja, ARP omogućava da čvor jednoznačno identifikuje ko traži adresu (sender) i za koju IP adresu (target) želi da dobije MAC adresu.
 
@@ -103,7 +115,7 @@ Testiranje robusnosti dizajna na okvire koji nisu relevantni za ARP rezoluciju.
   
 <p align="center">
   <img src="Idejni%20koncepti/ARP_Scenarij_3.drawio.png" width="600"><br>
-  <em>Slika 4: UML sekvencijalni dijagram – ignorisanje nevažećeg saobraćaja</em>
+  <em>Slika 5: UML sekvencijalni dijagram – ignorisanje nevažećeg saobraćaja</em>
 </p>
 
 ## WaveDrom dijagram
@@ -125,13 +137,15 @@ VHDL kod je implementiran u fajlu `arp_responder.vhd`. Modul implementira:
 
 ## Literatura
 
-1. **Intel**. *Avalon Interface Specification, Intel Quartus Prime Design Suite 20.1*, v2022.01.24.  
+[1] **Intel**. *Avalon Interface Specification, Intel Quartus Prime Design Suite 20.1*, v2022.01.24.  
    
-2. **Spurgeon, Charles E.**, **Zimmerman, Joann**. *Ethernet: The Definitive Guide: Designing and Managing Local Area Networks*. 2nd ed. O'Reilly, 2025.
+[2] **Spurgeon, Charles E.**, **Zimmerman, Joann**. *Ethernet: The Definitive Guide: Designing and Managing Local Area Networks*. 2nd ed. O'Reilly, 2025.
 
-3. **Medhi, Deepankar**, **Ramasamy, Karthikeyan**. *Network Routing: Algorithms, Protocols, and Architectures*. Morgan Kaufmann, 2007. (Includes CD-ROM).
-4. [ResearchGate: ARP Spoofing Solutions](https://www.researchgate.net/publication/276282183_Various_Solutions_for_Address_Resolution_Protocol_Spoofing_Attacks)
-5. [Fortinet: What is ARP?](https://www.fortinet.com/resources/cyberglossary/what-is-arp)
+[3] **Medhi, Deepankar**, **Ramasamy, Karthikeyan**. *Network Routing: Algorithms, Protocols, and Architectures*. Morgan Kaufmann, 2007. (Includes CD-ROM).
+
+[4] [ResearchGate: ARP Spoofing Solutions](https://www.researchgate.net/publication/276282183_Various_Solutions_for_Address_Resolution_Protocol_Spoofing_Attacks)
+
+[5] [Fortinet: What is ARP?](https://www.fortinet.com/resources/cyberglossary/what-is-arp)
 
 
 
