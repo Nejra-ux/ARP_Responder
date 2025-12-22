@@ -85,7 +85,7 @@ Ovo je osnovni scenarij u kojem modul prima ARP zahtjev koji je namijenjen uprav
 *   **Rezultat:** Modul generiše **ARP Reply** (unicast) sa svojom MAC adresom. Izlazni signal `out_valid` postaje aktivan.
 
 <p align="center">
-  <img src="Idejni%20koncepti/ARP_Scenarij_1.drawio.png" width="500"><br>
+  <img src="Idejni%20koncepti/Scenarij_1.drawio.png" width="500"><br>
   <em>Slika 3: UML sekvencijalni dijagram – validna ARP rezolucija</em>
 </p>
 
@@ -98,7 +98,7 @@ Provjera da li modul ispravno ignoriše ARP zahtjeve koji su namijenjeni drugim 
 *   **Rezultat:** Modul odbacuje paket i **ne šalje odgovor**. Linija `out_valid` ostaje neaktivna ('0').
   
 <p align="center">
-  <img src="Idejni%20koncepti/ARP_Scenarij_2.drawio.png" width="500"><br>
+  <img src="Idejni%20koncepti/Scenarij_2.drawio.png" width="500"><br>
   <em>Slika 4: UML sekvencijalni dijagram – Target IP mismatch</em>
 </p>
 
@@ -114,7 +114,7 @@ Testiranje robusnosti dizajna na okvire koji nisu relevantni za ARP rezoluciju.
 * **Rezultat:** Pošto okvir nije relevantan za ARP Request obradu (`EtherType ≠ 0x0806` ili ARP nije validan ili `Opcode ≠ 0x0001`), modul momentalno prestaje sa obradom i ignoriše ostatak paketa. Nema reakcije na izlazu (ne šalje se ARP Reply, out_valid ostaje neaktivan '0').
   
 <p align="center">
-  <img src="Idejni%20koncepti/ARP_Scenarij_3.drawio.png" width="600"><br>
+  <img src="Idejni%20koncepti/Scenarij_3.drawio.png" width="600"><br>
   <em>Slika 5: UML sekvencijalni dijagram – ignorisanje nevažećeg saobraćaja</em>
 </p>
 
