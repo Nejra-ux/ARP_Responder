@@ -90,32 +90,18 @@ Ovo je osnovni scenarij u kojem modul prima ARP zahtjev koji je namijenjen uprav
 </p>
 
 
-### **2. Filtriranje tuđih zahtjeva (Target IP Mismatch)**
-Provjera da li modul ispravno ignoriše ARP zahtjeve koji su namijenjeni drugim uređajima u mreži.
+### **2. Filtriranje tuđih zahtjeva i nevažećeg saobraćaja (Target IP Mismatch)**
 
-*   **Ulaz:** Testbench šalje **ARP Request** u kojem je `Target IP` neka druga adresa (npr. `192.168.1.50`), različita od adrese modula.
-*   **Proces:** Modul parsira paket, ali utvrđuje da se tražena IP adresa **ne poklapa** sa njegovom.
-*   **Rezultat:** Modul odbacuje paket i **ne šalje odgovor**. Linija `out_valid` ostaje neaktivna ('0').
-  
+Ovaj scenarij izvršava provjeru  da li modul ispravno ignoriše ARP zahtjeve koji su namijenjeni drugim uređajima u mreži te testira robusnost dizajna na okvire koji nisu relevantni za ARP rezoluciju.
+* **Ulaz:** Testbench generiše niz testnih vektora koji ne zadovoljavaju uslove za odgovor:
+o	Target IP Mismatch: ARP Request sa ispravnim formatom, ali Target IP adresom koja ne pripada modulu (npr. `192.168.1.50`). 
+o	Non-ARP: Ethernet okviri koji nisu ARP protokola (npr. IPv4 paket gdje je `EtherType = 0x0800`).
+o	Invalid ARP Format/Opcode: ARP okviri koji nisu zahtjev za rezoluciju (`Opcode ≠ 0x0001`) ili imaju neispravne parametre zaglavlja (`HTYPE ≠ 0x0001`, `PTYPE ≠ 0x0800`, `HLEN ≠ 6`, `PLEN ≠ 4`). 
+* **Proces:**  Modul vrši sekvencijalnu validaciju zaglavlja. Prvo provjerava EtherType, zatim ispravnost ARP parametara i Opcode polja, te konačno poredi Target IP adresu. Ukoliko bilo koji od ovih uslova nije zadovoljen (pogrešan protokol, neispravan format, pogrešan Opcode ili tuđa IP adresa), modul prekida dalju obradu.
+* **Rezultat:**  Modul ignoriše paket (DROP) i ne generiše ARP Reply. Izlazna linija out_valid ostaje neaktivna ('0'), čime se potvrđuje da modul ispravno odbacuje sav saobraćaj koji ne zahtijeva njegovu intervenciju.
 <p align="center">
-  <img src="Idejni%20koncepti/Scenarij_2.drawio.png" width="500"><br>
-  <em>Slika 4: UML sekvencijalni dijagram – Target IP mismatch</em>
-</p>
-
-
-
-
-
-### **3. Ignorisanje nevažećeg saobraćaja (Non-ARP i Non-Request ARP)**
-Testiranje robusnosti dizajna na okvire koji nisu relevantni za ARP rezoluciju.
-
-* **Ulaz:** Testbench šalje Ethernet okvir koji nije ARP (npr. IPv4 paket gdje je `EtherType = 0x0800`), ili ARP okvir koji nije zahtjev za rezoluciju (npr. `EtherType = 0x0806`, ali `Opcode ≠ 0x0001`), ili ARP okvir sa neispravnim formatom za Ethernet/IPv4 (npr. `HTYPE ≠ 0x0001`, `PTYPE ≠ 0x0800`, `HLEN ≠ 6`, `PLEN ≠ 4`).
-* **Proces:** Modul prvo provjerava EtherType polje u Ethernet zaglavlju. Ako je okvir ARP, dodatno provjerava validnost ARP hedera (`HTYPE/PTYPE/HLEN/PLEN`) i `Opcode` polje unutar ARP zaglavlja.
-* **Rezultat:** Pošto okvir nije relevantan za ARP Request obradu (`EtherType ≠ 0x0806` ili ARP nije validan ili `Opcode ≠ 0x0001`), modul momentalno prestaje sa obradom i ignoriše ostatak paketa. Nema reakcije na izlazu (ne šalje se ARP Reply, out_valid ostaje neaktivan '0').
-  
-<p align="center">
-  <img src="Idejni%20koncepti/Scenarij_3.drawio.png" width="600"><br>
-  <em>Slika 5: UML sekvencijalni dijagram – ignorisanje nevažećeg saobraćaja</em>
+  <img src="Idejni%20koncepti/Scenario 2 (2+3).drawio.png" width="600"><br>
+  <em>Slika 4: UML sekvencijalni dijagram – Filtriranje tuđih zahtjeva i nevažećeg saobraćaja (Target IP Mismatch) </em>
 </p>
 
 ## WaveDrom dijagram
