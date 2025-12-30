@@ -105,7 +105,9 @@ o	Invalid ARP Format/Opcode: ARP okviri koji nisu zahtjev za rezoluciju (`Opcode
 </p>
 
 ## WaveDrom dijagram
-Wavedrom dijagram je kreiran pomoću WaveDrom alata. Dijagrami pokrivaju sljedeće scenarije:
+Wavedrom dijagrami su kreirani pomoću WaveDrom alata. Izvorni `.json` fajlovi za sve prikazane scenarije dostupni su u direktoriju [Wavedrom](./Wavedrom).
+
+Dijagrami pokrivaju sljedeće scenarije:
 
 ### Scenario 1: Validna ARP Rezolucija (Target IP Match)
 
