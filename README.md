@@ -105,7 +105,41 @@ o	Invalid ARP Format/Opcode: ARP okviri koji nisu zahtjev za rezoluciju (`Opcode
 </p>
 
 ## WaveDrom dijagram
-Wavedrom dijagram je kreiran pomoću WaveDrom alata i prikazan je u fajlu `waveform.json`. Dijagrami pokrivaju sljedeće scenarije:
+Wavedrom dijagram je kreiran pomoću WaveDrom alata. Dijagrami pokrivaju sljedeće scenarije:
+
+### Scenario 1: Validna ARP Rezolucija (Target IP Match)
+
+Prikazani vremenski dijagram ilustruje rad modula kada primi validan ARP zahtjev (Request) namijenjen ovom uređaju.
+<p align="center">
+  <img src="Wavedrom/Scenarij_1.png" width="600"><br>
+  <em>Slika 5: Wavedrom za uspješnu rezoluciju </em>
+</p>
+
+*   **Ulazna faza (`RX_CHECK`):**
+    *   Modul putem **Avalon-ST** interfejsa prima *broadcast* paket (vidljivo po `FF..FF` na `in_data`).
+    *   Interna logika provjerava *Target IP* polje u paketu.
+*   **Logika odlučivanja:**
+    *   Detektovano je poklapanje ciljane IP adrese sa lokalnom adresom.
+    *   Automat stanja prelazi iz `RX_CHECK` u `TX_CHECK`.
+*   **Izlazna faza (`TX_CHECK`):**
+    *   Modul generiše ARP odgovor (*Reply*).
+    *   Na `out_data` liniji se šalje paket sa *unicast* MAC adresom pošiljaoca, potvrđujući rezoluciju adrese.
+
+### Scenario 2: Nevalidna ARP Rezolucija (Target IP Mismatch)
+
+
+Dijagram prikazuje ponašanje modula kada primi ARP zahtjev koji nije namijenjen ovom uređaju (nepoklapanje IP adrese).
+
+<p align="center">
+  <img src="Wavedrom/Scenarij_2.png" width="600"><br>
+  <em>Slika 6: Wavedrom za neuspješnu rezoluciju </em>
+</p>
+
+*   **Ulazna faza (`RX_CHECK`):** Modul uredno prima *broadcast* ARP paket putem **Avalon-ST input** interfejsa.
+*   **Logika odlučivanja:** Tokom provjere sadržaja paketa, modul detektuje da se *Target IP* u zahtjevu **ne podudara** sa lokalnom IP adresom.
+*   **Ishod (`DROP`):**
+    *   Automat stanja prelazi u `DROP`, a zatim se vraća u `IDLE`.
+    *   **Nema odgovora:** `AVALON-ST output` signali (`out_valid`, `out_sop`, itd.) ostaju na nuli, što znači da modul ne šalje nikakav odgovor na mrežu. 
 
 ## FSM (Finite State Machine) dizajn
 FSM dijagram je kreiran pomoću draw.io alata i sačuvan u fajlu `fsm_diagram.drawio`.
