@@ -113,7 +113,7 @@ Dijagrami pokrivaju sljedeće scenarije:
 
 Prikazani vremenski dijagram ilustruje rad modula kada primi validan ARP zahtjev (Request) namijenjen ovom uređaju.
 <p align="center">
-  <img src="Wavedrom/Scenarij_1.png" width="600"><br>
+  <img src="Wavedrom/Scenarij_1.png" width="1000"><br>
   <em>Slika 5: Wavedrom za uspješnu rezoluciju </em>
 </p>
 
@@ -133,7 +133,7 @@ Prikazani vremenski dijagram ilustruje rad modula kada primi validan ARP zahtjev
 Dijagram prikazuje ponašanje modula kada primi ARP zahtjev koji nije namijenjen ovom uređaju (nepoklapanje IP adrese).
 
 <p align="center">
-  <img src="Wavedrom/Scenarij_2.png" width="600"><br>
+  <img src="Wavedrom/Scenarij_2.png" width="1000"><br>
   <em>Slika 6: Wavedrom za neuspješnu rezoluciju </em>
 </p>
 
