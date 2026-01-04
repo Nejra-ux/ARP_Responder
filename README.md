@@ -143,10 +143,42 @@ Dijagram prikazuje ponašanje modula kada primi ARP zahtjev koji nije namijenjen
     *   Automat stanja prelazi u `DROP`, a zatim se vraća u `IDLE`.
     *   **Nema odgovora:** `AVALON-ST output` signali (`out_valid`, `out_sop`, itd.) ostaju na nuli, što znači da modul ne šalje nikakav odgovor na mrežu. 
 
-## FSM (Finite State Machine) dizajn
-FSM dijagram je kreiran pomoću draw.io alata i sačuvan u fajlu `fsm_diagram.drawio`.
+## Konačni automat 
 
-### Opis stanja FSM-a
+Konačni automat (engl. *Finite State Machine – FSM*) predstavlja formalni način modeliranja sekvencijalnih logičkih sklopova, gdje se rad sistema opisuje kroz konačan skup stanja i uslovne prelaze između njih. Takav model može biti veoma koristan pri projektovanju određenih tipova sistema, posebno onih čiji zadaci čine jasno definisan slijed. [7] U praksi se FSM može prikazati na dva komplementarna načina: **dijagramom stanja**, koji grafički predstavlja specifikaciju automata (sva moguća stanja, ulazne uslove prelaza i ponašanje/izlaze u pojedinim stanjima), ili **hardverski baziranom reprezentacijom**, koja naglasak stavlja na RTL implementaciju kroz kombinacionu i sekvencijalnu logiku. Dijagram stanja je posebno koristan jer pojednostavljuje razumijevanje i provjeru dizajna prije same implementacije, dok hardverski prikaz direktno pokazuje kako se automat realizuje u digitalnom kolu. U okviru ovog projekta, FSM je korišten kao kontroler koji parsira ulazni tok podataka kroz više slojeva mrežnog okvira, obuhvatajući identifikaciju početka paketa, validaciju zaglavlja po slojevima i donošenje odluke o daljoj obradi na osnovu sadržaja okvira.
+
+### Princip rada konačnog automata
+Modul u stanju mirovanja čeka početak novog Ethernet okvira, koji se na Avalon-ST ulazu detektuje aktivacijom signala `in_sop` uz `in_valid`. Nakon detekcije SOP-a, FSM započinje parsiranje okvira bajt-po-bajt i prvo vrši provjeru Ethernet zaglavlja, odnosno polja EtherType. Ukoliko EtherType nije jednak vrijednosti **0x0806** (ARP), okvir se smatra nerelevantnim za ARP rezoluciju i FSM prelazi u stanje **DROP**, gdje ne generiše nikakav izlazni saobraćaj, već samo ignoriše preostali dio okvira do `in_eop`.
+
+Ako je EtherType ispravan, FSM nastavlja u fazu obrade ARP zaglavlja i validira fiksna ARP polja koja moraju odgovarati standardnom Ethernet/IPv4 ARP formatu: `HTYPE=0x0001` (Ethernet), `PTYPE=0x0800` (IPv4), `HLEN=6`, `PLEN=4`, te `OPER=0x0001` (ARP Request). Neuspjeh bilo koje od ovih provjera predstavlja pogrešan format ili poruku koja nije zahtjev, te se okvir ponovo odbacuje u stanju **DROP** bez odgovora.
+
+Tek kada su i Ethernet i ARP kontrolna polja potvrđena, FSM prelazi na provjeru adresa. U ovoj fazi se posebno provjerava da je Target Protocol Address (TPA) jednak konfigurisanom `IP_ADDRESS` modula. Ako se TPA ne poklapa, zahtjev nije namijenjen ovom uređaju i okvir se ignoriše. Ako se TPA poklapa, FSM zaključuje da je primljen validan ARP Request za IP adresu modula i prelazi u stanje slanja odgovora. U stanju slanja, modul formira **ARP Reply** i šalje ga bajt-po-bajt preko Avalon-ST izlaza. Slanje je kontrolisano signalom `out_ready`, a brojač bajtova i izlazni tok napreduju samo kada je `out_ready='1'`, a kada je `out_ready='0'` modul zadržava trenutni bajt i `out_valid` ostaje aktivan, čime se obezbjeđuje korektan rad u prisustvu backpressure-a i eliminiše mogućnost gubitka podataka.
+
+> U okviru testiranja se očekuju Ethernet/ARP okviri **ispravne dužine** (tj. sa svim potrebnim bajtovima do kraja ARP poruke). Ukoliko se desi neočekivani prekid okvira (npr. `in_eop='1'` prije nego što su primljena i validirana sva obavezna polja), okvir se tretira kao neispravan i FSM se prebacuje u režim **`DROP`** (bez generisanja odgovora), nakon čega se vraća u `IDLE` i čeka naredni okvir.
+
+
+### Stanja automata
+FSM sadrži ukupno 6 stanja (kao na dijagramu):
+
+- **IDLE** – početno stanje; čekanje `in_valid` + `in_sop` (početak okvira)  
+- **RX_ETH_HDR** – prijem i validacija Ethernet zaglavlja (provjera EtherType = 0x0806)  
+- **RX_ARP_FIELDS** – provjera fiksnih ARP polja (HTYPE/PTYPE/HLEN/PLEN) i opcode (Request)  
+- **RX_ARP_ADDRS** – provjera da li je zahtjev za IP respondera (`TPA = IP_ADDRESS`).
+- **DROP** – ignorisanje okvira do `in_eop`, bez generisanja odgovora.
+- **TX_SEND** – slanje ARP Reply okvira uz poštivanje `out_ready` (kontrolisani tok podataka)
+
+### Grupisane provjere (indikatori greške)
+Da bi dijagram ostao pregledan, više pojedinačnih provjera je sažeto u tri indikatora. Svaki indikator predstavlja jednu logičku grupu provjera i omogućava da se nerelevantan ili neispravan okvir odmah preusmjeri u stanje `DROP` ili nastavi dalju obradu:
+
+- **`eth_fail`** – nije ARP (EtherType ≠ 0x0806)  
+- **`arp_fields_fail`** – ARP format/opcode nisu očekivani za Ethernet/IPv4 ARP Request  
+- **`tpa_mismatch`** – Target IP (TPA) nije IP adresa modula  
+
+
+<p align="center">
+  <img src="FSM/FSM.drawio.png" width="600"><br>
+  <em>Slika 7: Dijagram konačnog automata (FSM) ARP Responder modula.</em>
+</p>
 
 
 ## VHDL implementacija
@@ -171,6 +203,8 @@ VHDL kod je implementiran u fajlu `arp_responder.vhd`. Modul implementira:
 [5] “What is ARP?,” Fortinet. [Online]. Available: https://www.fortinet.com/resources/cyberglossary/what-is-arp. 
 
 [6] **Intel**. *Avalon Interface Specification, Intel Quartus Prime Design Suite 20.1*, v2022.01.24.  
+
+[7] **Volnei A. Pedroni**, Circuit Design and Simulation with VHDL, The MIT Press, Cambridge, Massachussets, 2004.
 
 
 
