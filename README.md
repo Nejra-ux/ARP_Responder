@@ -75,7 +75,7 @@ U nastavku je prikazan popis svih signala korištenih u ARP Responder modulu:
 
 ## Scenariji za testiranje
 
-Validacija ARP Responder modula izvršena je kroz tri ključna scenarija koji pokrivaju ispravno procesiranje, filtriranje saobraćaja i ignorisanje nepodržanih protokola.
+Validacija ARP Responder modula izvršena je kroz dva ključna scenarija koji pokrivaju ispravno procesiranje, filtriranje saobraćaja i ignorisanje nepodržanih protokola.
 
 ### **1. Validna ARP rezolucija (Target IP Match)**
 Ovo je osnovni scenarij u kojem modul prima ARP zahtjev koji je namijenjen upravo njemu.
