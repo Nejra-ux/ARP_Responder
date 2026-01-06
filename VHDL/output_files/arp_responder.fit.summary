@@ -1,0 +1,16 @@
+Fitter Status : Successful - Tue Jan 06 22:01:46 2026
+Quartus Prime Version : 19.1.0 Build 670 09/22/2019 SJ Lite Edition
+Revision Name : arp_responder
+Top-level Entity Name : arp_responder
+Family : Cyclone IV E
+Device : EP4CE6E22C6
+Timing Models : Final
+Total logic elements : 307 / 6,272 ( 5 % )
+    Total combinational functions : 307 / 6,272 ( 5 % )
+    Dedicated logic registers : 97 / 6,272 ( 2 % )
+Total registers : 97
+Total pins : 26 / 92 ( 28 % )
+Total virtual pins : 0
+Total memory bits : 0 / 276,480 ( 0 % )
+Embedded Multiplier 9-bit elements : 0 / 30 ( 0 % )
+Total PLLs : 0 / 2 ( 0 % )

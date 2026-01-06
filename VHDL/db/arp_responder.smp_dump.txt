@@ -1,0 +1,9 @@
+
+State Machine - |arp_responder|pr_state
+Name pr_state.TX_SEND pr_state.DROP pr_state.RX_ARP_ADDRS pr_state.RX_ARP_FIELDS pr_state.RX_ETH_HDR pr_state.IDLE 
+pr_state.IDLE 0 0 0 0 0 0 
+pr_state.RX_ETH_HDR 0 0 0 0 1 1 
+pr_state.RX_ARP_FIELDS 0 0 0 1 0 1 
+pr_state.RX_ARP_ADDRS 0 0 1 0 0 1 
+pr_state.DROP 0 1 0 0 0 1 
+pr_state.TX_SEND 1 0 0 0 0 1 

@@ -1,0 +1,1274 @@
+Timing Analyzer report for arp_responder
+Tue Jan 06 22:01:52 2026
+Quartus Prime Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Timing Analyzer Summary
+  3. Parallel Compilation
+  4. Clocks
+  5. Slow 1200mV 85C Model Fmax Summary
+  6. Timing Closure Recommendations
+  7. Slow 1200mV 85C Model Setup Summary
+  8. Slow 1200mV 85C Model Hold Summary
+  9. Slow 1200mV 85C Model Recovery Summary
+ 10. Slow 1200mV 85C Model Removal Summary
+ 11. Slow 1200mV 85C Model Minimum Pulse Width Summary
+ 12. Slow 1200mV 85C Model Setup: 'clk'
+ 13. Slow 1200mV 85C Model Hold: 'clk'
+ 14. Slow 1200mV 85C Model Metastability Summary
+ 15. Slow 1200mV 0C Model Fmax Summary
+ 16. Slow 1200mV 0C Model Setup Summary
+ 17. Slow 1200mV 0C Model Hold Summary
+ 18. Slow 1200mV 0C Model Recovery Summary
+ 19. Slow 1200mV 0C Model Removal Summary
+ 20. Slow 1200mV 0C Model Minimum Pulse Width Summary
+ 21. Slow 1200mV 0C Model Setup: 'clk'
+ 22. Slow 1200mV 0C Model Hold: 'clk'
+ 23. Slow 1200mV 0C Model Metastability Summary
+ 24. Fast 1200mV 0C Model Setup Summary
+ 25. Fast 1200mV 0C Model Hold Summary
+ 26. Fast 1200mV 0C Model Recovery Summary
+ 27. Fast 1200mV 0C Model Removal Summary
+ 28. Fast 1200mV 0C Model Minimum Pulse Width Summary
+ 29. Fast 1200mV 0C Model Setup: 'clk'
+ 30. Fast 1200mV 0C Model Hold: 'clk'
+ 31. Fast 1200mV 0C Model Metastability Summary
+ 32. Multicorner Timing Analysis Summary
+ 33. Board Trace Model Assignments
+ 34. Input Transition Times
+ 35. Signal Integrity Metrics (Slow 1200mv 0c Model)
+ 36. Signal Integrity Metrics (Slow 1200mv 85c Model)
+ 37. Signal Integrity Metrics (Fast 1200mv 0c Model)
+ 38. Setup Transfers
+ 39. Hold Transfers
+ 40. Report TCCS
+ 41. Report RSKM
+ 42. Unconstrained Paths Summary
+ 43. Clock Status Summary
+ 44. Unconstrained Input Ports
+ 45. Unconstrained Output Ports
+ 46. Unconstrained Input Ports
+ 47. Unconstrained Output Ports
+ 48. Timing Analyzer Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2019  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and any partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details, at
+https://fpgasoftware.intel.com/eula.
+
+
+
++-----------------------------------------------------------------------------+
+; Timing Analyzer Summary                                                     ;
++-----------------------+-----------------------------------------------------+
+; Quartus Prime Version ; Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition ;
+; Timing Analyzer       ; Legacy Timing Analyzer                              ;
+; Revision Name         ; arp_responder                                       ;
+; Device Family         ; Cyclone IV E                                        ;
+; Device Name           ; EP4CE6E22C6                                         ;
+; Timing Models         ; Final                                               ;
+; Delay Model           ; Combined                                            ;
+; Rise/Fall Delays      ; Enabled                                             ;
++-----------------------+-----------------------------------------------------+
+
+
++------------------------------------------+
+; Parallel Compilation                     ;
++----------------------------+-------------+
+; Processors                 ; Number      ;
++----------------------------+-------------+
+; Number detected on machine ; 8           ;
+; Maximum allowed            ; 8           ;
+;                            ;             ;
+; Average used               ; 1.04        ;
+; Maximum used               ; 8           ;
+;                            ;             ;
+; Usage by Processor         ; % Time Used ;
+;     Processor 1            ; 100.0%      ;
+;     Processors 2-8         ;   0.6%      ;
++----------------------------+-------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Clocks                                                                                                                                                                          ;
++------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+---------+
+; Clock Name ; Type ; Period ; Frequency  ; Rise  ; Fall  ; Duty Cycle ; Divide by ; Multiply by ; Phase ; Offset ; Edge List ; Edge Shift ; Inverted ; Master ; Source ; Targets ;
++------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+---------+
+; clk        ; Base ; 1.000  ; 1000.0 MHz ; 0.000 ; 0.500 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { clk } ;
++------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+---------+
+
+
++--------------------------------------------------+
+; Slow 1200mV 85C Model Fmax Summary               ;
++------------+-----------------+------------+------+
+; Fmax       ; Restricted Fmax ; Clock Name ; Note ;
++------------+-----------------+------------+------+
+; 192.86 MHz ; 192.86 MHz      ; clk        ;      ;
++------------+-----------------+------------+------+
+This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
+
+
+----------------------------------
+; Timing Closure Recommendations ;
+----------------------------------
+HTML report is unavailable in plain text report export.
+
+
++-------------------------------------+
+; Slow 1200mV 85C Model Setup Summary ;
++-------+--------+--------------------+
+; Clock ; Slack  ; End Point TNS      ;
++-------+--------+--------------------+
+; clk   ; -4.185 ; -309.788           ;
++-------+--------+--------------------+
+
+
++------------------------------------+
+; Slow 1200mV 85C Model Hold Summary ;
++-------+-------+--------------------+
+; Clock ; Slack ; End Point TNS      ;
++-------+-------+--------------------+
+; clk   ; 0.356 ; 0.000              ;
++-------+-------+--------------------+
+
+
+------------------------------------------
+; Slow 1200mV 85C Model Recovery Summary ;
+------------------------------------------
+No paths to report.
+
+
+-----------------------------------------
+; Slow 1200mV 85C Model Removal Summary ;
+-----------------------------------------
+No paths to report.
+
+
++---------------------------------------------------+
+; Slow 1200mV 85C Model Minimum Pulse Width Summary ;
++-------+--------+----------------------------------+
+; Clock ; Slack  ; End Point TNS                    ;
++-------+--------+----------------------------------+
+; clk   ; -3.000 ; -100.000                         ;
++-------+--------+----------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------+
+; Slow 1200mV 85C Model Setup: 'clk'                                                                                             ;
++--------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+; Slack  ; From Node              ; To Node                ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++--------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+; -4.185 ; byte_index[1]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.070     ; 5.110      ;
+; -4.118 ; byte_index[1]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.061     ; 5.052      ;
+; -4.017 ; pr_state.TX_SEND       ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.070     ; 4.942      ;
+; -4.009 ; byte_index[2]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.070     ; 4.934      ;
+; -4.005 ; byte_index[0]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.070     ; 4.930      ;
+; -3.996 ; byte_index[3]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.070     ; 4.921      ;
+; -3.955 ; byte_index[5]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.072     ; 4.878      ;
+; -3.950 ; pr_state.TX_SEND       ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.061     ; 4.884      ;
+; -3.942 ; byte_index[2]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.061     ; 4.876      ;
+; -3.938 ; byte_index[0]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.061     ; 4.872      ;
+; -3.934 ; byte_index[7]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.070     ; 4.859      ;
+; -3.928 ; byte_index[3]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.061     ; 4.862      ;
+; -3.892 ; pr_state.DROP          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.433     ; 4.454      ;
+; -3.888 ; byte_index[5]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.820      ;
+; -3.867 ; byte_index[7]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.061     ; 4.801      ;
+; -3.847 ; byte_index[1]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.779      ;
+; -3.842 ; byte_index[6]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.774      ;
+; -3.824 ; pr_state.DROP          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.424     ; 4.395      ;
+; -3.806 ; byte_index[1]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.738      ;
+; -3.806 ; byte_index[1]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.738      ;
+; -3.806 ; byte_index[1]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.738      ;
+; -3.806 ; byte_index[1]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.738      ;
+; -3.806 ; byte_index[1]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.738      ;
+; -3.775 ; byte_index[6]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.054     ; 4.716      ;
+; -3.737 ; byte_index[0]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.071     ; 4.661      ;
+; -3.722 ; byte_index[4]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.070     ; 4.647      ;
+; -3.708 ; byte_index[3]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.071     ; 4.632      ;
+; -3.694 ; pr_state.TX_SEND       ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.071     ; 4.618      ;
+; -3.685 ; byte_index[2]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.071     ; 4.609      ;
+; -3.679 ; pr_state.TX_SEND       ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.611      ;
+; -3.677 ; pr_state.RX_ARP_ADDRS  ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.062     ; 4.610      ;
+; -3.671 ; byte_index[2]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.603      ;
+; -3.667 ; byte_index[0]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.599      ;
+; -3.654 ; byte_index[4]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.061     ; 4.588      ;
+; -3.643 ; byte_index[3]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.575      ;
+; -3.643 ; byte_index[3]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.575      ;
+; -3.643 ; byte_index[3]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.575      ;
+; -3.643 ; byte_index[3]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.575      ;
+; -3.643 ; byte_index[3]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.575      ;
+; -3.643 ; byte_index[3]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.575      ;
+; -3.640 ; byte_index[0]          ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 1.000        ; -0.064     ; 4.571      ;
+; -3.638 ; pr_state.TX_SEND       ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.570      ;
+; -3.638 ; pr_state.TX_SEND       ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.570      ;
+; -3.638 ; pr_state.TX_SEND       ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.570      ;
+; -3.638 ; pr_state.TX_SEND       ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.570      ;
+; -3.638 ; pr_state.TX_SEND       ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.570      ;
+; -3.630 ; byte_index[2]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.562      ;
+; -3.630 ; byte_index[2]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.562      ;
+; -3.630 ; byte_index[2]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.562      ;
+; -3.630 ; byte_index[2]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.562      ;
+; -3.630 ; byte_index[2]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.562      ;
+; -3.626 ; byte_index[0]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.558      ;
+; -3.626 ; byte_index[0]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.558      ;
+; -3.626 ; byte_index[0]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.558      ;
+; -3.626 ; byte_index[0]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.558      ;
+; -3.626 ; byte_index[0]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.558      ;
+; -3.617 ; byte_index[5]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.065     ; 4.547      ;
+; -3.614 ; pr_state.TX_SEND       ; pr_state.DROP          ; clk          ; clk         ; 1.000        ; 0.285      ; 4.894      ;
+; -3.610 ; pr_state.RX_ARP_ADDRS  ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.053     ; 4.552      ;
+; -3.601 ; byte_index[1]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.071     ; 4.525      ;
+; -3.599 ; pr_state.TX_SEND       ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 1.000        ; -0.064     ; 4.530      ;
+; -3.596 ; byte_index[7]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.528      ;
+; -3.592 ; byte_index[2]          ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 1.000        ; -0.064     ; 4.523      ;
+; -3.588 ; byte_index[3]          ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 1.000        ; -0.064     ; 4.519      ;
+; -3.576 ; byte_index[5]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.065     ; 4.506      ;
+; -3.576 ; byte_index[5]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.065     ; 4.506      ;
+; -3.576 ; byte_index[5]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.065     ; 4.506      ;
+; -3.576 ; byte_index[5]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.065     ; 4.506      ;
+; -3.576 ; byte_index[5]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.065     ; 4.506      ;
+; -3.566 ; pr_state.RX_ARP_FIELDS ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.069     ; 4.492      ;
+; -3.555 ; byte_index[7]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.487      ;
+; -3.555 ; byte_index[7]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.487      ;
+; -3.555 ; byte_index[7]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.487      ;
+; -3.555 ; byte_index[7]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.487      ;
+; -3.555 ; byte_index[7]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.063     ; 4.487      ;
+; -3.539 ; pr_state.DROP          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.426     ; 4.108      ;
+; -3.539 ; pr_state.DROP          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.426     ; 4.108      ;
+; -3.539 ; pr_state.DROP          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.426     ; 4.108      ;
+; -3.539 ; pr_state.DROP          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.426     ; 4.108      ;
+; -3.539 ; pr_state.DROP          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.426     ; 4.108      ;
+; -3.539 ; pr_state.DROP          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.426     ; 4.108      ;
+; -3.508 ; byte_index[1]          ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 1.000        ; -0.064     ; 4.439      ;
+; -3.504 ; byte_index[7]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.071     ; 4.428      ;
+; -3.504 ; byte_index[6]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.443      ;
+; -3.498 ; pr_state.RX_ARP_FIELDS ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.060     ; 4.433      ;
+; -3.486 ; byte_index[5]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.073     ; 4.408      ;
+; -3.474 ; byte_index[6]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.413      ;
+; -3.474 ; byte_index[6]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.413      ;
+; -3.474 ; byte_index[6]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.413      ;
+; -3.474 ; byte_index[6]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.413      ;
+; -3.474 ; byte_index[6]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.413      ;
+; -3.439 ; byte_index[4]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.071     ; 4.363      ;
+; -3.433 ; pr_state.TX_SEND       ; req_mac[16]            ; clk          ; clk         ; 1.000        ; -0.063     ; 4.365      ;
+; -3.433 ; pr_state.TX_SEND       ; req_mac[17]            ; clk          ; clk         ; 1.000        ; -0.063     ; 4.365      ;
+; -3.433 ; pr_state.TX_SEND       ; req_mac[18]            ; clk          ; clk         ; 1.000        ; -0.063     ; 4.365      ;
+; -3.433 ; pr_state.TX_SEND       ; req_mac[19]            ; clk          ; clk         ; 1.000        ; -0.063     ; 4.365      ;
+; -3.433 ; pr_state.TX_SEND       ; req_mac[20]            ; clk          ; clk         ; 1.000        ; -0.063     ; 4.365      ;
+; -3.433 ; pr_state.TX_SEND       ; req_mac[21]            ; clk          ; clk         ; 1.000        ; -0.063     ; 4.365      ;
+; -3.433 ; pr_state.TX_SEND       ; req_mac[22]            ; clk          ; clk         ; 1.000        ; -0.063     ; 4.365      ;
+; -3.433 ; pr_state.TX_SEND       ; req_mac[23]            ; clk          ; clk         ; 1.000        ; -0.063     ; 4.365      ;
++--------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------+
+; Slow 1200mV 85C Model Hold: 'clk'                                                                                             ;
++-------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+; Slack ; From Node              ; To Node                ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++-------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+; 0.356 ; arp_fields_fail        ; arp_fields_fail        ; clk          ; clk         ; 0.000        ; 0.064      ; 0.577      ;
+; 0.356 ; eth_fail               ; eth_fail               ; clk          ; clk         ; 0.000        ; 0.064      ; 0.577      ;
+; 0.357 ; pr_state.RX_ARP_ADDRS  ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 0.000        ; 0.063      ; 0.577      ;
+; 0.357 ; tpa_mismatch           ; tpa_mismatch           ; clk          ; clk         ; 0.000        ; 0.063      ; 0.577      ;
+; 0.622 ; pr_state.RX_ETH_HDR    ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 0.000        ; 0.063      ; 0.842      ;
+; 0.665 ; pr_state.IDLE          ; pr_state.RX_ETH_HDR    ; clk          ; clk         ; 0.000        ; 0.063      ; 0.885      ;
+; 0.714 ; pr_state.TX_SEND       ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.426      ; 1.297      ;
+; 0.776 ; pr_state.RX_ARP_FIELDS ; arp_fields_fail        ; clk          ; clk         ; 0.000        ; 0.086      ; 1.019      ;
+; 0.834 ; pr_state.DROP          ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.078      ; 1.069      ;
+; 0.878 ; pr_state.RX_ETH_HDR    ; pr_state.RX_ETH_HDR    ; clk          ; clk         ; 0.000        ; 0.063      ; 1.098      ;
+; 1.013 ; pr_state.RX_ETH_HDR    ; eth_fail               ; clk          ; clk         ; 0.000        ; 0.086      ; 1.256      ;
+; 1.058 ; arp_fields_fail        ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.405      ; 1.620      ;
+; 1.168 ; pr_state.RX_ARP_FIELDS ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 0.000        ; 0.063      ; 1.388      ;
+; 1.215 ; pr_state.RX_ARP_FIELDS ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.427      ; 1.799      ;
+; 1.310 ; pr_state.RX_ARP_FIELDS ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 0.000        ; 0.056      ; 1.523      ;
+; 1.354 ; pr_state.TX_SEND       ; byte_index[3]          ; clk          ; clk         ; 0.000        ; 0.063      ; 1.574      ;
+; 1.355 ; pr_state.TX_SEND       ; byte_index[7]          ; clk          ; clk         ; 0.000        ; 0.063      ; 1.575      ;
+; 1.355 ; pr_state.TX_SEND       ; byte_index[1]          ; clk          ; clk         ; 0.000        ; 0.063      ; 1.575      ;
+; 1.355 ; pr_state.TX_SEND       ; byte_index[0]          ; clk          ; clk         ; 0.000        ; 0.063      ; 1.575      ;
+; 1.357 ; pr_state.TX_SEND       ; byte_index[4]          ; clk          ; clk         ; 0.000        ; 0.063      ; 1.577      ;
+; 1.358 ; pr_state.TX_SEND       ; byte_index[2]          ; clk          ; clk         ; 0.000        ; 0.063      ; 1.578      ;
+; 1.363 ; pr_state.TX_SEND       ; arp_fields_fail        ; clk          ; clk         ; 0.000        ; 0.085      ; 1.605      ;
+; 1.368 ; pr_state.TX_SEND       ; tpa_mismatch           ; clk          ; clk         ; 0.000        ; 0.055      ; 1.580      ;
+; 1.379 ; pr_state.RX_ARP_ADDRS  ; req_ip[24]             ; clk          ; clk         ; 0.000        ; 0.408      ; 1.944      ;
+; 1.379 ; pr_state.RX_ARP_ADDRS  ; req_ip[27]             ; clk          ; clk         ; 0.000        ; 0.408      ; 1.944      ;
+; 1.379 ; pr_state.RX_ARP_ADDRS  ; req_ip[31]             ; clk          ; clk         ; 0.000        ; 0.408      ; 1.944      ;
+; 1.383 ; pr_state.IDLE          ; byte_index[3]          ; clk          ; clk         ; 0.000        ; 0.064      ; 1.604      ;
+; 1.383 ; pr_state.IDLE          ; byte_index[4]          ; clk          ; clk         ; 0.000        ; 0.064      ; 1.604      ;
+; 1.384 ; pr_state.IDLE          ; byte_index[7]          ; clk          ; clk         ; 0.000        ; 0.064      ; 1.605      ;
+; 1.384 ; pr_state.IDLE          ; byte_index[1]          ; clk          ; clk         ; 0.000        ; 0.064      ; 1.605      ;
+; 1.384 ; pr_state.IDLE          ; byte_index[0]          ; clk          ; clk         ; 0.000        ; 0.064      ; 1.605      ;
+; 1.388 ; pr_state.IDLE          ; byte_index[2]          ; clk          ; clk         ; 0.000        ; 0.064      ; 1.609      ;
+; 1.389 ; pr_state.TX_SEND       ; eth_fail               ; clk          ; clk         ; 0.000        ; 0.085      ; 1.631      ;
+; 1.441 ; eth_fail               ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.405      ; 2.003      ;
+; 1.474 ; tpa_mismatch           ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 0.000        ; 0.063      ; 1.694      ;
+; 1.477 ; pr_state.RX_ARP_ADDRS  ; req_ip[19]             ; clk          ; clk         ; 0.000        ; 0.439      ; 2.073      ;
+; 1.479 ; pr_state.RX_ARP_ADDRS  ; req_ip[17]             ; clk          ; clk         ; 0.000        ; 0.439      ; 2.075      ;
+; 1.480 ; pr_state.RX_ARP_ADDRS  ; req_ip[6]              ; clk          ; clk         ; 0.000        ; 0.442      ; 2.079      ;
+; 1.482 ; pr_state.RX_ARP_ADDRS  ; req_ip[1]              ; clk          ; clk         ; 0.000        ; 0.442      ; 2.081      ;
+; 1.482 ; pr_state.RX_ARP_ADDRS  ; req_ip[2]              ; clk          ; clk         ; 0.000        ; 0.442      ; 2.081      ;
+; 1.483 ; pr_state.RX_ARP_ADDRS  ; req_ip[16]             ; clk          ; clk         ; 0.000        ; 0.439      ; 2.079      ;
+; 1.483 ; pr_state.RX_ARP_ADDRS  ; req_ip[21]             ; clk          ; clk         ; 0.000        ; 0.439      ; 2.079      ;
+; 1.483 ; pr_state.RX_ARP_ADDRS  ; req_ip[23]             ; clk          ; clk         ; 0.000        ; 0.439      ; 2.079      ;
+; 1.483 ; pr_state.RX_ARP_ADDRS  ; req_ip[3]              ; clk          ; clk         ; 0.000        ; 0.442      ; 2.082      ;
+; 1.483 ; pr_state.RX_ARP_ADDRS  ; req_ip[7]              ; clk          ; clk         ; 0.000        ; 0.442      ; 2.082      ;
+; 1.484 ; pr_state.RX_ARP_ADDRS  ; req_ip[18]             ; clk          ; clk         ; 0.000        ; 0.439      ; 2.080      ;
+; 1.484 ; pr_state.RX_ARP_ADDRS  ; req_ip[20]             ; clk          ; clk         ; 0.000        ; 0.439      ; 2.080      ;
+; 1.484 ; pr_state.RX_ARP_ADDRS  ; req_ip[22]             ; clk          ; clk         ; 0.000        ; 0.439      ; 2.080      ;
+; 1.487 ; pr_state.RX_ARP_ADDRS  ; req_ip[0]              ; clk          ; clk         ; 0.000        ; 0.442      ; 2.086      ;
+; 1.487 ; pr_state.RX_ARP_ADDRS  ; req_ip[4]              ; clk          ; clk         ; 0.000        ; 0.442      ; 2.086      ;
+; 1.487 ; pr_state.RX_ARP_ADDRS  ; req_ip[5]              ; clk          ; clk         ; 0.000        ; 0.442      ; 2.086      ;
+; 1.549 ; pr_state.RX_ETH_HDR    ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.427      ; 2.133      ;
+; 1.554 ; arp_fields_fail        ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 0.000        ; 0.041      ; 1.752      ;
+; 1.559 ; pr_state.RX_ARP_ADDRS  ; req_ip[14]             ; clk          ; clk         ; 0.000        ; 0.411      ; 2.127      ;
+; 1.564 ; pr_state.RX_ARP_ADDRS  ; req_ip[11]             ; clk          ; clk         ; 0.000        ; 0.411      ; 2.132      ;
+; 1.565 ; pr_state.RX_ARP_ADDRS  ; req_ip[12]             ; clk          ; clk         ; 0.000        ; 0.411      ; 2.133      ;
+; 1.565 ; pr_state.RX_ARP_ADDRS  ; req_ip[13]             ; clk          ; clk         ; 0.000        ; 0.411      ; 2.133      ;
+; 1.585 ; pr_state.RX_ARP_ADDRS  ; req_ip[26]             ; clk          ; clk         ; 0.000        ; 0.404      ; 2.146      ;
+; 1.587 ; pr_state.RX_ARP_ADDRS  ; req_ip[25]             ; clk          ; clk         ; 0.000        ; 0.404      ; 2.148      ;
+; 1.604 ; pr_state.RX_ARP_ADDRS  ; tpa_mismatch           ; clk          ; clk         ; 0.000        ; 0.063      ; 1.824      ;
+; 1.677 ; pr_state.RX_ARP_ADDRS  ; req_mac[39]            ; clk          ; clk         ; 0.000        ; 0.433      ; 2.267      ;
+; 1.679 ; pr_state.RX_ARP_ADDRS  ; req_mac[36]            ; clk          ; clk         ; 0.000        ; 0.433      ; 2.269      ;
+; 1.685 ; pr_state.RX_ARP_ADDRS  ; req_ip[10]             ; clk          ; clk         ; 0.000        ; 0.069      ; 1.911      ;
+; 1.685 ; pr_state.RX_ARP_ADDRS  ; req_ip[30]             ; clk          ; clk         ; 0.000        ; 0.069      ; 1.911      ;
+; 1.688 ; pr_state.RX_ARP_ADDRS  ; req_ip[15]             ; clk          ; clk         ; 0.000        ; 0.069      ; 1.914      ;
+; 1.688 ; pr_state.RX_ARP_ADDRS  ; req_ip[28]             ; clk          ; clk         ; 0.000        ; 0.069      ; 1.914      ;
+; 1.689 ; pr_state.RX_ARP_ADDRS  ; req_ip[8]              ; clk          ; clk         ; 0.000        ; 0.069      ; 1.915      ;
+; 1.690 ; pr_state.RX_ARP_ADDRS  ; req_ip[29]             ; clk          ; clk         ; 0.000        ; 0.069      ; 1.916      ;
+; 1.693 ; pr_state.IDLE          ; byte_index[5]          ; clk          ; clk         ; 0.000        ; 0.066      ; 1.916      ;
+; 1.693 ; pr_state.RX_ARP_ADDRS  ; req_ip[9]              ; clk          ; clk         ; 0.000        ; 0.069      ; 1.919      ;
+; 1.694 ; pr_state.TX_SEND       ; byte_index[5]          ; clk          ; clk         ; 0.000        ; 0.065      ; 1.916      ;
+; 1.703 ; tpa_mismatch           ; pr_state.IDLE          ; clk          ; clk         ; 0.000        ; 0.070      ; 1.930      ;
+; 1.707 ; pr_state.TX_SEND       ; req_ip[12]             ; clk          ; clk         ; 0.000        ; 0.403      ; 2.267      ;
+; 1.707 ; pr_state.TX_SEND       ; req_ip[13]             ; clk          ; clk         ; 0.000        ; 0.403      ; 2.267      ;
+; 1.708 ; byte_index[2]          ; req_ip[24]             ; clk          ; clk         ; 0.000        ; 0.400      ; 2.265      ;
+; 1.708 ; byte_index[2]          ; req_ip[27]             ; clk          ; clk         ; 0.000        ; 0.400      ; 2.265      ;
+; 1.708 ; byte_index[2]          ; req_ip[31]             ; clk          ; clk         ; 0.000        ; 0.400      ; 2.265      ;
+; 1.708 ; pr_state.TX_SEND       ; req_ip[14]             ; clk          ; clk         ; 0.000        ; 0.403      ; 2.268      ;
+; 1.710 ; pr_state.TX_SEND       ; req_ip[11]             ; clk          ; clk         ; 0.000        ; 0.403      ; 2.270      ;
+; 1.714 ; pr_state.TX_SEND       ; req_ip[24]             ; clk          ; clk         ; 0.000        ; 0.400      ; 2.271      ;
+; 1.716 ; pr_state.TX_SEND       ; req_ip[27]             ; clk          ; clk         ; 0.000        ; 0.400      ; 2.273      ;
+; 1.716 ; pr_state.TX_SEND       ; req_ip[31]             ; clk          ; clk         ; 0.000        ; 0.400      ; 2.273      ;
+; 1.732 ; pr_state.TX_SEND       ; byte_index[6]          ; clk          ; clk         ; 0.000        ; 0.056      ; 1.945      ;
+; 1.733 ; pr_state.IDLE          ; byte_index[6]          ; clk          ; clk         ; 0.000        ; 0.057      ; 1.947      ;
+; 1.744 ; pr_state.TX_SEND       ; pr_state.TX_SEND       ; clk          ; clk         ; 0.000        ; 0.063      ; 1.964      ;
+; 1.751 ; tpa_mismatch           ; pr_state.TX_SEND       ; clk          ; clk         ; 0.000        ; 0.071      ; 1.979      ;
+; 1.763 ; byte_index[2]          ; req_ip[12]             ; clk          ; clk         ; 0.000        ; 0.403      ; 2.323      ;
+; 1.763 ; byte_index[2]          ; req_ip[13]             ; clk          ; clk         ; 0.000        ; 0.403      ; 2.323      ;
+; 1.764 ; byte_index[2]          ; req_ip[14]             ; clk          ; clk         ; 0.000        ; 0.403      ; 2.324      ;
+; 1.766 ; byte_index[2]          ; req_ip[11]             ; clk          ; clk         ; 0.000        ; 0.403      ; 2.326      ;
+; 1.772 ; pr_state.TX_SEND       ; req_ip[6]              ; clk          ; clk         ; 0.000        ; 0.434      ; 2.363      ;
+; 1.774 ; pr_state.RX_ARP_ADDRS  ; pr_state.IDLE          ; clk          ; clk         ; 0.000        ; 0.070      ; 2.001      ;
+; 1.776 ; pr_state.TX_SEND       ; req_ip[3]              ; clk          ; clk         ; 0.000        ; 0.434      ; 2.367      ;
+; 1.776 ; pr_state.TX_SEND       ; req_ip[7]              ; clk          ; clk         ; 0.000        ; 0.434      ; 2.367      ;
+; 1.779 ; pr_state.TX_SEND       ; req_ip[2]              ; clk          ; clk         ; 0.000        ; 0.434      ; 2.370      ;
+; 1.779 ; pr_state.TX_SEND       ; req_ip[4]              ; clk          ; clk         ; 0.000        ; 0.434      ; 2.370      ;
+; 1.779 ; pr_state.TX_SEND       ; req_ip[5]              ; clk          ; clk         ; 0.000        ; 0.434      ; 2.370      ;
+; 1.779 ; byte_index[5]          ; pr_state.TX_SEND       ; clk          ; clk         ; 0.000        ; 0.061      ; 1.997      ;
+; 1.780 ; pr_state.TX_SEND       ; req_ip[1]              ; clk          ; clk         ; 0.000        ; 0.434      ; 2.371      ;
+; 1.781 ; pr_state.TX_SEND       ; req_ip[0]              ; clk          ; clk         ; 0.000        ; 0.434      ; 2.372      ;
++-------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+
+
+-----------------------------------------------
+; Slow 1200mV 85C Model Metastability Summary ;
+-----------------------------------------------
+No synchronizer chains to report.
+
+
++--------------------------------------------------+
+; Slow 1200mV 0C Model Fmax Summary                ;
++------------+-----------------+------------+------+
+; Fmax       ; Restricted Fmax ; Clock Name ; Note ;
++------------+-----------------+------------+------+
+; 212.81 MHz ; 212.81 MHz      ; clk        ;      ;
++------------+-----------------+------------+------+
+This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
+
+
++------------------------------------+
+; Slow 1200mV 0C Model Setup Summary ;
++-------+--------+-------------------+
+; Clock ; Slack  ; End Point TNS     ;
++-------+--------+-------------------+
+; clk   ; -3.699 ; -270.368          ;
++-------+--------+-------------------+
+
+
++-----------------------------------+
+; Slow 1200mV 0C Model Hold Summary ;
++-------+-------+-------------------+
+; Clock ; Slack ; End Point TNS     ;
++-------+-------+-------------------+
+; clk   ; 0.310 ; 0.000             ;
++-------+-------+-------------------+
+
+
+-----------------------------------------
+; Slow 1200mV 0C Model Recovery Summary ;
+-----------------------------------------
+No paths to report.
+
+
+----------------------------------------
+; Slow 1200mV 0C Model Removal Summary ;
+----------------------------------------
+No paths to report.
+
+
++--------------------------------------------------+
+; Slow 1200mV 0C Model Minimum Pulse Width Summary ;
++-------+--------+---------------------------------+
+; Clock ; Slack  ; End Point TNS                   ;
++-------+--------+---------------------------------+
+; clk   ; -3.000 ; -100.000                        ;
++-------+--------+---------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------+
+; Slow 1200mV 0C Model Setup: 'clk'                                                                                              ;
++--------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+; Slack  ; From Node              ; To Node                ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++--------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+; -3.699 ; byte_index[1]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.066     ; 4.628      ;
+; -3.632 ; byte_index[1]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.054     ; 4.573      ;
+; -3.549 ; pr_state.TX_SEND       ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.066     ; 4.478      ;
+; -3.549 ; byte_index[0]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.066     ; 4.478      ;
+; -3.548 ; byte_index[2]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.066     ; 4.477      ;
+; -3.528 ; byte_index[3]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.066     ; 4.457      ;
+; -3.495 ; byte_index[7]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.066     ; 4.424      ;
+; -3.490 ; byte_index[5]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.068     ; 4.417      ;
+; -3.482 ; pr_state.TX_SEND       ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.054     ; 4.423      ;
+; -3.482 ; byte_index[0]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.054     ; 4.423      ;
+; -3.481 ; byte_index[2]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.054     ; 4.422      ;
+; -3.461 ; byte_index[3]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.054     ; 4.402      ;
+; -3.428 ; byte_index[7]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.054     ; 4.369      ;
+; -3.423 ; byte_index[5]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.362      ;
+; -3.419 ; pr_state.DROP          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.402     ; 4.012      ;
+; -3.408 ; byte_index[6]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.347      ;
+; -3.351 ; pr_state.DROP          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.390     ; 3.956      ;
+; -3.349 ; byte_index[1]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.288      ;
+; -3.341 ; byte_index[6]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.044     ; 4.292      ;
+; -3.336 ; byte_index[1]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.275      ;
+; -3.336 ; byte_index[1]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.275      ;
+; -3.336 ; byte_index[1]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.275      ;
+; -3.336 ; byte_index[1]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.275      ;
+; -3.336 ; byte_index[1]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.275      ;
+; -3.320 ; byte_index[3]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.066     ; 4.249      ;
+; -3.300 ; byte_index[4]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.066     ; 4.229      ;
+; -3.291 ; byte_index[0]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.066     ; 4.220      ;
+; -3.290 ; pr_state.TX_SEND       ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.066     ; 4.219      ;
+; -3.248 ; pr_state.RX_ARP_ADDRS  ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.187      ;
+; -3.233 ; byte_index[4]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.054     ; 4.174      ;
+; -3.233 ; byte_index[2]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.066     ; 4.162      ;
+; -3.205 ; byte_index[3]          ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 1.000        ; -0.057     ; 4.143      ;
+; -3.199 ; pr_state.TX_SEND       ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.138      ;
+; -3.199 ; byte_index[0]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.138      ;
+; -3.198 ; byte_index[2]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.137      ;
+; -3.192 ; byte_index[3]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.131      ;
+; -3.192 ; byte_index[3]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.131      ;
+; -3.192 ; byte_index[3]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.131      ;
+; -3.192 ; byte_index[3]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.131      ;
+; -3.192 ; byte_index[3]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.131      ;
+; -3.192 ; byte_index[3]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.131      ;
+; -3.186 ; pr_state.TX_SEND       ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.125      ;
+; -3.186 ; byte_index[0]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.125      ;
+; -3.186 ; pr_state.TX_SEND       ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.125      ;
+; -3.186 ; byte_index[0]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.125      ;
+; -3.186 ; pr_state.TX_SEND       ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.125      ;
+; -3.186 ; byte_index[0]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.125      ;
+; -3.186 ; pr_state.TX_SEND       ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.125      ;
+; -3.186 ; byte_index[0]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.125      ;
+; -3.186 ; pr_state.TX_SEND       ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.125      ;
+; -3.186 ; byte_index[0]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.125      ;
+; -3.185 ; byte_index[2]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.124      ;
+; -3.185 ; byte_index[2]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.124      ;
+; -3.185 ; byte_index[2]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.124      ;
+; -3.185 ; byte_index[2]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.124      ;
+; -3.185 ; byte_index[2]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.124      ;
+; -3.181 ; pr_state.RX_ARP_ADDRS  ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.044     ; 4.132      ;
+; -3.178 ; byte_index[0]          ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 1.000        ; -0.057     ; 4.116      ;
+; -3.175 ; pr_state.TX_SEND       ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 1.000        ; -0.057     ; 4.113      ;
+; -3.163 ; byte_index[1]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.066     ; 4.092      ;
+; -3.162 ; pr_state.TX_SEND       ; pr_state.DROP          ; clk          ; clk         ; 1.000        ; 0.267      ; 4.424      ;
+; -3.145 ; byte_index[7]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.084      ;
+; -3.140 ; byte_index[5]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.058     ; 4.077      ;
+; -3.132 ; byte_index[7]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.071      ;
+; -3.132 ; byte_index[7]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.071      ;
+; -3.132 ; byte_index[7]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.071      ;
+; -3.132 ; byte_index[7]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.071      ;
+; -3.132 ; byte_index[7]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.056     ; 4.071      ;
+; -3.127 ; byte_index[5]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.058     ; 4.064      ;
+; -3.127 ; byte_index[5]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.058     ; 4.064      ;
+; -3.127 ; byte_index[5]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.058     ; 4.064      ;
+; -3.127 ; byte_index[5]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.058     ; 4.064      ;
+; -3.127 ; byte_index[5]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.058     ; 4.064      ;
+; -3.118 ; byte_index[2]          ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 1.000        ; -0.057     ; 4.056      ;
+; -3.115 ; pr_state.RX_ARP_FIELDS ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.065     ; 4.045      ;
+; -3.109 ; byte_index[7]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.066     ; 4.038      ;
+; -3.104 ; byte_index[5]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.068     ; 4.031      ;
+; -3.102 ; pr_state.DROP          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.392     ; 3.705      ;
+; -3.102 ; pr_state.DROP          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.392     ; 3.705      ;
+; -3.102 ; pr_state.DROP          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.392     ; 3.705      ;
+; -3.102 ; pr_state.DROP          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.392     ; 3.705      ;
+; -3.102 ; pr_state.DROP          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.392     ; 3.705      ;
+; -3.102 ; pr_state.DROP          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.392     ; 3.705      ;
+; -3.069 ; byte_index[1]          ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 1.000        ; -0.057     ; 4.007      ;
+; -3.058 ; byte_index[6]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.046     ; 4.007      ;
+; -3.047 ; pr_state.RX_ARP_FIELDS ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.053     ; 3.989      ;
+; -3.045 ; byte_index[6]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.046     ; 3.994      ;
+; -3.045 ; byte_index[6]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.046     ; 3.994      ;
+; -3.045 ; byte_index[6]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.046     ; 3.994      ;
+; -3.045 ; byte_index[6]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.046     ; 3.994      ;
+; -3.045 ; byte_index[6]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.046     ; 3.994      ;
+; -3.015 ; byte_index[4]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.066     ; 3.944      ;
+; -3.004 ; pr_state.TX_SEND       ; req_mac[16]            ; clk          ; clk         ; 1.000        ; -0.058     ; 3.941      ;
+; -3.004 ; pr_state.TX_SEND       ; req_mac[17]            ; clk          ; clk         ; 1.000        ; -0.058     ; 3.941      ;
+; -3.004 ; pr_state.TX_SEND       ; req_mac[18]            ; clk          ; clk         ; 1.000        ; -0.058     ; 3.941      ;
+; -3.004 ; pr_state.TX_SEND       ; req_mac[19]            ; clk          ; clk         ; 1.000        ; -0.058     ; 3.941      ;
+; -3.004 ; pr_state.TX_SEND       ; req_mac[20]            ; clk          ; clk         ; 1.000        ; -0.058     ; 3.941      ;
+; -3.004 ; pr_state.TX_SEND       ; req_mac[21]            ; clk          ; clk         ; 1.000        ; -0.058     ; 3.941      ;
+; -3.004 ; pr_state.TX_SEND       ; req_mac[22]            ; clk          ; clk         ; 1.000        ; -0.058     ; 3.941      ;
+; -3.004 ; pr_state.TX_SEND       ; req_mac[23]            ; clk          ; clk         ; 1.000        ; -0.058     ; 3.941      ;
++--------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------+
+; Slow 1200mV 0C Model Hold: 'clk'                                                                                              ;
++-------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+; Slack ; From Node              ; To Node                ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++-------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+; 0.310 ; arp_fields_fail        ; arp_fields_fail        ; clk          ; clk         ; 0.000        ; 0.057      ; 0.511      ;
+; 0.310 ; eth_fail               ; eth_fail               ; clk          ; clk         ; 0.000        ; 0.057      ; 0.511      ;
+; 0.311 ; pr_state.RX_ARP_ADDRS  ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 0.000        ; 0.056      ; 0.511      ;
+; 0.311 ; tpa_mismatch           ; tpa_mismatch           ; clk          ; clk         ; 0.000        ; 0.056      ; 0.511      ;
+; 0.557 ; pr_state.RX_ETH_HDR    ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 0.000        ; 0.056      ; 0.757      ;
+; 0.592 ; pr_state.IDLE          ; pr_state.RX_ETH_HDR    ; clk          ; clk         ; 0.000        ; 0.056      ; 0.792      ;
+; 0.640 ; pr_state.TX_SEND       ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.392      ; 1.176      ;
+; 0.708 ; pr_state.RX_ARP_FIELDS ; arp_fields_fail        ; clk          ; clk         ; 0.000        ; 0.077      ; 0.929      ;
+; 0.753 ; pr_state.DROP          ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.069      ; 0.966      ;
+; 0.793 ; pr_state.RX_ETH_HDR    ; pr_state.RX_ETH_HDR    ; clk          ; clk         ; 0.000        ; 0.056      ; 0.993      ;
+; 0.929 ; pr_state.RX_ETH_HDR    ; eth_fail               ; clk          ; clk         ; 0.000        ; 0.077      ; 1.150      ;
+; 0.957 ; arp_fields_fail        ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.373      ; 1.474      ;
+; 1.060 ; pr_state.RX_ARP_FIELDS ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 0.000        ; 0.056      ; 1.260      ;
+; 1.111 ; pr_state.RX_ARP_FIELDS ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.393      ; 1.648      ;
+; 1.198 ; pr_state.RX_ARP_FIELDS ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 0.000        ; 0.047      ; 1.389      ;
+; 1.232 ; pr_state.TX_SEND       ; byte_index[3]          ; clk          ; clk         ; 0.000        ; 0.056      ; 1.432      ;
+; 1.233 ; pr_state.TX_SEND       ; byte_index[7]          ; clk          ; clk         ; 0.000        ; 0.056      ; 1.433      ;
+; 1.233 ; pr_state.TX_SEND       ; byte_index[1]          ; clk          ; clk         ; 0.000        ; 0.056      ; 1.433      ;
+; 1.233 ; pr_state.TX_SEND       ; byte_index[0]          ; clk          ; clk         ; 0.000        ; 0.056      ; 1.433      ;
+; 1.235 ; pr_state.TX_SEND       ; byte_index[4]          ; clk          ; clk         ; 0.000        ; 0.056      ; 1.435      ;
+; 1.236 ; pr_state.TX_SEND       ; byte_index[2]          ; clk          ; clk         ; 0.000        ; 0.056      ; 1.436      ;
+; 1.249 ; pr_state.IDLE          ; byte_index[0]          ; clk          ; clk         ; 0.000        ; 0.057      ; 1.450      ;
+; 1.249 ; pr_state.IDLE          ; byte_index[3]          ; clk          ; clk         ; 0.000        ; 0.057      ; 1.450      ;
+; 1.249 ; pr_state.IDLE          ; byte_index[4]          ; clk          ; clk         ; 0.000        ; 0.057      ; 1.450      ;
+; 1.250 ; pr_state.IDLE          ; byte_index[7]          ; clk          ; clk         ; 0.000        ; 0.057      ; 1.451      ;
+; 1.250 ; pr_state.IDLE          ; byte_index[1]          ; clk          ; clk         ; 0.000        ; 0.057      ; 1.451      ;
+; 1.254 ; pr_state.IDLE          ; byte_index[2]          ; clk          ; clk         ; 0.000        ; 0.057      ; 1.455      ;
+; 1.256 ; pr_state.TX_SEND       ; arp_fields_fail        ; clk          ; clk         ; 0.000        ; 0.076      ; 1.476      ;
+; 1.259 ; pr_state.TX_SEND       ; tpa_mismatch           ; clk          ; clk         ; 0.000        ; 0.046      ; 1.449      ;
+; 1.266 ; pr_state.RX_ARP_ADDRS  ; req_ip[24]             ; clk          ; clk         ; 0.000        ; 0.374      ; 1.784      ;
+; 1.267 ; pr_state.RX_ARP_ADDRS  ; req_ip[27]             ; clk          ; clk         ; 0.000        ; 0.374      ; 1.785      ;
+; 1.267 ; pr_state.RX_ARP_ADDRS  ; req_ip[31]             ; clk          ; clk         ; 0.000        ; 0.374      ; 1.785      ;
+; 1.277 ; pr_state.TX_SEND       ; eth_fail               ; clk          ; clk         ; 0.000        ; 0.076      ; 1.497      ;
+; 1.304 ; eth_fail               ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.373      ; 1.821      ;
+; 1.313 ; pr_state.RX_ARP_ADDRS  ; req_ip[19]             ; clk          ; clk         ; 0.000        ; 0.403      ; 1.860      ;
+; 1.313 ; tpa_mismatch           ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 0.000        ; 0.056      ; 1.513      ;
+; 1.315 ; pr_state.RX_ARP_ADDRS  ; req_ip[17]             ; clk          ; clk         ; 0.000        ; 0.403      ; 1.862      ;
+; 1.315 ; pr_state.RX_ARP_ADDRS  ; req_ip[21]             ; clk          ; clk         ; 0.000        ; 0.403      ; 1.862      ;
+; 1.316 ; pr_state.RX_ARP_ADDRS  ; req_ip[16]             ; clk          ; clk         ; 0.000        ; 0.403      ; 1.863      ;
+; 1.316 ; pr_state.RX_ARP_ADDRS  ; req_ip[20]             ; clk          ; clk         ; 0.000        ; 0.403      ; 1.863      ;
+; 1.317 ; pr_state.RX_ARP_ADDRS  ; req_ip[18]             ; clk          ; clk         ; 0.000        ; 0.403      ; 1.864      ;
+; 1.317 ; pr_state.RX_ARP_ADDRS  ; req_ip[23]             ; clk          ; clk         ; 0.000        ; 0.403      ; 1.864      ;
+; 1.318 ; pr_state.RX_ARP_ADDRS  ; req_ip[22]             ; clk          ; clk         ; 0.000        ; 0.403      ; 1.865      ;
+; 1.342 ; pr_state.RX_ARP_ADDRS  ; req_ip[6]              ; clk          ; clk         ; 0.000        ; 0.407      ; 1.893      ;
+; 1.344 ; pr_state.RX_ARP_ADDRS  ; req_ip[1]              ; clk          ; clk         ; 0.000        ; 0.407      ; 1.895      ;
+; 1.344 ; pr_state.RX_ARP_ADDRS  ; req_ip[2]              ; clk          ; clk         ; 0.000        ; 0.407      ; 1.895      ;
+; 1.344 ; pr_state.RX_ARP_ADDRS  ; req_ip[3]              ; clk          ; clk         ; 0.000        ; 0.407      ; 1.895      ;
+; 1.345 ; pr_state.RX_ARP_ADDRS  ; req_ip[7]              ; clk          ; clk         ; 0.000        ; 0.407      ; 1.896      ;
+; 1.348 ; pr_state.RX_ARP_ADDRS  ; req_ip[4]              ; clk          ; clk         ; 0.000        ; 0.407      ; 1.899      ;
+; 1.348 ; pr_state.RX_ARP_ADDRS  ; req_ip[5]              ; clk          ; clk         ; 0.000        ; 0.407      ; 1.899      ;
+; 1.349 ; pr_state.RX_ARP_ADDRS  ; req_ip[0]              ; clk          ; clk         ; 0.000        ; 0.407      ; 1.900      ;
+; 1.393 ; arp_fields_fail        ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 0.000        ; 0.036      ; 1.573      ;
+; 1.417 ; pr_state.RX_ETH_HDR    ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.393      ; 1.954      ;
+; 1.435 ; pr_state.RX_ARP_ADDRS  ; req_ip[14]             ; clk          ; clk         ; 0.000        ; 0.377      ; 1.956      ;
+; 1.440 ; pr_state.RX_ARP_ADDRS  ; req_ip[11]             ; clk          ; clk         ; 0.000        ; 0.377      ; 1.961      ;
+; 1.441 ; pr_state.RX_ARP_ADDRS  ; req_ip[12]             ; clk          ; clk         ; 0.000        ; 0.377      ; 1.962      ;
+; 1.441 ; pr_state.RX_ARP_ADDRS  ; req_ip[13]             ; clk          ; clk         ; 0.000        ; 0.377      ; 1.962      ;
+; 1.453 ; pr_state.RX_ARP_ADDRS  ; req_ip[26]             ; clk          ; clk         ; 0.000        ; 0.371      ; 1.968      ;
+; 1.456 ; pr_state.RX_ARP_ADDRS  ; req_ip[25]             ; clk          ; clk         ; 0.000        ; 0.371      ; 1.971      ;
+; 1.459 ; pr_state.RX_ARP_ADDRS  ; tpa_mismatch           ; clk          ; clk         ; 0.000        ; 0.056      ; 1.659      ;
+; 1.523 ; tpa_mismatch           ; pr_state.IDLE          ; clk          ; clk         ; 0.000        ; 0.065      ; 1.732      ;
+; 1.528 ; pr_state.IDLE          ; byte_index[5]          ; clk          ; clk         ; 0.000        ; 0.059      ; 1.731      ;
+; 1.531 ; pr_state.RX_ARP_ADDRS  ; req_ip[10]             ; clk          ; clk         ; 0.000        ; 0.062      ; 1.737      ;
+; 1.531 ; pr_state.RX_ARP_ADDRS  ; req_ip[30]             ; clk          ; clk         ; 0.000        ; 0.062      ; 1.737      ;
+; 1.532 ; pr_state.RX_ARP_ADDRS  ; req_mac[39]            ; clk          ; clk         ; 0.000        ; 0.399      ; 2.075      ;
+; 1.534 ; pr_state.RX_ARP_ADDRS  ; req_ip[15]             ; clk          ; clk         ; 0.000        ; 0.062      ; 1.740      ;
+; 1.535 ; pr_state.RX_ARP_ADDRS  ; req_mac[36]            ; clk          ; clk         ; 0.000        ; 0.399      ; 2.078      ;
+; 1.535 ; pr_state.RX_ARP_ADDRS  ; req_ip[8]              ; clk          ; clk         ; 0.000        ; 0.062      ; 1.741      ;
+; 1.535 ; pr_state.RX_ARP_ADDRS  ; req_ip[28]             ; clk          ; clk         ; 0.000        ; 0.062      ; 1.741      ;
+; 1.537 ; pr_state.RX_ARP_ADDRS  ; req_ip[29]             ; clk          ; clk         ; 0.000        ; 0.062      ; 1.743      ;
+; 1.540 ; pr_state.RX_ARP_ADDRS  ; req_ip[9]              ; clk          ; clk         ; 0.000        ; 0.062      ; 1.746      ;
+; 1.551 ; pr_state.TX_SEND       ; byte_index[5]          ; clk          ; clk         ; 0.000        ; 0.058      ; 1.753      ;
+; 1.551 ; pr_state.TX_SEND       ; req_ip[12]             ; clk          ; clk         ; 0.000        ; 0.367      ; 2.062      ;
+; 1.551 ; pr_state.TX_SEND       ; req_ip[13]             ; clk          ; clk         ; 0.000        ; 0.367      ; 2.062      ;
+; 1.553 ; pr_state.TX_SEND       ; req_ip[14]             ; clk          ; clk         ; 0.000        ; 0.367      ; 2.064      ;
+; 1.555 ; pr_state.TX_SEND       ; req_ip[11]             ; clk          ; clk         ; 0.000        ; 0.367      ; 2.066      ;
+; 1.560 ; pr_state.IDLE          ; byte_index[6]          ; clk          ; clk         ; 0.000        ; 0.047      ; 1.751      ;
+; 1.563 ; tpa_mismatch           ; pr_state.TX_SEND       ; clk          ; clk         ; 0.000        ; 0.066      ; 1.773      ;
+; 1.567 ; byte_index[2]          ; req_ip[24]             ; clk          ; clk         ; 0.000        ; 0.364      ; 2.075      ;
+; 1.567 ; pr_state.TX_SEND       ; req_ip[24]             ; clk          ; clk         ; 0.000        ; 0.364      ; 2.075      ;
+; 1.568 ; byte_index[2]          ; req_ip[27]             ; clk          ; clk         ; 0.000        ; 0.364      ; 2.076      ;
+; 1.568 ; byte_index[2]          ; req_ip[31]             ; clk          ; clk         ; 0.000        ; 0.364      ; 2.076      ;
+; 1.568 ; pr_state.TX_SEND       ; req_ip[27]             ; clk          ; clk         ; 0.000        ; 0.364      ; 2.076      ;
+; 1.569 ; pr_state.TX_SEND       ; req_ip[31]             ; clk          ; clk         ; 0.000        ; 0.364      ; 2.077      ;
+; 1.579 ; byte_index[5]          ; pr_state.TX_SEND       ; clk          ; clk         ; 0.000        ; 0.054      ; 1.777      ;
+; 1.582 ; pr_state.TX_SEND       ; byte_index[6]          ; clk          ; clk         ; 0.000        ; 0.046      ; 1.772      ;
+; 1.590 ; pr_state.TX_SEND       ; req_ip[6]              ; clk          ; clk         ; 0.000        ; 0.397      ; 2.131      ;
+; 1.590 ; pr_state.TX_SEND       ; req_ip[3]              ; clk          ; clk         ; 0.000        ; 0.397      ; 2.131      ;
+; 1.590 ; pr_state.TX_SEND       ; req_ip[7]              ; clk          ; clk         ; 0.000        ; 0.397      ; 2.131      ;
+; 1.594 ; pr_state.TX_SEND       ; req_ip[5]              ; clk          ; clk         ; 0.000        ; 0.397      ; 2.135      ;
+; 1.596 ; pr_state.TX_SEND       ; req_ip[4]              ; clk          ; clk         ; 0.000        ; 0.397      ; 2.137      ;
+; 1.596 ; pr_state.TX_SEND       ; req_ip[2]              ; clk          ; clk         ; 0.000        ; 0.397      ; 2.137      ;
+; 1.597 ; pr_state.TX_SEND       ; req_ip[1]              ; clk          ; clk         ; 0.000        ; 0.397      ; 2.138      ;
+; 1.597 ; byte_index[2]          ; req_ip[12]             ; clk          ; clk         ; 0.000        ; 0.367      ; 2.108      ;
+; 1.597 ; byte_index[2]          ; req_ip[13]             ; clk          ; clk         ; 0.000        ; 0.367      ; 2.108      ;
+; 1.599 ; pr_state.TX_SEND       ; pr_state.TX_SEND       ; clk          ; clk         ; 0.000        ; 0.056      ; 1.799      ;
+; 1.599 ; pr_state.TX_SEND       ; req_ip[0]              ; clk          ; clk         ; 0.000        ; 0.397      ; 2.140      ;
+; 1.599 ; byte_index[2]          ; req_ip[14]             ; clk          ; clk         ; 0.000        ; 0.367      ; 2.110      ;
+; 1.599 ; pr_state.RX_ARP_ADDRS  ; pr_state.IDLE          ; clk          ; clk         ; 0.000        ; 0.065      ; 1.808      ;
+; 1.601 ; byte_index[2]          ; req_ip[11]             ; clk          ; clk         ; 0.000        ; 0.367      ; 2.112      ;
++-------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+
+
+----------------------------------------------
+; Slow 1200mV 0C Model Metastability Summary ;
+----------------------------------------------
+No synchronizer chains to report.
+
+
++------------------------------------+
+; Fast 1200mV 0C Model Setup Summary ;
++-------+--------+-------------------+
+; Clock ; Slack  ; End Point TNS     ;
++-------+--------+-------------------+
+; clk   ; -1.876 ; -133.248          ;
++-------+--------+-------------------+
+
+
++-----------------------------------+
+; Fast 1200mV 0C Model Hold Summary ;
++-------+-------+-------------------+
+; Clock ; Slack ; End Point TNS     ;
++-------+-------+-------------------+
+; clk   ; 0.187 ; 0.000             ;
++-------+-------+-------------------+
+
+
+-----------------------------------------
+; Fast 1200mV 0C Model Recovery Summary ;
+-----------------------------------------
+No paths to report.
+
+
+----------------------------------------
+; Fast 1200mV 0C Model Removal Summary ;
+----------------------------------------
+No paths to report.
+
+
++--------------------------------------------------+
+; Fast 1200mV 0C Model Minimum Pulse Width Summary ;
++-------+--------+---------------------------------+
+; Clock ; Slack  ; End Point TNS                   ;
++-------+--------+---------------------------------+
+; clk   ; -3.000 ; -107.176                        ;
++-------+--------+---------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------+
+; Fast 1200mV 0C Model Setup: 'clk'                                                                                              ;
++--------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+; Slack  ; From Node              ; To Node                ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++--------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+; -1.876 ; byte_index[1]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.041     ; 2.822      ;
+; -1.831 ; byte_index[1]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.033     ; 2.785      ;
+; -1.805 ; byte_index[3]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.041     ; 2.751      ;
+; -1.798 ; byte_index[0]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.041     ; 2.744      ;
+; -1.787 ; byte_index[7]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.041     ; 2.733      ;
+; -1.769 ; byte_index[2]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.041     ; 2.715      ;
+; -1.760 ; pr_state.TX_SEND       ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.041     ; 2.706      ;
+; -1.757 ; byte_index[5]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.044     ; 2.700      ;
+; -1.751 ; byte_index[3]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.033     ; 2.705      ;
+; -1.745 ; pr_state.DROP          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.238     ; 2.494      ;
+; -1.744 ; byte_index[0]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.033     ; 2.698      ;
+; -1.735 ; byte_index[2]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.042     ; 2.680      ;
+; -1.733 ; byte_index[7]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.033     ; 2.687      ;
+; -1.727 ; byte_index[6]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.678      ;
+; -1.724 ; byte_index[2]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.033     ; 2.678      ;
+; -1.715 ; pr_state.TX_SEND       ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.033     ; 2.669      ;
+; -1.714 ; pr_state.TX_SEND       ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.042     ; 2.659      ;
+; -1.713 ; byte_index[3]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.042     ; 2.658      ;
+; -1.712 ; byte_index[5]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.663      ;
+; -1.704 ; byte_index[4]          ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.041     ; 2.650      ;
+; -1.700 ; byte_index[1]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.651      ;
+; -1.697 ; byte_index[0]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.042     ; 2.642      ;
+; -1.691 ; pr_state.DROP          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.230     ; 2.448      ;
+; -1.673 ; byte_index[6]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.028     ; 2.632      ;
+; -1.670 ; byte_index[1]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.621      ;
+; -1.670 ; byte_index[1]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.621      ;
+; -1.670 ; byte_index[1]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.621      ;
+; -1.670 ; byte_index[1]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.621      ;
+; -1.670 ; byte_index[1]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.621      ;
+; -1.659 ; byte_index[2]          ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 1.000        ; -0.038     ; 2.608      ;
+; -1.650 ; byte_index[4]          ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.033     ; 2.604      ;
+; -1.638 ; pr_state.TX_SEND       ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 1.000        ; -0.038     ; 2.587      ;
+; -1.637 ; byte_index[3]          ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 1.000        ; -0.038     ; 2.586      ;
+; -1.621 ; byte_index[0]          ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 1.000        ; -0.038     ; 2.570      ;
+; -1.618 ; pr_state.RX_ARP_ADDRS  ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.034     ; 2.571      ;
+; -1.614 ; byte_index[1]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.042     ; 2.559      ;
+; -1.611 ; pr_state.TX_SEND       ; pr_state.DROP          ; clk          ; clk         ; 1.000        ; 0.153      ; 2.751      ;
+; -1.604 ; byte_index[0]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.555      ;
+; -1.596 ; byte_index[4]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.042     ; 2.541      ;
+; -1.595 ; byte_index[7]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.042     ; 2.540      ;
+; -1.593 ; byte_index[2]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.544      ;
+; -1.584 ; pr_state.TX_SEND       ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.535      ;
+; -1.581 ; byte_index[3]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.532      ;
+; -1.581 ; byte_index[3]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.532      ;
+; -1.581 ; byte_index[3]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.532      ;
+; -1.581 ; byte_index[3]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.532      ;
+; -1.581 ; byte_index[3]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.532      ;
+; -1.581 ; byte_index[3]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.532      ;
+; -1.581 ; byte_index[5]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.039     ; 2.529      ;
+; -1.574 ; byte_index[0]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.525      ;
+; -1.574 ; byte_index[0]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.525      ;
+; -1.574 ; byte_index[0]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.525      ;
+; -1.574 ; byte_index[0]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.525      ;
+; -1.574 ; byte_index[0]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.525      ;
+; -1.573 ; pr_state.RX_ARP_ADDRS  ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.026     ; 2.534      ;
+; -1.570 ; pr_state.RX_ARP_FIELDS ; byte_index[6]          ; clk          ; clk         ; 1.000        ; -0.039     ; 2.518      ;
+; -1.563 ; byte_index[2]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.514      ;
+; -1.563 ; byte_index[2]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.514      ;
+; -1.563 ; byte_index[2]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.514      ;
+; -1.563 ; byte_index[2]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.514      ;
+; -1.563 ; byte_index[2]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.514      ;
+; -1.563 ; byte_index[7]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.514      ;
+; -1.563 ; byte_index[7]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.514      ;
+; -1.563 ; byte_index[7]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.514      ;
+; -1.563 ; byte_index[7]          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.514      ;
+; -1.563 ; byte_index[7]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.514      ;
+; -1.563 ; byte_index[7]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.514      ;
+; -1.554 ; byte_index[5]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.045     ; 2.496      ;
+; -1.554 ; pr_state.TX_SEND       ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.505      ;
+; -1.554 ; pr_state.TX_SEND       ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.505      ;
+; -1.554 ; pr_state.TX_SEND       ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.505      ;
+; -1.554 ; pr_state.TX_SEND       ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.505      ;
+; -1.554 ; pr_state.TX_SEND       ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.036     ; 2.505      ;
+; -1.551 ; byte_index[5]          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.039     ; 2.499      ;
+; -1.551 ; byte_index[5]          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.039     ; 2.499      ;
+; -1.551 ; byte_index[5]          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.039     ; 2.499      ;
+; -1.551 ; byte_index[5]          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.039     ; 2.499      ;
+; -1.551 ; byte_index[5]          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.039     ; 2.499      ;
+; -1.541 ; byte_index[3]          ; pr_state.DROP          ; clk          ; clk         ; 1.000        ; 0.153      ; 2.681      ;
+; -1.538 ; byte_index[1]          ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 1.000        ; -0.038     ; 2.487      ;
+; -1.524 ; byte_index[6]          ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 1.000        ; -0.037     ; 2.474      ;
+; -1.521 ; pr_state.DROP          ; byte_index[7]          ; clk          ; clk         ; 1.000        ; -0.233     ; 2.275      ;
+; -1.521 ; pr_state.DROP          ; byte_index[2]          ; clk          ; clk         ; 1.000        ; -0.233     ; 2.275      ;
+; -1.521 ; pr_state.DROP          ; byte_index[1]          ; clk          ; clk         ; 1.000        ; -0.233     ; 2.275      ;
+; -1.521 ; pr_state.DROP          ; byte_index[0]          ; clk          ; clk         ; 1.000        ; -0.233     ; 2.275      ;
+; -1.521 ; pr_state.DROP          ; byte_index[3]          ; clk          ; clk         ; 1.000        ; -0.233     ; 2.275      ;
+; -1.521 ; pr_state.DROP          ; byte_index[4]          ; clk          ; clk         ; 1.000        ; -0.233     ; 2.275      ;
+; -1.520 ; byte_index[4]          ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 1.000        ; -0.038     ; 2.469      ;
+; -1.519 ; byte_index[7]          ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 1.000        ; -0.038     ; 2.468      ;
+; -1.516 ; pr_state.RX_ARP_FIELDS ; byte_index[5]          ; clk          ; clk         ; 1.000        ; -0.031     ; 2.472      ;
+; -1.507 ; byte_index[1]          ; req_mac[10]            ; clk          ; clk         ; 1.000        ; -0.040     ; 2.454      ;
+; -1.507 ; byte_index[1]          ; req_mac[15]            ; clk          ; clk         ; 1.000        ; -0.040     ; 2.454      ;
+; -1.503 ; pr_state.TX_SEND       ; req_mac[16]            ; clk          ; clk         ; 1.000        ; -0.033     ; 2.457      ;
+; -1.503 ; pr_state.TX_SEND       ; req_mac[17]            ; clk          ; clk         ; 1.000        ; -0.033     ; 2.457      ;
+; -1.503 ; pr_state.TX_SEND       ; req_mac[18]            ; clk          ; clk         ; 1.000        ; -0.033     ; 2.457      ;
+; -1.503 ; pr_state.TX_SEND       ; req_mac[19]            ; clk          ; clk         ; 1.000        ; -0.033     ; 2.457      ;
+; -1.503 ; pr_state.TX_SEND       ; req_mac[20]            ; clk          ; clk         ; 1.000        ; -0.033     ; 2.457      ;
+; -1.503 ; pr_state.TX_SEND       ; req_mac[21]            ; clk          ; clk         ; 1.000        ; -0.033     ; 2.457      ;
+; -1.503 ; pr_state.TX_SEND       ; req_mac[22]            ; clk          ; clk         ; 1.000        ; -0.033     ; 2.457      ;
+; -1.503 ; pr_state.TX_SEND       ; req_mac[23]            ; clk          ; clk         ; 1.000        ; -0.033     ; 2.457      ;
++--------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------+
+; Fast 1200mV 0C Model Hold: 'clk'                                                                                              ;
++-------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+; Slack ; From Node              ; To Node                ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++-------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+; 0.187 ; arp_fields_fail        ; arp_fields_fail        ; clk          ; clk         ; 0.000        ; 0.036      ; 0.307      ;
+; 0.187 ; eth_fail               ; eth_fail               ; clk          ; clk         ; 0.000        ; 0.036      ; 0.307      ;
+; 0.188 ; pr_state.RX_ARP_ADDRS  ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 0.000        ; 0.035      ; 0.307      ;
+; 0.188 ; tpa_mismatch           ; tpa_mismatch           ; clk          ; clk         ; 0.000        ; 0.035      ; 0.307      ;
+; 0.336 ; pr_state.RX_ETH_HDR    ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 0.000        ; 0.036      ; 0.456      ;
+; 0.359 ; pr_state.IDLE          ; pr_state.RX_ETH_HDR    ; clk          ; clk         ; 0.000        ; 0.036      ; 0.479      ;
+; 0.378 ; pr_state.TX_SEND       ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.233      ; 0.695      ;
+; 0.425 ; pr_state.RX_ARP_FIELDS ; arp_fields_fail        ; clk          ; clk         ; 0.000        ; 0.048      ; 0.557      ;
+; 0.442 ; pr_state.DROP          ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.044      ; 0.570      ;
+; 0.467 ; pr_state.RX_ETH_HDR    ; pr_state.RX_ETH_HDR    ; clk          ; clk         ; 0.000        ; 0.036      ; 0.587      ;
+; 0.542 ; pr_state.RX_ETH_HDR    ; eth_fail               ; clk          ; clk         ; 0.000        ; 0.048      ; 0.674      ;
+; 0.565 ; arp_fields_fail        ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.223      ; 0.872      ;
+; 0.623 ; pr_state.RX_ARP_FIELDS ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 0.000        ; 0.036      ; 0.743      ;
+; 0.656 ; pr_state.RX_ARP_FIELDS ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.235      ; 0.975      ;
+; 0.707 ; pr_state.RX_ARP_FIELDS ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 0.000        ; 0.031      ; 0.822      ;
+; 0.719 ; pr_state.TX_SEND       ; byte_index[0]          ; clk          ; clk         ; 0.000        ; 0.036      ; 0.839      ;
+; 0.719 ; pr_state.TX_SEND       ; byte_index[3]          ; clk          ; clk         ; 0.000        ; 0.036      ; 0.839      ;
+; 0.719 ; pr_state.TX_SEND       ; byte_index[4]          ; clk          ; clk         ; 0.000        ; 0.036      ; 0.839      ;
+; 0.720 ; pr_state.TX_SEND       ; byte_index[2]          ; clk          ; clk         ; 0.000        ; 0.036      ; 0.840      ;
+; 0.721 ; pr_state.TX_SEND       ; byte_index[7]          ; clk          ; clk         ; 0.000        ; 0.036      ; 0.841      ;
+; 0.721 ; pr_state.TX_SEND       ; byte_index[1]          ; clk          ; clk         ; 0.000        ; 0.036      ; 0.841      ;
+; 0.732 ; pr_state.TX_SEND       ; tpa_mismatch           ; clk          ; clk         ; 0.000        ; 0.029      ; 0.845      ;
+; 0.736 ; pr_state.TX_SEND       ; arp_fields_fail        ; clk          ; clk         ; 0.000        ; 0.046      ; 0.866      ;
+; 0.738 ; pr_state.RX_ARP_ADDRS  ; req_ip[24]             ; clk          ; clk         ; 0.000        ; 0.230      ; 1.052      ;
+; 0.739 ; pr_state.RX_ARP_ADDRS  ; req_ip[27]             ; clk          ; clk         ; 0.000        ; 0.230      ; 1.053      ;
+; 0.739 ; pr_state.RX_ARP_ADDRS  ; req_ip[31]             ; clk          ; clk         ; 0.000        ; 0.230      ; 1.053      ;
+; 0.745 ; pr_state.IDLE          ; byte_index[0]          ; clk          ; clk         ; 0.000        ; 0.038      ; 0.867      ;
+; 0.746 ; pr_state.IDLE          ; byte_index[3]          ; clk          ; clk         ; 0.000        ; 0.038      ; 0.868      ;
+; 0.746 ; pr_state.IDLE          ; byte_index[4]          ; clk          ; clk         ; 0.000        ; 0.038      ; 0.868      ;
+; 0.749 ; pr_state.IDLE          ; byte_index[2]          ; clk          ; clk         ; 0.000        ; 0.038      ; 0.871      ;
+; 0.750 ; pr_state.IDLE          ; byte_index[7]          ; clk          ; clk         ; 0.000        ; 0.038      ; 0.872      ;
+; 0.750 ; pr_state.IDLE          ; byte_index[1]          ; clk          ; clk         ; 0.000        ; 0.038      ; 0.872      ;
+; 0.751 ; pr_state.TX_SEND       ; eth_fail               ; clk          ; clk         ; 0.000        ; 0.046      ; 0.881      ;
+; 0.770 ; eth_fail               ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.223      ; 1.077      ;
+; 0.784 ; pr_state.RX_ARP_ADDRS  ; req_ip[17]             ; clk          ; clk         ; 0.000        ; 0.247      ; 1.115      ;
+; 0.784 ; pr_state.RX_ARP_ADDRS  ; req_ip[19]             ; clk          ; clk         ; 0.000        ; 0.247      ; 1.115      ;
+; 0.784 ; pr_state.RX_ARP_ADDRS  ; req_ip[21]             ; clk          ; clk         ; 0.000        ; 0.247      ; 1.115      ;
+; 0.787 ; pr_state.RX_ARP_ADDRS  ; req_ip[18]             ; clk          ; clk         ; 0.000        ; 0.247      ; 1.118      ;
+; 0.787 ; pr_state.RX_ARP_ADDRS  ; req_ip[20]             ; clk          ; clk         ; 0.000        ; 0.247      ; 1.118      ;
+; 0.788 ; pr_state.RX_ARP_ADDRS  ; req_ip[16]             ; clk          ; clk         ; 0.000        ; 0.247      ; 1.119      ;
+; 0.788 ; pr_state.RX_ARP_ADDRS  ; req_ip[23]             ; clk          ; clk         ; 0.000        ; 0.247      ; 1.119      ;
+; 0.789 ; pr_state.RX_ARP_ADDRS  ; req_ip[22]             ; clk          ; clk         ; 0.000        ; 0.247      ; 1.120      ;
+; 0.797 ; pr_state.RX_ARP_ADDRS  ; req_ip[6]              ; clk          ; clk         ; 0.000        ; 0.248      ; 1.129      ;
+; 0.799 ; pr_state.RX_ARP_ADDRS  ; req_ip[3]              ; clk          ; clk         ; 0.000        ; 0.248      ; 1.131      ;
+; 0.799 ; pr_state.RX_ARP_ADDRS  ; req_ip[7]              ; clk          ; clk         ; 0.000        ; 0.248      ; 1.131      ;
+; 0.803 ; pr_state.RX_ARP_ADDRS  ; req_ip[1]              ; clk          ; clk         ; 0.000        ; 0.248      ; 1.135      ;
+; 0.803 ; pr_state.RX_ARP_ADDRS  ; req_ip[2]              ; clk          ; clk         ; 0.000        ; 0.248      ; 1.135      ;
+; 0.804 ; pr_state.RX_ARP_ADDRS  ; req_ip[4]              ; clk          ; clk         ; 0.000        ; 0.248      ; 1.136      ;
+; 0.805 ; pr_state.RX_ARP_ADDRS  ; req_ip[5]              ; clk          ; clk         ; 0.000        ; 0.248      ; 1.137      ;
+; 0.807 ; pr_state.RX_ARP_ADDRS  ; req_ip[0]              ; clk          ; clk         ; 0.000        ; 0.248      ; 1.139      ;
+; 0.809 ; tpa_mismatch           ; pr_state.RX_ARP_ADDRS  ; clk          ; clk         ; 0.000        ; 0.035      ; 0.928      ;
+; 0.827 ; pr_state.RX_ETH_HDR    ; pr_state.DROP          ; clk          ; clk         ; 0.000        ; 0.235      ; 1.146      ;
+; 0.832 ; pr_state.RX_ARP_ADDRS  ; req_ip[14]             ; clk          ; clk         ; 0.000        ; 0.231      ; 1.147      ;
+; 0.835 ; pr_state.RX_ARP_ADDRS  ; req_ip[11]             ; clk          ; clk         ; 0.000        ; 0.231      ; 1.150      ;
+; 0.837 ; pr_state.RX_ARP_ADDRS  ; req_ip[12]             ; clk          ; clk         ; 0.000        ; 0.231      ; 1.152      ;
+; 0.837 ; pr_state.RX_ARP_ADDRS  ; req_ip[13]             ; clk          ; clk         ; 0.000        ; 0.231      ; 1.152      ;
+; 0.842 ; pr_state.RX_ARP_ADDRS  ; req_ip[26]             ; clk          ; clk         ; 0.000        ; 0.228      ; 1.154      ;
+; 0.845 ; pr_state.RX_ARP_ADDRS  ; req_ip[25]             ; clk          ; clk         ; 0.000        ; 0.228      ; 1.157      ;
+; 0.853 ; arp_fields_fail        ; pr_state.RX_ARP_FIELDS ; clk          ; clk         ; 0.000        ; 0.024      ; 0.961      ;
+; 0.866 ; pr_state.RX_ARP_ADDRS  ; tpa_mismatch           ; clk          ; clk         ; 0.000        ; 0.035      ; 0.985      ;
+; 0.883 ; pr_state.RX_ARP_ADDRS  ; req_mac[39]            ; clk          ; clk         ; 0.000        ; 0.243      ; 1.210      ;
+; 0.887 ; pr_state.TX_SEND       ; byte_index[5]          ; clk          ; clk         ; 0.000        ; 0.039      ; 1.010      ;
+; 0.887 ; pr_state.RX_ARP_ADDRS  ; req_mac[36]            ; clk          ; clk         ; 0.000        ; 0.243      ; 1.214      ;
+; 0.907 ; byte_index[2]          ; req_ip[24]             ; clk          ; clk         ; 0.000        ; 0.224      ; 1.215      ;
+; 0.908 ; byte_index[2]          ; req_ip[27]             ; clk          ; clk         ; 0.000        ; 0.224      ; 1.216      ;
+; 0.908 ; byte_index[2]          ; req_ip[31]             ; clk          ; clk         ; 0.000        ; 0.224      ; 1.216      ;
+; 0.916 ; pr_state.RX_ARP_ADDRS  ; req_ip[10]             ; clk          ; clk         ; 0.000        ; 0.042      ; 1.042      ;
+; 0.917 ; pr_state.RX_ARP_ADDRS  ; req_ip[30]             ; clk          ; clk         ; 0.000        ; 0.042      ; 1.043      ;
+; 0.917 ; pr_state.TX_SEND       ; req_ip[24]             ; clk          ; clk         ; 0.000        ; 0.224      ; 1.225      ;
+; 0.917 ; pr_state.TX_SEND       ; req_ip[27]             ; clk          ; clk         ; 0.000        ; 0.224      ; 1.225      ;
+; 0.917 ; pr_state.TX_SEND       ; req_ip[31]             ; clk          ; clk         ; 0.000        ; 0.224      ; 1.225      ;
+; 0.918 ; pr_state.RX_ARP_ADDRS  ; req_ip[28]             ; clk          ; clk         ; 0.000        ; 0.042      ; 1.044      ;
+; 0.919 ; pr_state.TX_SEND       ; byte_index[6]          ; clk          ; clk         ; 0.000        ; 0.031      ; 1.034      ;
+; 0.919 ; pr_state.RX_ARP_ADDRS  ; req_ip[8]              ; clk          ; clk         ; 0.000        ; 0.042      ; 1.045      ;
+; 0.919 ; pr_state.RX_ARP_ADDRS  ; req_ip[15]             ; clk          ; clk         ; 0.000        ; 0.042      ; 1.045      ;
+; 0.921 ; pr_state.RX_ARP_ADDRS  ; req_ip[9]              ; clk          ; clk         ; 0.000        ; 0.042      ; 1.047      ;
+; 0.921 ; pr_state.RX_ARP_ADDRS  ; req_ip[29]             ; clk          ; clk         ; 0.000        ; 0.042      ; 1.047      ;
+; 0.926 ; pr_state.TX_SEND       ; req_ip[13]             ; clk          ; clk         ; 0.000        ; 0.225      ; 1.235      ;
+; 0.927 ; pr_state.TX_SEND       ; req_ip[12]             ; clk          ; clk         ; 0.000        ; 0.225      ; 1.236      ;
+; 0.928 ; pr_state.TX_SEND       ; req_ip[11]             ; clk          ; clk         ; 0.000        ; 0.225      ; 1.237      ;
+; 0.929 ; pr_state.TX_SEND       ; pr_state.TX_SEND       ; clk          ; clk         ; 0.000        ; 0.036      ; 1.049      ;
+; 0.930 ; pr_state.TX_SEND       ; req_ip[14]             ; clk          ; clk         ; 0.000        ; 0.225      ; 1.239      ;
+; 0.934 ; pr_state.IDLE          ; byte_index[5]          ; clk          ; clk         ; 0.000        ; 0.041      ; 1.059      ;
+; 0.950 ; pr_state.TX_SEND       ; req_ip[6]              ; clk          ; clk         ; 0.000        ; 0.242      ; 1.276      ;
+; 0.952 ; pr_state.TX_SEND       ; req_ip[3]              ; clk          ; clk         ; 0.000        ; 0.242      ; 1.278      ;
+; 0.953 ; pr_state.TX_SEND       ; req_ip[7]              ; clk          ; clk         ; 0.000        ; 0.242      ; 1.279      ;
+; 0.956 ; pr_state.RX_ARP_ADDRS  ; pr_state.IDLE          ; clk          ; clk         ; 0.000        ; 0.040      ; 1.080      ;
+; 0.957 ; pr_state.TX_SEND       ; req_ip[1]              ; clk          ; clk         ; 0.000        ; 0.242      ; 1.283      ;
+; 0.957 ; pr_state.TX_SEND       ; req_ip[2]              ; clk          ; clk         ; 0.000        ; 0.242      ; 1.283      ;
+; 0.957 ; pr_state.TX_SEND       ; req_ip[4]              ; clk          ; clk         ; 0.000        ; 0.242      ; 1.283      ;
+; 0.958 ; pr_state.TX_SEND       ; req_ip[5]              ; clk          ; clk         ; 0.000        ; 0.242      ; 1.284      ;
+; 0.959 ; pr_state.TX_SEND       ; req_ip[0]              ; clk          ; clk         ; 0.000        ; 0.242      ; 1.285      ;
+; 0.960 ; byte_index[2]          ; req_ip[13]             ; clk          ; clk         ; 0.000        ; 0.225      ; 1.269      ;
+; 0.961 ; byte_index[2]          ; req_ip[12]             ; clk          ; clk         ; 0.000        ; 0.225      ; 1.270      ;
+; 0.962 ; byte_index[2]          ; req_ip[11]             ; clk          ; clk         ; 0.000        ; 0.225      ; 1.271      ;
+; 0.964 ; byte_index[2]          ; req_ip[14]             ; clk          ; clk         ; 0.000        ; 0.225      ; 1.273      ;
+; 0.964 ; byte_index[2]          ; req_ip[6]              ; clk          ; clk         ; 0.000        ; 0.242      ; 1.290      ;
+; 0.966 ; tpa_mismatch           ; pr_state.IDLE          ; clk          ; clk         ; 0.000        ; 0.040      ; 1.090      ;
+; 0.966 ; byte_index[2]          ; req_ip[3]              ; clk          ; clk         ; 0.000        ; 0.242      ; 1.292      ;
+; 0.967 ; byte_index[2]          ; req_ip[7]              ; clk          ; clk         ; 0.000        ; 0.242      ; 1.293      ;
++-------+------------------------+------------------------+--------------+-------------+--------------+------------+------------+
+
+
+----------------------------------------------
+; Fast 1200mV 0C Model Metastability Summary ;
+----------------------------------------------
+No synchronizer chains to report.
+
+
++--------------------------------------------------------------------------------+
+; Multicorner Timing Analysis Summary                                            ;
++------------------+----------+-------+----------+---------+---------------------+
+; Clock            ; Setup    ; Hold  ; Recovery ; Removal ; Minimum Pulse Width ;
++------------------+----------+-------+----------+---------+---------------------+
+; Worst-case Slack ; -4.185   ; 0.187 ; N/A      ; N/A     ; -3.000              ;
+;  clk             ; -4.185   ; 0.187 ; N/A      ; N/A     ; -3.000              ;
+; Design-wide TNS  ; -309.788 ; 0.0   ; 0.0      ; 0.0     ; -107.176            ;
+;  clk             ; -309.788 ; 0.000 ; N/A      ; N/A     ; -107.176            ;
++------------------+----------+-------+----------+---------+---------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Board Trace Model Assignments                                                                                                                                                                                                                                                                                                                                                                                    ;
++---------------+--------------+-------------------+-------------------------+-------------------------+---------------+---------------------+----------------+------------------+--------+------------------+------------------------+------------------------+--------------+---------------+-----------------+-------+---------------------+--------------------+---------------+-----------------+-------------+
+; Pin           ; I/O Standard ; Near Tline Length ; Near Tline L per Length ; Near Tline C per Length ; Near Series R ; Near Differential R ; Near Pull-up R ; Near Pull-down R ; Near C ; Far Tline Length ; Far Tline L per Length ; Far Tline C per Length ; Far Series R ; Far Pull-up R ; Far Pull-down R ; Far C ; Termination Voltage ; Far Differential R ; EBD File Name ; EBD Signal Name ; EBD Far-end ;
++---------------+--------------+-------------------+-------------------------+-------------------------+---------------+---------------------+----------------+------------------+--------+------------------+------------------------+------------------------+--------------+---------------+-----------------+-------+---------------------+--------------------+---------------+-----------------+-------------+
+; in_ready      ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; out_valid     ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; out_data[0]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; out_data[1]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; out_data[2]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; out_data[3]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; out_data[4]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; out_data[5]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; out_data[6]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; out_data[7]   ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; out_sop       ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; out_eop       ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; ~ALTERA_DCLK~ ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
+; ~ALTERA_nCEO~ ; 2.5 V        ; 0 in              ; 0 H/in                  ; 0 F/in                  ; short         ; -                   ; open           ; open             ; open   ; 0 in             ; 0 H/in                 ; 0 F/in                 ; short        ; open          ; open            ; open  ; 0 V                 ; -                  ; n/a           ; n/a             ; n/a         ;
++---------------+--------------+-------------------+-------------------------+-------------------------+---------------+---------------------+----------------+------------------+--------+------------------+------------------------+------------------------+--------------+---------------+-----------------+-------+---------------------+--------------------+---------------+-----------------+-------------+
+
+
++----------------------------------------------------------------------------+
+; Input Transition Times                                                     ;
++-------------------------+--------------+-----------------+-----------------+
+; Pin                     ; I/O Standard ; 10-90 Rise Time ; 90-10 Fall Time ;
++-------------------------+--------------+-----------------+-----------------+
+; clk                     ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; out_ready               ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; in_valid                ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; in_sop                  ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; in_eop                  ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; in_data[0]              ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; in_data[4]              ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; in_data[5]              ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; in_data[6]              ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; in_data[7]              ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; in_data[1]              ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; in_data[2]              ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; in_data[3]              ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; reset                   ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; ~ALTERA_ASDO_DATA1~     ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; ~ALTERA_FLASH_nCE_nCSO~ ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
+; ~ALTERA_DATA0~          ; 2.5 V        ; 2000 ps         ; 2000 ps         ;
++-------------------------+--------------+-----------------+-----------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Signal Integrity Metrics (Slow 1200mv 0c Model)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+; Pin           ; I/O Standard ; Board Delay on Rise ; Board Delay on Fall ; Steady State Voh at FPGA Pin ; Steady State Vol at FPGA Pin ; Voh Max at FPGA Pin ; Vol Min at FPGA Pin ; Ringback Voltage on Rise at FPGA Pin ; Ringback Voltage on Fall at FPGA Pin ; 10-90 Rise Time at FPGA Pin ; 90-10 Fall Time at FPGA Pin ; Monotonic Rise at FPGA Pin ; Monotonic Fall at FPGA Pin ; Steady State Voh at Far-end ; Steady State Vol at Far-end ; Voh Max at Far-end ; Vol Min at Far-end ; Ringback Voltage on Rise at Far-end ; Ringback Voltage on Fall at Far-end ; 10-90 Rise Time at Far-end ; 90-10 Fall Time at Far-end ; Monotonic Rise at Far-end ; Monotonic Fall at Far-end ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+; in_ready      ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 5.95e-09 V                   ; 2.38 V              ; -0.016 V            ; 0.22 V                               ; 0.025 V                              ; 3.06e-10 s                  ; 3.3e-10 s                   ; Yes                        ; Yes                        ; 2.32 V                      ; 5.95e-09 V                  ; 2.38 V             ; -0.016 V           ; 0.22 V                              ; 0.025 V                             ; 3.06e-10 s                 ; 3.3e-10 s                  ; Yes                       ; Yes                       ;
+; out_valid     ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 5.95e-09 V                   ; 2.38 V              ; -0.016 V            ; 0.22 V                               ; 0.025 V                              ; 3.06e-10 s                  ; 3.3e-10 s                   ; Yes                        ; Yes                        ; 2.32 V                      ; 5.95e-09 V                  ; 2.38 V             ; -0.016 V           ; 0.22 V                              ; 0.025 V                             ; 3.06e-10 s                 ; 3.3e-10 s                  ; Yes                       ; Yes                       ;
+; out_data[0]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 5.95e-09 V                   ; 2.38 V              ; -0.016 V            ; 0.22 V                               ; 0.025 V                              ; 3.06e-10 s                  ; 3.3e-10 s                   ; Yes                        ; Yes                        ; 2.32 V                      ; 5.95e-09 V                  ; 2.38 V             ; -0.016 V           ; 0.22 V                              ; 0.025 V                             ; 3.06e-10 s                 ; 3.3e-10 s                  ; Yes                       ; Yes                       ;
+; out_data[1]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 5.95e-09 V                   ; 2.38 V              ; -0.016 V            ; 0.22 V                               ; 0.025 V                              ; 3.06e-10 s                  ; 3.3e-10 s                   ; Yes                        ; Yes                        ; 2.32 V                      ; 5.95e-09 V                  ; 2.38 V             ; -0.016 V           ; 0.22 V                              ; 0.025 V                             ; 3.06e-10 s                 ; 3.3e-10 s                  ; Yes                       ; Yes                       ;
+; out_data[2]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 5.95e-09 V                   ; 2.38 V              ; -0.016 V            ; 0.22 V                               ; 0.025 V                              ; 3.06e-10 s                  ; 3.3e-10 s                   ; Yes                        ; Yes                        ; 2.32 V                      ; 5.95e-09 V                  ; 2.38 V             ; -0.016 V           ; 0.22 V                              ; 0.025 V                             ; 3.06e-10 s                 ; 3.3e-10 s                  ; Yes                       ; Yes                       ;
+; out_data[3]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 5.95e-09 V                   ; 2.38 V              ; -0.016 V            ; 0.22 V                               ; 0.025 V                              ; 3.06e-10 s                  ; 3.3e-10 s                   ; Yes                        ; Yes                        ; 2.32 V                      ; 5.95e-09 V                  ; 2.38 V             ; -0.016 V           ; 0.22 V                              ; 0.025 V                             ; 3.06e-10 s                 ; 3.3e-10 s                  ; Yes                       ; Yes                       ;
+; out_data[4]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 5.95e-09 V                   ; 2.38 V              ; -0.016 V            ; 0.22 V                               ; 0.025 V                              ; 3.06e-10 s                  ; 3.3e-10 s                   ; Yes                        ; Yes                        ; 2.32 V                      ; 5.95e-09 V                  ; 2.38 V             ; -0.016 V           ; 0.22 V                              ; 0.025 V                             ; 3.06e-10 s                 ; 3.3e-10 s                  ; Yes                       ; Yes                       ;
+; out_data[5]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 5.95e-09 V                   ; 2.38 V              ; -0.016 V            ; 0.22 V                               ; 0.025 V                              ; 3.06e-10 s                  ; 3.3e-10 s                   ; Yes                        ; Yes                        ; 2.32 V                      ; 5.95e-09 V                  ; 2.38 V             ; -0.016 V           ; 0.22 V                              ; 0.025 V                             ; 3.06e-10 s                 ; 3.3e-10 s                  ; Yes                       ; Yes                       ;
+; out_data[6]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 5.95e-09 V                   ; 2.38 V              ; -0.016 V            ; 0.22 V                               ; 0.025 V                              ; 3.06e-10 s                  ; 3.3e-10 s                   ; Yes                        ; Yes                        ; 2.32 V                      ; 5.95e-09 V                  ; 2.38 V             ; -0.016 V           ; 0.22 V                              ; 0.025 V                             ; 3.06e-10 s                 ; 3.3e-10 s                  ; Yes                       ; Yes                       ;
+; out_data[7]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 5.95e-09 V                   ; 2.38 V              ; -0.016 V            ; 0.22 V                               ; 0.025 V                              ; 3.06e-10 s                  ; 3.3e-10 s                   ; Yes                        ; Yes                        ; 2.32 V                      ; 5.95e-09 V                  ; 2.38 V             ; -0.016 V           ; 0.22 V                              ; 0.025 V                             ; 3.06e-10 s                 ; 3.3e-10 s                  ; Yes                       ; Yes                       ;
+; out_sop       ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 5.95e-09 V                   ; 2.38 V              ; -0.016 V            ; 0.22 V                               ; 0.025 V                              ; 3.06e-10 s                  ; 3.3e-10 s                   ; Yes                        ; Yes                        ; 2.32 V                      ; 5.95e-09 V                  ; 2.38 V             ; -0.016 V           ; 0.22 V                              ; 0.025 V                             ; 3.06e-10 s                 ; 3.3e-10 s                  ; Yes                       ; Yes                       ;
+; out_eop       ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 5.95e-09 V                   ; 2.38 V              ; -0.016 V            ; 0.22 V                               ; 0.025 V                              ; 3.06e-10 s                  ; 3.3e-10 s                   ; Yes                        ; Yes                        ; 2.32 V                      ; 5.95e-09 V                  ; 2.38 V             ; -0.016 V           ; 0.22 V                              ; 0.025 V                             ; 3.06e-10 s                 ; 3.3e-10 s                  ; Yes                       ; Yes                       ;
+; ~ALTERA_DCLK~ ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 3.45e-09 V                   ; 2.38 V              ; -0.0609 V           ; 0.148 V                              ; 0.095 V                              ; 2.82e-10 s                  ; 2.59e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 3.45e-09 V                  ; 2.38 V             ; -0.0609 V          ; 0.148 V                             ; 0.095 V                             ; 2.82e-10 s                 ; 2.59e-10 s                 ; Yes                       ; Yes                       ;
+; ~ALTERA_nCEO~ ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 5.61e-09 V                   ; 2.38 V              ; -0.00274 V          ; 0.141 V                              ; 0.006 V                              ; 4.7e-10 s                   ; 6.02e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 5.61e-09 V                  ; 2.38 V             ; -0.00274 V         ; 0.141 V                             ; 0.006 V                             ; 4.7e-10 s                  ; 6.02e-10 s                 ; Yes                       ; Yes                       ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Signal Integrity Metrics (Slow 1200mv 85c Model)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+; Pin           ; I/O Standard ; Board Delay on Rise ; Board Delay on Fall ; Steady State Voh at FPGA Pin ; Steady State Vol at FPGA Pin ; Voh Max at FPGA Pin ; Vol Min at FPGA Pin ; Ringback Voltage on Rise at FPGA Pin ; Ringback Voltage on Fall at FPGA Pin ; 10-90 Rise Time at FPGA Pin ; 90-10 Fall Time at FPGA Pin ; Monotonic Rise at FPGA Pin ; Monotonic Fall at FPGA Pin ; Steady State Voh at Far-end ; Steady State Vol at Far-end ; Voh Max at Far-end ; Vol Min at Far-end ; Ringback Voltage on Rise at Far-end ; Ringback Voltage on Fall at Far-end ; 10-90 Rise Time at Far-end ; 90-10 Fall Time at Far-end ; Monotonic Rise at Far-end ; Monotonic Fall at Far-end ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+; in_ready      ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.06e-06 V                   ; 2.36 V              ; -0.00724 V          ; 0.107 V                              ; 0.02 V                               ; 4.5e-10 s                   ; 4.25e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.06e-06 V                  ; 2.36 V             ; -0.00724 V         ; 0.107 V                             ; 0.02 V                              ; 4.5e-10 s                  ; 4.25e-10 s                 ; Yes                       ; Yes                       ;
+; out_valid     ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.06e-06 V                   ; 2.36 V              ; -0.00724 V          ; 0.107 V                              ; 0.02 V                               ; 4.5e-10 s                   ; 4.25e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.06e-06 V                  ; 2.36 V             ; -0.00724 V         ; 0.107 V                             ; 0.02 V                              ; 4.5e-10 s                  ; 4.25e-10 s                 ; Yes                       ; Yes                       ;
+; out_data[0]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.06e-06 V                   ; 2.36 V              ; -0.00724 V          ; 0.107 V                              ; 0.02 V                               ; 4.5e-10 s                   ; 4.25e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.06e-06 V                  ; 2.36 V             ; -0.00724 V         ; 0.107 V                             ; 0.02 V                              ; 4.5e-10 s                  ; 4.25e-10 s                 ; Yes                       ; Yes                       ;
+; out_data[1]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.06e-06 V                   ; 2.36 V              ; -0.00724 V          ; 0.107 V                              ; 0.02 V                               ; 4.5e-10 s                   ; 4.25e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.06e-06 V                  ; 2.36 V             ; -0.00724 V         ; 0.107 V                             ; 0.02 V                              ; 4.5e-10 s                  ; 4.25e-10 s                 ; Yes                       ; Yes                       ;
+; out_data[2]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.06e-06 V                   ; 2.36 V              ; -0.00724 V          ; 0.107 V                              ; 0.02 V                               ; 4.5e-10 s                   ; 4.25e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.06e-06 V                  ; 2.36 V             ; -0.00724 V         ; 0.107 V                             ; 0.02 V                              ; 4.5e-10 s                  ; 4.25e-10 s                 ; Yes                       ; Yes                       ;
+; out_data[3]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.06e-06 V                   ; 2.36 V              ; -0.00724 V          ; 0.107 V                              ; 0.02 V                               ; 4.5e-10 s                   ; 4.25e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.06e-06 V                  ; 2.36 V             ; -0.00724 V         ; 0.107 V                             ; 0.02 V                              ; 4.5e-10 s                  ; 4.25e-10 s                 ; Yes                       ; Yes                       ;
+; out_data[4]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.06e-06 V                   ; 2.36 V              ; -0.00724 V          ; 0.107 V                              ; 0.02 V                               ; 4.5e-10 s                   ; 4.25e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.06e-06 V                  ; 2.36 V             ; -0.00724 V         ; 0.107 V                             ; 0.02 V                              ; 4.5e-10 s                  ; 4.25e-10 s                 ; Yes                       ; Yes                       ;
+; out_data[5]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.06e-06 V                   ; 2.36 V              ; -0.00724 V          ; 0.107 V                              ; 0.02 V                               ; 4.5e-10 s                   ; 4.25e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.06e-06 V                  ; 2.36 V             ; -0.00724 V         ; 0.107 V                             ; 0.02 V                              ; 4.5e-10 s                  ; 4.25e-10 s                 ; Yes                       ; Yes                       ;
+; out_data[6]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.06e-06 V                   ; 2.36 V              ; -0.00724 V          ; 0.107 V                              ; 0.02 V                               ; 4.5e-10 s                   ; 4.25e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.06e-06 V                  ; 2.36 V             ; -0.00724 V         ; 0.107 V                             ; 0.02 V                              ; 4.5e-10 s                  ; 4.25e-10 s                 ; Yes                       ; Yes                       ;
+; out_data[7]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.06e-06 V                   ; 2.36 V              ; -0.00724 V          ; 0.107 V                              ; 0.02 V                               ; 4.5e-10 s                   ; 4.25e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.06e-06 V                  ; 2.36 V             ; -0.00724 V         ; 0.107 V                             ; 0.02 V                              ; 4.5e-10 s                  ; 4.25e-10 s                 ; Yes                       ; Yes                       ;
+; out_sop       ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.06e-06 V                   ; 2.36 V              ; -0.00724 V          ; 0.107 V                              ; 0.02 V                               ; 4.5e-10 s                   ; 4.25e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.06e-06 V                  ; 2.36 V             ; -0.00724 V         ; 0.107 V                             ; 0.02 V                              ; 4.5e-10 s                  ; 4.25e-10 s                 ; Yes                       ; Yes                       ;
+; out_eop       ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 1.06e-06 V                   ; 2.36 V              ; -0.00724 V          ; 0.107 V                              ; 0.02 V                               ; 4.5e-10 s                   ; 4.25e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 1.06e-06 V                  ; 2.36 V             ; -0.00724 V         ; 0.107 V                             ; 0.02 V                              ; 4.5e-10 s                  ; 4.25e-10 s                 ; Yes                       ; Yes                       ;
+; ~ALTERA_DCLK~ ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 5.74e-07 V                   ; 2.36 V              ; -0.0201 V           ; 0.072 V                              ; 0.033 V                              ; 4.04e-10 s                  ; 3.29e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 5.74e-07 V                  ; 2.36 V             ; -0.0201 V          ; 0.072 V                             ; 0.033 V                             ; 4.04e-10 s                 ; 3.29e-10 s                 ; Yes                       ; Yes                       ;
+; ~ALTERA_nCEO~ ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.32 V                       ; 9.45e-07 V                   ; 2.35 V              ; -0.00643 V          ; 0.081 V                              ; 0.031 V                              ; 5.31e-10 s                  ; 7.59e-10 s                  ; Yes                        ; Yes                        ; 2.32 V                      ; 9.45e-07 V                  ; 2.35 V             ; -0.00643 V         ; 0.081 V                             ; 0.031 V                             ; 5.31e-10 s                 ; 7.59e-10 s                 ; Yes                       ; Yes                       ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Signal Integrity Metrics (Fast 1200mv 0c Model)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+; Pin           ; I/O Standard ; Board Delay on Rise ; Board Delay on Fall ; Steady State Voh at FPGA Pin ; Steady State Vol at FPGA Pin ; Voh Max at FPGA Pin ; Vol Min at FPGA Pin ; Ringback Voltage on Rise at FPGA Pin ; Ringback Voltage on Fall at FPGA Pin ; 10-90 Rise Time at FPGA Pin ; 90-10 Fall Time at FPGA Pin ; Monotonic Rise at FPGA Pin ; Monotonic Fall at FPGA Pin ; Steady State Voh at Far-end ; Steady State Vol at Far-end ; Voh Max at Far-end ; Vol Min at Far-end ; Ringback Voltage on Rise at Far-end ; Ringback Voltage on Fall at Far-end ; 10-90 Rise Time at Far-end ; 90-10 Fall Time at Far-end ; Monotonic Rise at Far-end ; Monotonic Fall at Far-end ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+; in_ready      ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 4.05e-08 V                   ; 2.72 V              ; -0.0349 V           ; 0.173 V                              ; 0.1 V                                ; 2.72e-10 s                  ; 2.69e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 4.05e-08 V                  ; 2.72 V             ; -0.0349 V          ; 0.173 V                             ; 0.1 V                               ; 2.72e-10 s                 ; 2.69e-10 s                 ; Yes                       ; Yes                       ;
+; out_valid     ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 4.05e-08 V                   ; 2.72 V              ; -0.0349 V           ; 0.173 V                              ; 0.1 V                                ; 2.72e-10 s                  ; 2.69e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 4.05e-08 V                  ; 2.72 V             ; -0.0349 V          ; 0.173 V                             ; 0.1 V                               ; 2.72e-10 s                 ; 2.69e-10 s                 ; Yes                       ; Yes                       ;
+; out_data[0]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 4.05e-08 V                   ; 2.72 V              ; -0.0349 V           ; 0.173 V                              ; 0.1 V                                ; 2.72e-10 s                  ; 2.69e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 4.05e-08 V                  ; 2.72 V             ; -0.0349 V          ; 0.173 V                             ; 0.1 V                               ; 2.72e-10 s                 ; 2.69e-10 s                 ; Yes                       ; Yes                       ;
+; out_data[1]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 4.05e-08 V                   ; 2.72 V              ; -0.0349 V           ; 0.173 V                              ; 0.1 V                                ; 2.72e-10 s                  ; 2.69e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 4.05e-08 V                  ; 2.72 V             ; -0.0349 V          ; 0.173 V                             ; 0.1 V                               ; 2.72e-10 s                 ; 2.69e-10 s                 ; Yes                       ; Yes                       ;
+; out_data[2]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 4.05e-08 V                   ; 2.72 V              ; -0.0349 V           ; 0.173 V                              ; 0.1 V                                ; 2.72e-10 s                  ; 2.69e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 4.05e-08 V                  ; 2.72 V             ; -0.0349 V          ; 0.173 V                             ; 0.1 V                               ; 2.72e-10 s                 ; 2.69e-10 s                 ; Yes                       ; Yes                       ;
+; out_data[3]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 4.05e-08 V                   ; 2.72 V              ; -0.0349 V           ; 0.173 V                              ; 0.1 V                                ; 2.72e-10 s                  ; 2.69e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 4.05e-08 V                  ; 2.72 V             ; -0.0349 V          ; 0.173 V                             ; 0.1 V                               ; 2.72e-10 s                 ; 2.69e-10 s                 ; Yes                       ; Yes                       ;
+; out_data[4]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 4.05e-08 V                   ; 2.72 V              ; -0.0349 V           ; 0.173 V                              ; 0.1 V                                ; 2.72e-10 s                  ; 2.69e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 4.05e-08 V                  ; 2.72 V             ; -0.0349 V          ; 0.173 V                             ; 0.1 V                               ; 2.72e-10 s                 ; 2.69e-10 s                 ; Yes                       ; Yes                       ;
+; out_data[5]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 4.05e-08 V                   ; 2.72 V              ; -0.0349 V           ; 0.173 V                              ; 0.1 V                                ; 2.72e-10 s                  ; 2.69e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 4.05e-08 V                  ; 2.72 V             ; -0.0349 V          ; 0.173 V                             ; 0.1 V                               ; 2.72e-10 s                 ; 2.69e-10 s                 ; Yes                       ; Yes                       ;
+; out_data[6]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 4.05e-08 V                   ; 2.72 V              ; -0.0349 V           ; 0.173 V                              ; 0.1 V                                ; 2.72e-10 s                  ; 2.69e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 4.05e-08 V                  ; 2.72 V             ; -0.0349 V          ; 0.173 V                             ; 0.1 V                               ; 2.72e-10 s                 ; 2.69e-10 s                 ; Yes                       ; Yes                       ;
+; out_data[7]   ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 4.05e-08 V                   ; 2.72 V              ; -0.0349 V           ; 0.173 V                              ; 0.1 V                                ; 2.72e-10 s                  ; 2.69e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 4.05e-08 V                  ; 2.72 V             ; -0.0349 V          ; 0.173 V                             ; 0.1 V                               ; 2.72e-10 s                 ; 2.69e-10 s                 ; Yes                       ; Yes                       ;
+; out_sop       ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 4.05e-08 V                   ; 2.72 V              ; -0.0349 V           ; 0.173 V                              ; 0.1 V                                ; 2.72e-10 s                  ; 2.69e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 4.05e-08 V                  ; 2.72 V             ; -0.0349 V          ; 0.173 V                             ; 0.1 V                               ; 2.72e-10 s                 ; 2.69e-10 s                 ; Yes                       ; Yes                       ;
+; out_eop       ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 4.05e-08 V                   ; 2.72 V              ; -0.0349 V           ; 0.173 V                              ; 0.1 V                                ; 2.72e-10 s                  ; 2.69e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 4.05e-08 V                  ; 2.72 V             ; -0.0349 V          ; 0.173 V                             ; 0.1 V                               ; 2.72e-10 s                 ; 2.69e-10 s                 ; Yes                       ; Yes                       ;
+; ~ALTERA_DCLK~ ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 2.22e-08 V                   ; 2.74 V              ; -0.06 V             ; 0.158 V                              ; 0.08 V                               ; 2.68e-10 s                  ; 2.19e-10 s                  ; Yes                        ; Yes                        ; 2.62 V                      ; 2.22e-08 V                  ; 2.74 V             ; -0.06 V            ; 0.158 V                             ; 0.08 V                              ; 2.68e-10 s                 ; 2.19e-10 s                 ; Yes                       ; Yes                       ;
+; ~ALTERA_nCEO~ ; 2.5 V        ; 0 s                 ; 0 s                 ; 2.62 V                       ; 3.54e-08 V                   ; 2.7 V               ; -0.00943 V          ; 0.276 V                              ; 0.035 V                              ; 3.19e-10 s                  ; 4.99e-10 s                  ; No                         ; Yes                        ; 2.62 V                      ; 3.54e-08 V                  ; 2.7 V              ; -0.00943 V         ; 0.276 V                             ; 0.035 V                             ; 3.19e-10 s                 ; 4.99e-10 s                 ; No                        ; Yes                       ;
++---------------+--------------+---------------------+---------------------+------------------------------+------------------------------+---------------------+---------------------+--------------------------------------+--------------------------------------+-----------------------------+-----------------------------+----------------------------+----------------------------+-----------------------------+-----------------------------+--------------------+--------------------+-------------------------------------+-------------------------------------+----------------------------+----------------------------+---------------------------+---------------------------+
+
+
++-------------------------------------------------------------------+
+; Setup Transfers                                                   ;
++------------+----------+----------+----------+----------+----------+
+; From Clock ; To Clock ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
++------------+----------+----------+----------+----------+----------+
+; clk        ; clk      ; 5780     ; 0        ; 0        ; 0        ;
++------------+----------+----------+----------+----------+----------+
+Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
+
+
++-------------------------------------------------------------------+
+; Hold Transfers                                                    ;
++------------+----------+----------+----------+----------+----------+
+; From Clock ; To Clock ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
++------------+----------+----------+----------+----------+----------+
+; clk        ; clk      ; 5780     ; 0        ; 0        ; 0        ;
++------------+----------+----------+----------+----------+----------+
+Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
+
+
+---------------
+; Report TCCS ;
+---------------
+No dedicated SERDES Transmitter circuitry present in device or used in design
+
+
+---------------
+; Report RSKM ;
+---------------
+No non-DPA dedicated SERDES Receiver circuitry present in device or used in design
+
+
++------------------------------------------------+
+; Unconstrained Paths Summary                    ;
++---------------------------------+-------+------+
+; Property                        ; Setup ; Hold ;
++---------------------------------+-------+------+
+; Illegal Clocks                  ; 0     ; 0    ;
+; Unconstrained Clocks            ; 0     ; 0    ;
+; Unconstrained Input Ports       ; 13    ; 13   ;
+; Unconstrained Input Port Paths  ; 531   ; 531  ;
+; Unconstrained Output Ports      ; 12    ; 12   ;
+; Unconstrained Output Port Paths ; 172   ; 172  ;
++---------------------------------+-------+------+
+
+
++-------------------------------------+
+; Clock Status Summary                ;
++--------+-------+------+-------------+
+; Target ; Clock ; Type ; Status      ;
++--------+-------+------+-------------+
+; clk    ; clk   ; Base ; Constrained ;
++--------+-------+------+-------------+
+
+
++---------------------------------------------------------------------------------------------------+
+; Unconstrained Input Ports                                                                         ;
++------------+--------------------------------------------------------------------------------------+
+; Input Port ; Comment                                                                              ;
++------------+--------------------------------------------------------------------------------------+
+; in_data[0] ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_data[1] ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_data[2] ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_data[3] ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_data[4] ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_data[5] ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_data[6] ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_data[7] ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_eop     ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_sop     ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_valid   ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_ready  ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; reset      ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
++------------+--------------------------------------------------------------------------------------+
+
+
++-----------------------------------------------------------------------------------------------------+
+; Unconstrained Output Ports                                                                          ;
++-------------+---------------------------------------------------------------------------------------+
+; Output Port ; Comment                                                                               ;
++-------------+---------------------------------------------------------------------------------------+
+; in_ready    ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_data[0] ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_data[1] ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_data[2] ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_data[3] ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_data[4] ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_data[5] ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_data[6] ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_data[7] ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_eop     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_sop     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_valid   ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
++-------------+---------------------------------------------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------+
+; Unconstrained Input Ports                                                                         ;
++------------+--------------------------------------------------------------------------------------+
+; Input Port ; Comment                                                                              ;
++------------+--------------------------------------------------------------------------------------+
+; in_data[0] ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_data[1] ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_data[2] ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_data[3] ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_data[4] ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_data[5] ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_data[6] ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_data[7] ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_eop     ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_sop     ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; in_valid   ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_ready  ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; reset      ; No input delay, min/max delays, false-path exceptions, or max skew assignments found ;
++------------+--------------------------------------------------------------------------------------+
+
+
++-----------------------------------------------------------------------------------------------------+
+; Unconstrained Output Ports                                                                          ;
++-------------+---------------------------------------------------------------------------------------+
+; Output Port ; Comment                                                                               ;
++-------------+---------------------------------------------------------------------------------------+
+; in_ready    ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_data[0] ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_data[1] ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_data[2] ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_data[3] ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_data[4] ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_data[5] ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_data[6] ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_data[7] ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_eop     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_sop     ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
+; out_valid   ; No output delay, min/max delays, false-path exceptions, or max skew assignments found ;
++-------------+---------------------------------------------------------------------------------------+
+
+
++--------------------------+
+; Timing Analyzer Messages ;
++--------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Timing Analyzer
+    Info: Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
+    Info: Processing started: Tue Jan 06 22:01:49 2026
+Info: Command: quartus_sta arp_responder -c arp_responder
+Info: qsta_default_script.tcl version: #1
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (20030): Parallel compilation is enabled and will use 8 of the 8 processors detected
+Info (21076): High junction temperature operating condition is not set. Assuming a default value of '85'.
+Info (21076): Low junction temperature operating condition is not set. Assuming a default value of '0'.
+Critical Warning (332012): Synopsys Design Constraints File file not found: 'arp_responder.sdc'. A Synopsys Design Constraints File is required by the Timing Analyzer to get proper timing constraints. Without it, the Compiler will not properly optimize the design.
+Info (332142): No user constrained base clocks found in the design. Calling "derive_clocks -period 1.0"
+Info (332105): Deriving Clocks
+    Info (332105): create_clock -period 1.000 -name clk clk
+Info (332143): No user constrained clock uncertainty found in the design. Calling "derive_clock_uncertainty"
+Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
+Info: Found TIMING_ANALYZER_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
+Info: Analyzing Slow 1200mV 85C Model
+Critical Warning (332148): Timing requirements not met
+    Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
+Info (332146): Worst-case setup slack is -4.185
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):    -4.185            -309.788 clk 
+Info (332146): Worst-case hold slack is 0.356
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):     0.356               0.000 clk 
+Info (332140): No Recovery paths to report
+Info (332140): No Removal paths to report
+Info (332146): Worst-case minimum pulse width slack is -3.000
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):    -3.000            -100.000 clk 
+Info: Analyzing Slow 1200mV 0C Model
+Info (334003): Started post-fitting delay annotation
+Info (334004): Delay annotation completed successfully
+Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
+Critical Warning (332148): Timing requirements not met
+    Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
+Info (332146): Worst-case setup slack is -3.699
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):    -3.699            -270.368 clk 
+Info (332146): Worst-case hold slack is 0.310
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):     0.310               0.000 clk 
+Info (332140): No Recovery paths to report
+Info (332140): No Removal paths to report
+Info (332146): Worst-case minimum pulse width slack is -3.000
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):    -3.000            -100.000 clk 
+Info: Analyzing Fast 1200mV 0C Model
+Info (332123): Deriving Clock Uncertainty. Please refer to report_sdc in the Timing Analyzer to see clock uncertainties.
+Critical Warning (332148): Timing requirements not met
+    Info (11105): For recommendations on closing timing, run Report Timing Closure Recommendations in the Timing Analyzer.
+Info (332146): Worst-case setup slack is -1.876
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):    -1.876            -133.248 clk 
+Info (332146): Worst-case hold slack is 0.187
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):     0.187               0.000 clk 
+Info (332140): No Recovery paths to report
+Info (332140): No Removal paths to report
+Info (332146): Worst-case minimum pulse width slack is -3.000
+    Info (332119):     Slack       End Point TNS Clock 
+    Info (332119): ========= =================== =====================
+    Info (332119):    -3.000            -107.176 clk 
+Info (332102): Design is not fully constrained for setup requirements
+Info (332102): Design is not fully constrained for hold requirements
+Info: Quartus Prime Timing Analyzer was successful. 0 errors, 5 warnings
+    Info: Peak virtual memory: 4826 megabytes
+    Info: Processing ended: Tue Jan 06 22:01:52 2026
+    Info: Elapsed time: 00:00:03
+    Info: Total CPU time (on all processors): 00:00:02
+
+
