@@ -183,7 +183,29 @@ Da bi dijagram ostao pregledan, više pojedinačnih provjera je sažeto u tri in
 
 ## VHDL implementacija
 
-VHDL kod je implementiran u fajlu `arp_responder.vhd`. Modul implementira:
+Sklop ARP Responder modula modeliran je u VHDL-u koristeći ranije opisane Avalon-ST signale i FSM stanja. Modul prima Ethernet/ARP okvir bajt-po-bajt, vrši provjere relevantnih polja, te u slučaju validnog ARP Request-a za vlastitu IP adresu generiše ARP Reply.
+
+Implementacija je organizovana kroz tri logičke cjeline:
+
+- **Kombinatorna logika za tranzicije stanja (`next_state`)** – na osnovu trenutnog stanja, ulaznih signala (`in_valid`, `in_sop`, `in_eop`) i indikatora provjera odlučuje prelaz u naredno stanje (`RX_ETH_HDR`, `RX_ARP_FIELDS`, `RX_ARP_ADDRS`, `TX_SEND`, `DROP`).
+- **Sekvencijalni proces (register dio)** – na rastućoj ivici takta ažurira trenutno stanje, brojače i pomoćne registre (uključujući pamćenje `req_mac` i `req_ip`).
+- **Kombinatorna logika izlaza** – u stanju `TX_SEND` generiše `out_valid`, `out_sop`, `out_eop` i `out_data` (ARP Reply), uz poštivanje `out_ready`.
+
+Za parsiranje okvira koristi se `byte_index` i efektivni indeks `rx_idx`:
+
+- `byte_index` služi za pozicioniranje unutar okvira (tj. da se tačno zna koji bajt Ethernet/ARP zaglavlja se trenutno obrađuje).
+- `rx_idx` je poravnani indeks koji tretira SOP bajt kao indeks 0 u istom ciklusu, kako bi provjere po bajtovima bile tačno poravnate na očekivane pozicije.
+
+Nakon kompilacije dizajna u Quartus Prime, provjeren je Compilation Report, čime je potvrđeno da je dizajn uspješno kompajliran.
+
+<p align="center"> <img src="Idejni%20koncepti/compilation_report.jpg" width="800">
+<em>Slika 8: Prikaz Compilation Report-a nakon uspješne kompilacije dizajna.</em> </p>
+
+### Verifikacija konačnog automata
+FSM implementiran u VHDL-u verifikovan je korištenjem State Machine Viewer alata u okviru Quartus Prime okruženja. Dobijeni grafički prikaz stanja i tranzicija potvrđuje usklađenost implementiranog FSM-a sa prethodno definisanim dijagramom.
+
+<p align="center"> <img src="Idejni%20koncepti/FSM_vhdl.jpg" width="700">
+<em>Slika 9: Verifikacija konačnog automata pomoću Quartus State Machine Viewer-a.</em> </p>
 
 ## Verifikacija pomoću simulacijskog alata ModelSim
 
