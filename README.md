@@ -198,13 +198,13 @@ Za parsiranje okvira koristi se `byte_index` i efektivni indeks `rx_idx`:
 
 Nakon kompilacije dizajna u Quartus Prime, provjeren je Compilation Report, čime je potvrđeno da je dizajn uspješno kompajliran.
 
-<p align="center"> <img src="Idejni%20koncepti/compilation_report.jpg" width="800">
+<p align="center"> <img src="Idejni%20koncepti/compilation_report.jpg" width="800"><br>
 <em>Slika 8: Prikaz Compilation Report-a nakon uspješne kompilacije dizajna.</em> </p>
 
 ### Verifikacija konačnog automata
 FSM implementiran u VHDL-u verifikovan je korištenjem State Machine Viewer alata u okviru Quartus Prime okruženja. Dobijeni grafički prikaz stanja i tranzicija potvrđuje usklađenost implementiranog FSM-a sa prethodno definisanim dijagramom.
 
-<p align="center"> <img src="Idejni%20koncepti/FSM_vhdl.jpg" width="700">
+<p align="center"> <img src="Idejni%20koncepti/FSM_vhdl.jpg" width="700"><br>
 <em>Slika 9: Verifikacija konačnog automata pomoću Quartus State Machine Viewer-a.</em> </p>
 
 ## Verifikacija pomoću simulacijskog alata ModelSim
