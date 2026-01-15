@@ -77,7 +77,7 @@ U nastavku je prikazan popis svih signala korištenih u ARP Responder modulu:
 
 Validacija ARP Responder modula izvršena je kroz dva ključna scenarija koji pokrivaju ispravno procesiranje, filtriranje saobraćaja i ignorisanje nepodržanih protokola.
 
-### **1. Validna ARP rezolucija (Target IP Match)**
+### **1. Generisanje ARP odgovora (Target IP Match)**
 Ovo je osnovni scenarij u kojem modul prima ARP zahtjev koji je namijenjen upravo njemu.
 
 *   **Ulaz:** Testbench šalje broadcast **ARP Request** u kojem je `Target IP` jednak IP adresi modula (npr. `192.168.1.1`).
@@ -109,23 +109,28 @@ Wavedrom dijagrami su kreirani pomoću WaveDrom alata. Izvorni `.json` fajlovi z
 
 Dijagrami pokrivaju sljedeće scenarije:
 
-### Scenario 1: Validna ARP Rezolucija (Target IP Match)
+### Scenario 1: Generisanje ARP odgovora (Target IP Match)
 
-Prikazani vremenski dijagram ilustruje rad modula kada primi validan ARP zahtjev (Request) namijenjen ovom uređaju.
+Ovaj scenarij demonstrira nominalni rad ARP Responder modula kada primi ARP Request paket namijenjen upravo njemu. Prikazani dijagram prikazuje kompletan ciklus: od detekcije broadcast zahtjeva do generisanja unicast odgovora.
+
 <p align="center">
   <img src="Wavedrom/Scenarij_1.png" width="1000"><br>
   <em>Slika 5: Wavedrom za uspješnu rezoluciju </em>
 </p>
 
-*   **Ulazna faza (`RX_CHECK`):**
-    *   Modul putem **Avalon-ST** interfejsa prima *broadcast* paket (vidljivo po `FF..FF` na `in_data`).
-    *   Interna logika provjerava *Target IP* polje u paketu.
-*   **Logika odlučivanja:**
-    *   Detektovano je poklapanje ciljane IP adrese sa lokalnom adresom.
-    *   Automat stanja prelazi iz `RX_CHECK` u `TX_CHECK`.
-*   **Izlazna faza (`TX_CHECK`):**
-    *   Modul generiše ARP odgovor (*Reply*).
-    *   Na `out_data` liniji se šalje paket sa *unicast* MAC adresom pošiljaoca, potvrđujući rezoluciju adrese.
+* **1. Ulazna faza: Prijem i Identifikacija (RX)**
+Proces počinje aktivacijom Avalon-ST Input interfejsa (`in_valid = 1`, `in_sop = 1`). Modul analizira dolazni okvir:
+Ethernet Zaglavlje: Detektuje se Broadcast MAC (`FF..FF`), što signalizira da je paket namijenjen svima. `EtherType 0806` potvrđuje da je riječ o `ARP protokolu`.
+ARP Zaglavlje: `Opcode 00 01` identifikuje ARP Request. Modul privremeno pamti Sender MAC i Sender IP (`192.168.1.100`) kako bi adresirao odgovor.
+* **2. Proces**
+Automat stanja prolazi kroz sekvencu provjere zaglavlja do stanja `RX_ARP_ADDRS`, gdje se donosi odluka:
+Poređenje: Modul čita Target IP (`192.168.1.1`) iz paketa i poredi ga sa svojom lokalnom IP adresom.
+Odluka: Budući da je detektovano poklapanje adresa, automat prelazi u stanje `TX_SEND` radi slanja odgovora.
+* **3. Izlazna faza: Generisanje Odgovora (TX)**
+U stanju `TX_SEND`, modul putem Avalon-ST Output linija generiše odgovor:
+Ethernet Odgovor: Paket se šalje kao Unicast. Destination MAC se postavlja na adresu pošiljaoca zahtjeva (`00:11:22...`), a Source MAC na adresu FPGA modula.
+ARP Payload: Opcode se mijenja u `00 02` (ARP Reply). U polje Sender IP upisuje se lokalna adresa (`192.168.1.1`), dok se originalni pošiljalac postavlja kao Target.
+Kraj: Signal `out_eop` označava kraj prenosa, nakon čega se FSM vraća u IDLE.
 
 ### Scenario 2: Nevalidna ARP Rezolucija (Target IP Mismatch)
 
@@ -137,11 +142,21 @@ Dijagram prikazuje ponašanje modula kada primi ARP zahtjev koji nije namijenjen
   <em>Slika 6: Wavedrom za neuspješnu rezoluciju </em>
 </p>
 
-*   **Ulazna faza (`RX_CHECK`):** Modul uredno prima *broadcast* ARP paket putem **Avalon-ST input** interfejsa.
-*   **Logika odlučivanja:** Tokom provjere sadržaja paketa, modul detektuje da se *Target IP* u zahtjevu **ne podudara** sa lokalnom IP adresom.
-*   **Ishod (`DROP`):**
-    *   Automat stanja prelazi u `DROP`, a zatim se vraća u `IDLE`.
-    *   **Nema odgovora:** `AVALON-ST output` signali (`out_valid`, `out_sop`, itd.) ostaju na nuli, što znači da modul ne šalje nikakav odgovor na mrežu. 
+
+* **1. Ulazna faza: Prijem Paketa (RX)**
+Modul putem Avalon-ST Input interfejsa uredno prima Broadcast ARP paket.
+Automat stanja prolazi kroz standardne faze provjere (`RX_ETH_HDR, RX_ARP_FIELDS`) jer je struktura paketa validna.
+Paket se identifikuje kao ARP Request sa pitanjem: "Ko ima IP adresu `192.168.2.50`?"
+* **2. Logika Odlučivanja (Mismatch)**
+U stanju RX_ARP_ADDRS, vrši se ključna provjera:
+Poređenje: Modul čita traženi Target IP (`192.168.2.50`) i poredi ga sa svojom lokalnom IP adresom (`192.168.1.1`).
+Detekcija: Logika detektuje da se adrese ne podudaraju. Zahtjev nije namijenjen ovom uređaju.
+* **3. Ishod: Odbacivanje (DROP)**
+Umjesto prelaska u fazu slanja, dešava se sljedeće:
+Stanje: Automat prelazi u stanje `DROP` kako bi prekinuo obradu, a zatim se odmah vraća u `IDLE`.
+Izlaz: Avalon-ST Output signali (`out_valid`, `out_sop`) ostaju na nuli. Modul ostaje "tih" i ne šalje odgovor, efikasno filtrirajući nepotreban saobraćaj.
+
+
 
 ## Konačni automat 
 
