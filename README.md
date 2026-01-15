@@ -171,8 +171,10 @@ Tek kada su i Ethernet i ARP kontrolna polja potvrđena, FSM prelazi na provjeru
 
 > U okviru testiranja se očekuju Ethernet/ARP okviri **ispravne dužine** (tj. sa svim potrebnim bajtovima do kraja ARP poruke). Ukoliko se desi neočekivani prekid okvira (npr. `in_eop='1'` prije nego što su primljena i validirana sva obavezna polja), okvir se tretira kao neispravan i FSM se prebacuje u stanje **`IDLE`** (bez generisanja odgovora).
 > 
-> <p align="center">
-  <img src="FSM/FSM_new_diagram.png" width="600"><br>
+
+
+<p align="center">
+<img width="600" height="500" alt="image" src="FSM/FSM_new_diagram.png" width="600"><br>
   <em>Slika 7: Dijagram konačnog automata (FSM) ARP Responder modula.</em>
 </p>
 
