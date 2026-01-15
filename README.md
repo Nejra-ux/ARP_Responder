@@ -191,7 +191,7 @@ Da bi dijagram ostao pregledan, više pojedinačnih provjera je sažeto u tri in
 
 
 <p align="center">
-  <img src="FSM/FSM.drawio.png" width="600"><br>
+  <img src="FSM/FSM_new_diagram.png" width="600"><br>
   <em>Slika 7: Dijagram konačnog automata (FSM) ARP Responder modula.</em>
 </p>
 
