@@ -170,6 +170,11 @@ Ako je EtherType ispravan, FSM nastavlja u fazu obrade ARP zaglavlja i validira 
 Tek kada su i Ethernet i ARP kontrolna polja potvrđena, FSM prelazi na provjeru adresa. U ovoj fazi se posebno provjerava da je Target Protocol Address (TPA) jednak konfigurisanom `IP_ADDRESS` modula. Ako se TPA ne poklapa, zahtjev nije namijenjen ovom uređaju i okvir se ignoriše. Ako se TPA poklapa, FSM zaključuje da je primljen validan ARP Request za IP adresu modula i prelazi u stanje slanja odgovora. U stanju slanja, modul formira **ARP Reply** i šalje ga bajt-po-bajt preko Avalon-ST izlaza. Slanje je kontrolisano signalom `out_ready`, a brojač bajtova i izlazni tok napreduju samo kada je `out_ready='1'`, a kada je `out_ready='0'` modul zadržava trenutni bajt i `out_valid` ostaje aktivan, čime se obezbjeđuje korektan rad u prisustvu backpressure-a i eliminiše mogućnost gubitka podataka.
 
 > U okviru testiranja se očekuju Ethernet/ARP okviri **ispravne dužine** (tj. sa svim potrebnim bajtovima do kraja ARP poruke). Ukoliko se desi neočekivani prekid okvira (npr. `in_eop='1'` prije nego što su primljena i validirana sva obavezna polja), okvir se tretira kao neispravan i FSM se prebacuje u stanje **`IDLE`** (bez generisanja odgovora).
+> 
+> <p align="center">
+  <img src="FSM/FSM_new_diagram.png" width="600"><br>
+  <em>Slika 7: Dijagram konačnog automata (FSM) ARP Responder modula.</em>
+</p>
 
 
 ### Stanja automata
@@ -190,10 +195,7 @@ Da bi dijagram ostao pregledan, više pojedinačnih provjera je sažeto u tri in
 - **`tpa_mismatch`** – Target IP (TPA) nije IP adresa modula  
 
 
-<p align="center">
-  <img src="FSM/FSM_new_diagram.png" width="600"><br>
-  <em>Slika 7: Dijagram konačnog automata (FSM) ARP Responder modula.</em>
-</p>
+
 
 
 ## VHDL implementacija
