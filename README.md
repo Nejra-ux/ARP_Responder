@@ -132,7 +132,7 @@ Ethernet Odgovor: Paket se šalje kao Unicast. Destination MAC se postavlja na a
 ARP Payload: Opcode se mijenja u `00 02` (ARP Reply). U polje Sender IP upisuje se lokalna adresa (`192.168.1.1`), dok se originalni pošiljalac postavlja kao Target.
 Kraj: Signal `out_eop` označava kraj prenosa, nakon čega se FSM vraća u IDLE.
 
-### Scenario 2: Nevalidna ARP Rezolucija (Target IP Mismatch)
+### Scenario 2: Odbacivanje tuđeg zahtjeva (Target IP Mismatch)
 
 
 Dijagram prikazuje ponašanje modula kada primi ARP zahtjev koji nije namijenjen ovom uređaju (nepoklapanje IP adrese).
@@ -169,8 +169,7 @@ Ako je EtherType ispravan, FSM nastavlja u fazu obrade ARP zaglavlja i validira 
 
 Tek kada su i Ethernet i ARP kontrolna polja potvrđena, FSM prelazi na provjeru adresa. U ovoj fazi se posebno provjerava da je Target Protocol Address (TPA) jednak konfigurisanom `IP_ADDRESS` modula. Ako se TPA ne poklapa, zahtjev nije namijenjen ovom uređaju i okvir se ignoriše. Ako se TPA poklapa, FSM zaključuje da je primljen validan ARP Request za IP adresu modula i prelazi u stanje slanja odgovora. U stanju slanja, modul formira **ARP Reply** i šalje ga bajt-po-bajt preko Avalon-ST izlaza. Slanje je kontrolisano signalom `out_ready`, a brojač bajtova i izlazni tok napreduju samo kada je `out_ready='1'`, a kada je `out_ready='0'` modul zadržava trenutni bajt i `out_valid` ostaje aktivan, čime se obezbjeđuje korektan rad u prisustvu backpressure-a i eliminiše mogućnost gubitka podataka.
 
-> U okviru testiranja se očekuju Ethernet/ARP okviri **ispravne dužine** (tj. sa svim potrebnim bajtovima do kraja ARP poruke). Ukoliko se desi neočekivani prekid okvira (npr. `in_eop='1'` prije nego što su primljena i validirana sva obavezna polja), okvir se tretira kao neispravan i FSM se prebacuje u stanje **`IDLE`** (bez generisanja odgovora).
-> 
+> U okviru testiranja se očekuju Ethernet/ARP okviri **ispravne dužine** (tj. sa svim potrebnim bajtovima do kraja ARP poruke). Ukoliko to nije slučaj, okvir se odbacuje i vraća se u stanje IDLE.
 
 
 <p align="center">
