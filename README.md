@@ -237,12 +237,12 @@ Verifikacija ARP respondera je urađena u **ModelSim-u** kroz testbench za **Sce
 Checker upoređuje izlaz sa očekivanim ARP Reply okvirom (`arp_reply_exp`) i broji bajtove **samo na handshake**: `out_valid='1' AND out_ready='1'`. Time je verifikovano i pravilno ponašanje u slučaju backpressure-a.
 
 <p align="center">
-  <img src="images/tb_scenarij_1_slika_1.jpg" width="800"><br>
+  <img src="Idejni%20koncepti/tb_scenarij_1_slika_1.jpg" width="1000"><br>
   <em>Slika 10: ModelSim waveform — prijem ARP Request okvira (Scenarij 1).</em>
 </p>
 
 <p align="center">
-  <img src="images/tb_scenarij_1_slika_2.jpg" width="800"><br>
+  <img src="Idejni%20koncepti/tb_scenarij_1_slika_2.jpg" width="1000"><br>
   <em>Slika 11: ModelSim waveform — slanje ARP Reply okvira uz ubačeni backpressure (out_ready='0' tokom nekoliko taktova).</em>
 </p>
 
