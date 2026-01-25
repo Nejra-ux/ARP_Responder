@@ -227,6 +227,26 @@ FSM implementiran u VHDL-u verifikovan je korištenjem State Machine Viewer alat
 
 ## Verifikacija pomoću simulacijskog alata ModelSim
 
+Verifikacija ARP respondera je urađena u **ModelSim-u** kroz testbench za **Scenarij 1** (ARP Request gdje se *Target IP (TPA)* poklapa sa `IP_ADDRESS` modula). Cilj je potvrditi da DUT korektno parsira okvir (42 bajta) i generiše ispravan **ARP Reply** (42 bajta).
+
+### Ready/Valid handshake + kontrola toka
+- **Ulaz (in_*)**: bajt se prenosi samo kad je `in_valid='1'` i `in_ready='1'`. Ako `in_ready='0'`, testbench drži stabilne `in_data/in_sop/in_eop` (ne mijenja se bajt dok handshake ne prođe).
+- **Izlaz (out_*)**: simuliran je **backpressure** tako što testbench tokom slanja reply-a privremeno spušta `out_ready='0'` na nekoliko taktova. DUT tada mora držati stabilne `out_data/out_sop/out_eop` dok `out_ready` ponovo ne postane `'1'`.
+
+### Provjera (checker)
+Checker upoređuje izlaz sa očekivanim ARP Reply okvirom (`arp_reply_exp`) i broji bajtove **samo na handshake**: `out_valid='1' AND out_ready='1'`. Time je verifikovano i pravilno ponašanje u slučaju backpressure-a.
+
+<p align="center">
+  <img src="images/tb_scenarij_1_slika_1.jpg" width="800"><br>
+  <em>Slika 10: ModelSim waveform — prijem ARP Request okvira (Scenarij 1).</em>
+</p>
+
+<p align="center">
+  <img src="images/tb_scenarij_1_slika_2.jpg" width="800"><br>
+  <em>Slika 11: ModelSim waveform — slanje ARP Reply okvira uz ubačeni backpressure (out_ready='0' tokom nekoliko taktova).</em>
+</p>
+
+
 ## Zaključak
 
 ## Literatura
