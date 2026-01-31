@@ -2,6 +2,12 @@
 
 ## Uvod
 
+U Ethernet mrežama, isporuka okvira na podatkovnom sloju zasniva se isključivo na fizičkim (MAC) adresama, dok se na mrežnom sloju komunikacija odvija pomoću logičkih IPv4 adresa. Ova razlika u adresiranju zahtijeva mehanizam koji omogućava preslikavanje IPv4 adresa u odgovarajuće MAC adrese unutar lokalne mreže. Upravo tu ulogu ima Address Resolution Protocol (ARP), koji predstavlja osnovni, ali neophodan dio svake IPv4 Ethernet mreže [1].
+
+Cilj ovog projekta je implementacija ARP Responder modula u VHDL-u, koji prima Ethernet okvire putem Avalon-ST interfejsa i generiše ARP Reply poruke za unaprijed definisanu IPv4 adresu lokalnog čvora. Projekat se fokusira na ispravnu interpretaciju ARP protokola, pravilno rukovanje streaming interfejsom (ready/valid), te precizno formiranje odgovora u skladu sa relevantnim standardima.
+
+## Address Resolution Protocol (ARP)
+
 ARP (Address Resolution Protocol) je protokol koji povezuje logičko adresiranje na mrežnom sloju (IPv4 adrese) sa fizičkim adresiranjem na podatkovnom sloju (MAC adrese) u lokalnoj mreži. U tipičnoj Ethernet LAN mreži, Ethernet okvir se isporučuje na osnovu MAC adrese odredišta, dok aplikacije i protokoli viših slojeva (npr. TCP/UDP) komuniciraju korištenjem IP adresa.
 
 Kada čvor želi poslati IP paket ka određenoj IPv4 adresi u istoj lokalnoj mreži, on mora znati kojoj MAC adresi ta IP adresa pripada. Ako tražena IP adresa nije prisutna u lokalnoj ARP tabeli (ARP cache), čvor inicira ARP postupak razrješenja adrese (engl. address resolution):
@@ -12,7 +18,7 @@ Kada čvor želi poslati IP paket ka određenoj IPv4 adresi u istoj lokalnoj mre
 2. Svi uređaji u lokalnoj mreži primaju ARP Request, ali **odgovara samo onaj čija IP adresa odgovara traženoj adresi**.
 3. Taj uređaj šalje ARP Reply – unicast Ethernet okvir koji sadrži:
    - svoju MAC adresu,
-   - svoju IP adresu (kao potvrdu),
+   - svoju IP adresu,
    - IP/MAC adrese pošiljaoca zahtjeva u odgovarajućim poljima.
 4. Pošiljalac ažurira svoju ARP tabelu, upisuje par (IP, MAC) i omogućava slanje IP paketa ka tom odredištu koristeći dobijenu MAC adresu [1].
 
@@ -20,16 +26,16 @@ Na narednoj slici prikazan je proces ARP komunikacije, uključujući ARP request
 
 <p align="center">
 <img width="600" height="500" alt="image" src="https://github.com/user-attachments/assets/bd80100d-f5b2-4fc2-bf94-2921d3f7d430" /><br>
-  <em> Slika 1. Proces ARP komunikacije [1]</em>
+  <em> Slika 1. Proces ARP komunikacije kroz request i reply poruke [1]</em>
 </p>
 
 
 
-## ARP protokol
+## ARP poruka i struktura ARP paketa
 
-ARP paket se sastoji od Ethernet frame headera i ARP headera. Dužina Ethernet frame headera je 14 bajtova, dok je dužina ARP headera 28 bajtova. Informacije vezane za Address Resolution Protocol nalaze se upravo u ovom dijelu.
-U ARP paketu, EtherType u Ethernet zaglavlju ima vrijednost 0x0806 [2]. Ostali dijelovi Ethernet headera isti su kao i kod drugih Ethernet paketa.
-ARP header sadrži više različitih polja. Ispod se nalaze navedeni dijelovi ARP headera, jedan po jedan.
+ARP poruka se ne prenosi samostalno, već je enkapsulirana unutar Ethernet okvira. Dužina Ethernet zaglavlja je 14 bajtova, dok je dužina ARP zaglavlja 28 bajtova. Informacije vezane za Address Resolution Protocol nalaze se upravo u ovom dijelu.
+U ARP paketu, EtherType u Ethernet zaglavlju ima vrijednost `0x0806` [2]. Ostali dijelovi Ethernet zaglavlja isti su kao i kod drugih Ethernet paketa.
+Struktura ARP zaglavlja prikazana je na Slici 2 i sastoji se od sljedećih polja:
 
 <p align="center">
  <img width="900" height="500" alt="image" src="https://github.com/user-attachments/assets/bc90bd7e-3b97-43aa-a1e2-2c374282ac84" /><br>
@@ -37,15 +43,11 @@ ARP header sadrži više različitih polja. Ispod se nalaze navedeni dijelovi AR
 </p>
 
 
-
-Kao što se može vidjeti u formatu ARP paketa, ARP header se sastoji od više različitih polja. Njihovi nazivi su:
-
-
 - **Hardware type (HTYPE)** – tip fizičkog interfejsa; za Ethernet je najčešće vrijednost `1`.
 - **Protocol type (PTYPE)** – identifikator protokola višeg sloja; za IPv4 se koristi vrijednost `0x0800`.
 - **Hardware address length (HLEN)** – dužina hardverske (MAC) adrese u oktetima; za Ethernet je `6`.
 - **Protocol address length (PLEN)** – dužina IP adrese u oktetima; za IPv4 je `4`.
-- **Opcode** – tip ARP poruke:
+- **Opcode ili Operation code (OPER)** – tip ARP poruke:
   - `1` – ARP Request,
   - `2` – ARP Reply.
 - **Sender hardware address (SHA)** – MAC adresa pošiljaoca ARP poruke.
@@ -53,7 +55,7 @@ Kao što se može vidjeti u formatu ARP paketa, ARP header se sastoji od više r
 - **Target hardware address (THA)** – MAC adresa odredišta (kod ARP Requesta se često stavlja nula, jer još nije poznata).
 - **Target protocol address (TPA)** – IP adresa odredišta čija se MAC adresa traži [3].
 
-Kombinacijom ovih polja, ARP omogućava da čvor jednoznačno identifikuje ko traži adresu (sender) i za koju IP adresu (target) želi da dobije MAC adresu.
+Kombinacijom ovih polja, ARP omogućava da čvor jednoznačno identifikuje ko traži adresu (sender) i za koju IP adresu (target) želi da dobije MAC adresu. Višebajtna polja u ARP zaglavlju kodirana su u mrežnom poretku bajtova (engl. network byte order), odnosno s najznačajnijim bajtom prvim. Ova činjenica je od posebnog značaja za hardversku implementaciju protokola, gdje se obrada ARP poruke vrši bajt-po-bajt putem streaming interfejsa [4].
 
 ## Opis projekta i popis signala
 
