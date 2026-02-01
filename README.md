@@ -443,6 +443,21 @@ Checker verifikuje da se `out_valid` ne aktivira:
 
 ## Zaključak
 
+U okviru ovog projekta implementiran je ARP Responder modul u VHDL-u koji prima Ethernet okvire preko Avalon-ST interfejsa, parsira ARP sadržaj bajt-po-bajt i generiše ARP Reply isključivo kada su ispunjeni svi uslovi validnosti (EtherType = 0x0806, ispravan Ethernet/IPv4 ARP Request format i poklapanje ciljne IP adrese sa `IP_ADDRESS`). Kontrola toka je realizovana korištenjem ready/valid handshake mehanizma, pri čemu je posebno verifikovano ispravno “HOLD” ponašanje na izlazu tokom `out_ready='0'` u fazi slanja odgovora.
+
+Funkcionalna ispravnost potvrđena je simulacijom u ModelSim-u kroz više testnih slučajeva: (1) nominalni slučaj sa generisanjem ARP Reply okvira (TPA match) i (2) grupa scenarija bez odgovora, gdje DUT pravilno odbacuje ili ignoriše okvire koji nisu namijenjeni njemu ili nisu validni (TPA mismatch, non-ARP EtherType, nevažeći ARP format – npr. pogrešan HLEN). Dodatno, ponašanje i sekvenca obrade su dokumentovani kroz WaveDrom dijagrame i FSM prikaz, čime je obezbijeđena jasna veza između specifikacije, RTL implementacije i rezultata verifikacije.
+
+## Budući rad (moguća unapređenja)
+
+U narednoj fazi, projekat se može proširiti i ojačati kroz sljedeće nadogradnje:
+
+- **Šira podrška ARP tipovima poruka:** Dodati podršku za obradu drugih ARP poruka (npr. ARP Reply ulazno, ili specifične varijante) ili eksplicitno filtriranje/odbijanje prema dodatnim pravilima.
+- **ARP cache / tabela preslikavanja:** Implementirati jednostavnu ARP tabelu (cache) koja bi pamtila parove `(SPA, SHA)` iz validnih ARP okvira, što bi omogućilo naprednije ponašanje i dodatnu validaciju saobraćaja.
+- **Robusnija validacija okvira:** Proširiti provjere na dodatne detalje, npr. minimalnu/realnu dužinu Ethernet okvira, detekciju preuranjenog `in_eop`, te eksplicitno rukovanje neočekivano produženim okvirima (pored postojećeg `DROP` mehanizma).
+- **Podrška za padding i CRC (modeliranje):** Iako projekat trenutno ne modelira CRC i padding, budući rad može uključiti barem modeliranje prisustva padding-a, te (opcionalno) CRC polja radi približavanja realnom Ethernet okruženju.
+- **Parametrizacija i konfigurabilnost:** Omogućiti konfiguraciju dodatnih parametara (npr. dozvoljeni opseg IP adresa, filtriranje po sender IP/MAC, ili mogućnost odgovora samo na određene MAC destinacije).
+- **Integracija u širi sistem:** Testirati modul u okviru većeg FPGA dizajna (npr. zajedno sa MAC/PHY ili mrežnim stack-om), te provesti validaciju kroz hardversko testiranje i stvarni mrežni saobraćaj (npr. generisanje ARP zahtjeva sa računara i posmatranje odgovora).
+
 ## Literatura
 
 [1] D. C. Plummer, “An Ethernet Address Resolution Protocol: Or Converting Network Protocol Addresses to 48-bit Ethernet Address for Transmission on Ethernet Hardware,” RFC 826, Nov. 1982. [Na internetu]. Dostupno: https://www.rfc-editor.org/rfc/rfc826.html [pristupljeno 01.02.2026.].
