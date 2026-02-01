@@ -80,7 +80,7 @@ U nastavku je prikazan popis svih signala korištenih u ARP Responder modulu (Av
 
 ## Scenariji za testiranje
 
-Validacija ARP Responder modula izvršena je kroz dva konceptualna scenarija (sa odgovorom / bez odgovora) koji pokrivaju ispravno procesiranje, filtriranje saobraćaja i ignorisanje nepodržanih protokola.
+Validacija ARP Responder modula izvršena je kroz dva konceptualna testna slučaja (sa odgovorom / bez odgovora) koji pokrivaju ispravno procesiranje, filtriranje saobraćaja i ignorisanje nepodržanih protokola.
 
 ### **1. Generisanje ARP odgovora (TPA match)**
 Ovo je osnovni scenarij u kojem čvor prima ARP zahtjev koji je namijenjen upravo njemu.
@@ -97,7 +97,7 @@ Ovo je osnovni scenarij u kojem čvor prima ARP zahtjev koji je namijenjen uprav
 
 ### **2. Filtriranje tuđih zahtjeva i nevažećeg saobraćaja**
 
-Ovaj scenarij prikazuje situacije u kojima posmatrani čvor ne smije poslati ARP odgovor.
+Ovaj testni slučaj prikazuje situacije u kojima posmatrani čvor ne smije poslati ARP odgovor.
 
 * **Slučajevi bez odgovora:**
   - **Non-ARP okvir:** `EtherType ≠ 0x0806` (npr. IPv4 okvir gdje je `EtherType = 0x0800`).
@@ -131,7 +131,7 @@ Ovaj scenarij demonstrira nominalni rad ARP Responder modula kada primi ARP Requ
 
 * **1. Ulazna faza: Prijem i Identifikacija (RX)**
 Proces počinje aktivacijom Avalon-ST Input interfejsa (`in_valid = 1`, `in_sop = 1`). Modul analizira dolazni okvir:
-Ethernet Zaglavlje: Detektuje se Broadcast MAC (`FF..FF`), što signalizira da je paket namijenjen svima. `EtherType 0806` potvrđuje da je riječ o `ARP protokolu`.
+Ethernet Zaglavlje: Detektuje se Broadcast MAC (`FF..FF`), što signalizira da je paket namijenjen svima. `EtherType 0x0806` potvrđuje da je riječ o `ARP protokolu`.
 ARP Zaglavlje: `Opcode 00 01` identifikuje ARP Request. Modul privremeno pamti Sender MAC i Sender IP (`192.168.1.100`) kako bi adresirao odgovor.
 * **2. Proces**
 Automat stanja prolazi kroz sekvencu provjere zaglavlja do stanja `RX_ARP_ADDRS`, gdje se donosi odluka:
@@ -176,15 +176,9 @@ Ovaj scenarij testira granični slučaj u kojem modul prima Ethernet okvir koji 
   <em>Slika 7: Wavedrom za Non-ARP okvir (EtherType = 0x0800) </em>
 </p>
 
-* **1. Ulazna faza: Prijem i Ethernet identifikacija (RX)**
-Modul prima Ethernet okvir preko Avalon-ST ulaza (`in_valid = 1`, `in_sop = 1`). Tok bajtova se parsira bajt-po-bajt do polja EtherType:
-- Na bajtovima 12–13 se očitava `EtherType = 0x0800`, što označava IPv4 okvir (Non-ARP).
-- Time se aktivira indikator `eth_fail`, jer okvir nije relevantan za ARP responder logiku.
+* **1. Ulazna faza: Prijem i Ethernet identifikacija (RX)** Modul prima Ethernet okvir preko Avalon-ST ulaza (`in_valid = 1`, `in_sop = 1`). Tok bajtova se parsira bajt-po-bajt do polja EtherType:  Na bajtovima 12–13 se očitava `EtherType = 0x0800`, što označava IPv4 okvir (Non-ARP). Time se aktivira indikator `eth_fail`, jer okvir nije relevantan za ARP responder logiku.
 
-* **2. Ishod: Odbacivanje okvira (DROP)**
-Nakon detekcije `eth_fail`, FSM:
-- prelazi u stanje `DROP` i ignoriše preostale bajtove okvira do `in_eop`,
-- **ne aktivira** izlazne signale (`out_valid` ostaje 0), tj. ne ulazi u `TX_SEND`.
+* **2. Ishod: Odbacivanje okvira (DROP)** Nakon detekcije `eth_fail`, FSM: prelazi u stanje `DROP` i ignoriše preostale bajtove okvira do `in_eop`, **ne aktivira** izlazne signale (`out_valid` ostaje 0), tj. ne ulazi u `TX_SEND`.
 
 ### Scenarij 4: Odbacivanje nevažeće ARP poruke (pogrešan ARP format – HLEN)
 
@@ -195,15 +189,9 @@ Ovaj scenarij testira slučaj u kojem modul prima okvir koji **jeste ARP** (`Eth
   <em>Slika 8: Wavedrom za nevažeći ARP okvir (pogrešan HLEN)</em>
 </p>
 
-* **1. Ulazna faza: Prijem i identifikacija ARP okvira (RX)**
-Modul prima Ethernet okvir preko Avalon-ST ulaza (`in_valid = 1`, `in_sop = 1`). Tok bajtova se parsira bajt-po-bajt:
-- Na bajtovima 12–13 očitava se `EtherType = 0x0806`, čime se potvrđuje da je riječ o ARP okviru.
-- U ARP zaglavlju `Opcode = 0x0001` označava ARP Request, ali se tokom provjere fiksnih ARP polja detektuje da je `HLEN` pogrešan (nije 6).
+* **1. Ulazna faza: Prijem i identifikacija ARP okvira (RX)**  Modul prima Ethernet okvir preko Avalon-ST ulaza (`in_valid = 1`, `in_sop = 1`). Tok bajtova se parsira bajt-po-bajt: Na bajtovima 12–13 očitava se `EtherType = 0x0806`, čime se potvrđuje da je riječ o ARP okviru. U ARP zaglavlju `Opcode = 0x0001` označava ARP Request, ali se tokom provjere fiksnih ARP polja detektuje da je `HLEN` pogrešan (nije 6).
 
-* **2. Ishod: Odbacivanje okvira (DROP)**
-Nakon detekcije greške u ARP formatu (`arp_fields_fail`), FSM:
-- prelazi u stanje `DROP` i ignoriše preostale bajtove okvira do `in_eop`,
-- **ne aktivira** izlazne signale (`out_valid` ostaje 0), tj. ne ulazi u `TX_SEND`.
+* **2. Ishod: Odbacivanje okvira (DROP)** Nakon detekcije greške u ARP formatu (`arp_fields_fail`), FSM: prelazi u stanje `DROP` i ignoriše preostale bajtove okvira do `in_eop`, **ne aktivira** izlazne signale (`out_valid` ostaje 0), tj. ne ulazi u `TX_SEND`.
 
 ## Konačni automat 
 
@@ -279,14 +267,12 @@ FSM implementiran u VHDL-u verifikovan je korištenjem State Machine Viewer alat
 
 ## Verifikacija pomoću simulacijskog alata ModelSim
 
-Verifikacija je izvršena kroz četiri testna slučaja, grupisana u dva konceptualna scenarija (sa odgovorom / bez odgovora). U svim slučajevima koristi se **Avalon-ST ready/valid** protokol i Ethernet/ARP okvir fiksne dužine **42 bajta** (14 bajta Ethernet + 28 bajta ARP).
+Verifikacija je izvršena kroz četiri testna slučaja, organizovana u dvije grupe: test sa generisanjem odgovora i testovi bez odgovora. U svim slučajevima koristi se **Avalon-ST ready/valid** protokol i Ethernet/ARP okvir fiksne dužine **42 bajta** (14 bajta Ethernet + 28 bajta ARP).
 
 Ciljevi verifikacije su:
 1. potvrditi korektno parsiranje ARP zahtjeva,
 2. potvrditi da se ARP odgovor generiše **samo** kada je zahtjev namijenjen DUT-u (TPA match),
 3. potvrditi ispravno ponašanje kontrole toka preko `valid/ready` signala.
-
-> Napomena: **CRC i padding nisu modelirani**, u skladu sa projektnim zahtjevima. Verifikacija se fokusira na Ethernet + ARP dio okvira i na korektan sadržaj ARP okvira koji DUT generiše.
 
 ### Ready/Valid handshake i kontrola toka (Avalon-ST)
 
