@@ -1,0 +1,216 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity tb_arp_responder_scenarij2 is
+end entity;
+
+architecture tb of tb_arp_responder_scenarij2 is
+
+  constant tclk : time := 10 ns;
+
+  signal clock     : std_logic := '0';
+  signal reset     : std_logic := '1';
+
+  signal in_ready  : std_logic;
+  signal in_valid  : std_logic := '0';
+  signal in_data   : std_logic_vector(7 downto 0) := (others => '0');
+  signal in_sop    : std_logic := '0';
+  signal in_eop    : std_logic := '0';
+
+  signal out_ready : std_logic := '1';  -- TB je sink; uvijek spreman
+  signal out_valid : std_logic;
+  signal out_data  : std_logic_vector(7 downto 0);
+  signal out_sop   : std_logic;
+  signal out_eop   : std_logic;
+
+  signal req_done  : std_logic := '0';
+
+  type byte_array_t is array (natural range <>) of std_logic_vector(7 downto 0);
+
+  -- ARP Request: TPA = 192.168.2.50 (mismatch u odnosu na DUT IP 192.168.1.1)
+  constant arp_req_mismatch : byte_array_t(0 to 41) := (
+    x"FF", x"FF", x"FF", x"FF", x"FF", x"FF",               -- dst MAC (broadcast)
+    x"00", x"11", x"22", x"33", x"44", x"55",               -- src MAC (requester)
+    x"08", x"06",                                           -- EtherType ARP
+    x"00", x"01", x"08", x"00", x"06", x"04", x"00", x"01", -- HTYPE,PTYPE,HLEN,PLEN,OPER=Request
+    x"00", x"11", x"22", x"33", x"44", x"55",               -- SHA
+    x"C0", x"A8", x"01", x"64",                             -- SPA = 192.168.1.100
+    x"00", x"00", x"00", x"00", x"00", x"00",               -- THA = unknown
+    x"C0", x"A8", x"02", x"32"                              -- TPA = 192.168.2.50 (MISMATCH)
+  );
+
+begin
+
+  uut: entity work.arp_responder(rtl)
+    generic map (
+      IP_ADDRESS  => x"C0A80101",   -- 192.168.1.1
+      MAC_ADDRESS => x"02AABBCCDDEE"
+    )
+    port map (
+      clock     => clock,
+      reset     => reset,
+
+      in_ready  => in_ready,
+      in_valid  => in_valid,
+      in_data   => in_data,
+      in_sop    => in_sop,
+      in_eop    => in_eop,
+
+      out_ready => out_ready,
+      out_valid => out_valid,
+      out_data  => out_data,
+      out_sop   => out_sop,
+      out_eop   => out_eop
+    );
+
+  ------------------------------------------------------------------------------
+  -- Clock
+  ------------------------------------------------------------------------------
+  clock_gen : process
+  begin
+    while true loop
+      clock <= '0'; wait for tclk/2;
+      clock <= '1'; wait for tclk/2;
+    end loop;
+  end process;
+
+  ------------------------------------------------------------------------------
+  -- Reset: isti stil kao u scenariju 1
+  ------------------------------------------------------------------------------
+  rst_gen : process
+  begin
+    reset <= '1';
+
+    -- poravnaj se na clock ivice
+    wait until falling_edge(clock);
+    reset <= '0';
+
+    wait;
+  end process;
+
+  ------------------------------------------------------------------------------
+  -- Stimulus (ULAZ): Avalon-ST source drzi valid/data/sop/eop stabilno
+  -- dok je in_ready=0. Napredujemo samo kad je in_ready=1.
+  ------------------------------------------------------------------------------
+  stim_proc : process
+    variable i : integer := 0;
+  begin
+    in_valid <= '0';
+    in_sop   <= '0';
+    in_eop   <= '0';
+    in_data  <= (others => '0');
+    req_done <= '0';
+
+    wait until reset = '0';
+
+    -- pauza 1 pun takt nakon reseta
+    wait until rising_edge(clock);
+
+    -- postavi byte0 (SOP) na falling edge, da DUT vidi stabilno na rising edge
+    wait until falling_edge(clock);
+
+    i := 0;
+    in_valid <= '1';
+    in_data  <= arp_req_mismatch(i);
+    in_sop   <= '1';
+    in_eop   <= '0';
+
+    while i <= 41 loop
+      wait until rising_edge(clock);
+
+      if in_ready = '1' then
+        i := i + 1;
+
+        if i <= 41 then
+          -- sljedeci bajt na falling edge (stabilno prije rising edge)
+          wait until falling_edge(clock);
+          in_data <= arp_req_mismatch(i);
+          in_sop  <= '0';
+          if i = 41 then
+            in_eop <= '1';
+          else
+            in_eop <= '0';
+          end if;
+        else
+          -- zavrseno slanje
+          wait until falling_edge(clock);
+          in_valid <= '0';
+          in_sop   <= '0';
+          in_eop   <= '0';
+          in_data  <= (others => '0');
+        end if;
+      end if;
+    end loop;
+
+    req_done <= '1';
+    wait;
+  end process;
+
+  ------------------------------------------------------------------------------
+  -- CHECKER:
+  -- U scenariju 2 NE SMIJE biti ARP Reply-a.
+  -- Provjeravamo i tokom prijema request-a, i nakon sto je request zavrsen.
+  ------------------------------------------------------------------------------
+  check_proc : process
+    constant POST_RX_CYCLES : integer := 60;  -- dovoljno (mozes povecati po zelji)
+    variable ok : boolean := true;
+    variable k  : integer := 0;
+  begin
+    wait until reset = '0';
+
+    -- 1) Dok god traje slanje request-a (do req_done), out_valid mora ostati 0
+    while req_done = '0' loop
+      wait until rising_edge(clock);
+      wait for 0 ns;
+
+      if out_valid = '1' then
+        report "GRESKA: out_valid aktiviran tokom scenarija 2 (ne smije biti TX)!" severity error;
+        ok := false;
+      end if;
+
+      if out_sop = '1' then
+        report "GRESKA: out_sop aktiviran tokom scenarija 2 (ne smije biti TX)!" severity error;
+        ok := false;
+      end if;
+
+      if out_eop = '1' then
+        report "GRESKA: out_eop aktiviran tokom scenarija 2 (ne smije biti TX)!" severity error;
+        ok := false;
+      end if;
+    end loop;
+
+    -- 2) Nakon zavrsetka request-a, ostavi jos malo vremena da se vidi da nema odgovora
+    for k in 1 to POST_RX_CYCLES loop
+      wait until rising_edge(clock);
+      wait for 0 ns;
+
+      if out_valid = '1' then
+        report "GRESKA: out_valid aktiviran nakon request-a u scenariju 2 (ne smije biti ARP Reply-a)!"
+          severity error;
+        ok := false;
+      end if;
+
+      if out_sop = '1' then
+        report "GRESKA: out_sop aktiviran u scenariju 2 (ne smije biti TX)!" severity error;
+        ok := false;
+      end if;
+
+      if out_eop = '1' then
+        report "GRESKA: out_eop aktiviran u scenariju 2 (ne smije biti TX)!" severity error;
+        ok := false;
+      end if;
+    end loop;
+
+    if ok then
+      report "SCENARIJ 2 OK: Target IP mismatch -> nema ARP Reply-a (DROP/IDLE), out_valid ostao 0." severity note;
+    else
+      report "SCENARIJ 2: zavrseno, ali ima GRESAKA (vidi error poruke)." severity error;
+    end if;
+
+    wait;
+  end process;
+
+end architecture;
+
+

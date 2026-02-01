@@ -1,0 +1,203 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity tb_arp_responder_scenarij3 is
+end entity;
+
+architecture tb of tb_arp_responder_scenarij3 is
+
+  constant tclk : time := 10 ns;
+
+  signal clock     : std_logic := '1';
+  signal reset     : std_logic := '1';
+
+  signal in_ready  : std_logic;
+  signal in_valid  : std_logic := '0';
+  signal in_data   : std_logic_vector(7 downto 0) := (others => '0');
+  signal in_sop    : std_logic := '0';
+  signal in_eop    : std_logic := '0';
+
+  signal out_ready : std_logic := '1';
+  signal out_valid : std_logic;
+  signal out_data  : std_logic_vector(7 downto 0);
+  signal out_sop   : std_logic;
+  signal out_eop   : std_logic;
+
+  type byte_array_t is array (natural range <>) of std_logic_vector(7 downto 0);
+
+  -- SCENARIJ 3: Non-ARP okvir (EtherType = 0x0800, npr. IPv4)
+  -- Okvir je iste du?ine 42 bajta (radi konzistentnosti sa TB logikom), ali DUT treba
+  -- odmah odbaciti (eth_fail) i nikad ne smije slati ni?ta na izlaz.
+  constant non_arp_frame : byte_array_t(0 to 41) := (
+    -- dst MAC (broadcast)
+    x"FF", x"FF", x"FF", x"FF", x"FF", x"FF",
+
+    -- src MAC (nebitno)
+    x"00", x"11", x"22", x"33", x"44", x"55",
+
+    -- EtherType = 0x0800 (IPv4)  -> namjerno "pogre?no" za ARP responder
+    x"08", x"00",
+
+    -- Ostatak payload-a: "nebitno", ali smisleno kao po?etak IPv4 headera (20 bajtova),
+    -- pa jo? popuna do 42 bajta ukupno.
+    x"45", x"00", x"00", x"1C",  -- Version/IHL, DSCP/ECN, Total Length (28)
+    x"12", x"34", x"40", x"00",  -- ID, Flags/Fragment Offset
+    x"40", x"11", x"00", x"00",  -- TTL=64, Protocol=UDP(17), Header Checksum (dummy)
+    x"C0", x"A8", x"01", x"64",  -- Src IP = 192.168.1.100
+    x"C0", x"A8", x"01", x"01",  -- Dst IP = 192.168.1.1
+    -- "ostatak" do 42 bajta (8 bajtova)
+    x"DE", x"AD", x"BE", x"EF",
+    x"00", x"00", x"00", x"00"
+  );
+
+begin
+
+  uut: entity work.arp_responder(rtl)
+    generic map (
+      IP_ADDRESS  => x"C0A80101",
+      MAC_ADDRESS => x"02AABBCCDDEE"
+    )
+    port map (
+      clock     => clock,
+      reset     => reset,
+
+      in_ready  => in_ready,
+      in_valid  => in_valid,
+      in_data   => in_data,
+      in_sop    => in_sop,
+      in_eop    => in_eop,
+
+      out_ready => out_ready,
+      out_valid => out_valid,
+      out_data  => out_data,
+      out_sop   => out_sop,
+      out_eop   => out_eop
+    );
+
+  ------------------------------------------------------------------------------
+  -- Clock
+  ------------------------------------------------------------------------------
+  clock_gen : process
+  begin
+    while true loop
+      clock <= '1'; wait for tclk/2;
+      clock <= '0'; wait for tclk/2;
+    end loop;
+  end process;
+
+  ------------------------------------------------------------------------------
+  -- Reset: dr?i 1 jedan takt, pa spusti
+  ------------------------------------------------------------------------------
+  rst_gen : process
+  begin
+    reset <= '1';
+
+    -- poravnaj se na clock ivice
+    wait until rising_edge(clock);
+    reset <= '0';                   -- deassert na rising edge (sinhrono)
+
+    wait;
+  end process;
+
+  ------------------------------------------------------------------------------
+  -- Stimulus (ULAZ): Avalon-ST source mora drzati valid/data/sop/eop stabilno
+  -- dok je in_ready=0. Ovdje napredujemo samo kad je in_ready=1.
+  ------------------------------------------------------------------------------
+  stim_proc : process
+    variable i : integer := 0;
+  begin
+    in_valid <= '0';
+    in_sop   <= '0';
+    in_eop   <= '0';
+    in_data  <= (others => '0');
+
+    wait until reset = '0';
+
+    -- pauza 1 pun takt nakon reseta
+    wait until rising_edge(clock);
+
+    i := 0;
+    in_valid <= '1';
+    in_data  <= non_arp_frame(i);
+    in_sop   <= '1';
+    in_eop   <= '0';
+
+    while i <= 41 loop
+      wait until rising_edge(clock);
+
+      if in_ready = '1' then
+        i := i + 1;
+
+        if i <= 41 then
+          in_data <= non_arp_frame(i);
+          in_sop  <= '0';
+          if i = 41 then
+            in_eop <= '1';
+          else
+            in_eop <= '0';
+          end if;
+        else
+          in_valid <= '0';
+          in_sop   <= '0';
+          in_eop   <= '0';
+          in_data  <= (others => '0');
+        end if;
+      end if;
+    end loop;
+
+    wait;
+  end process;
+
+  ------------------------------------------------------------------------------
+  -- OUT READY: u scenariju 3 ne o?ekujemo TX, pa out_ready ostaje stalno '1'.
+  ------------------------------------------------------------------------------
+  out_ready <= '1';
+
+  ------------------------------------------------------------------------------
+  -- CHECKER:
+  -- Scenarij 3 o?ekivanje: DUT NE SMIJE generisati ARP Reply (out_valid mora ostati 0),
+  -- jer EtherType != 0x0806.
+  ------------------------------------------------------------------------------
+  check_proc : process
+    variable ok        : boolean := true;
+    variable saw_eop   : boolean := false;
+    variable post_cnt  : integer := 0;
+  begin
+    wait until reset = '0';
+
+    while true loop
+      wait until rising_edge(clock);
+      wait for 0 ns;
+
+      if out_valid = '1' then
+        report "GRESKA: out_valid se aktivirao u scenariju 3 (Non-ARP EtherType=0x0800) - DUT ne smije slati"
+          severity error;
+        ok := false;
+      end if;
+
+      if (in_valid='1' and in_ready='1' and in_eop='1') then
+        saw_eop := true;
+        post_cnt := 0;
+      end if;
+
+      if saw_eop then
+        post_cnt := post_cnt + 1;
+        if post_cnt = 20 then
+          exit;
+        end if;
+      end if;
+    end loop;
+
+    if ok then
+      report "SCENARIJ 3 OK: DUT je ispravno odbacio okvir sa EtherType=0x0800 (nije generisan ARP Reply)."
+        severity note;
+    else
+      report "SCENARIJ 3: zavrseno, ali ima GRESAKA (vidi error poruke)."
+        severity error;
+    end if;
+
+    wait;
+  end process;
+
+end architecture;

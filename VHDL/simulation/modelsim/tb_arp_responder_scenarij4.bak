@@ -1,0 +1,195 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity tb_arp_responder_scenarij4 is
+end entity;
+
+architecture tb of tb_arp_responder_scenarij4 is
+
+  constant tclk : time := 10 ns;
+
+  signal clock     : std_logic := '1';
+  signal reset     : std_logic := '1';
+
+  signal in_ready  : std_logic;
+  signal in_valid  : std_logic := '0';
+  signal in_data   : std_logic_vector(7 downto 0) := (others => '0');
+  signal in_sop    : std_logic := '0';
+  signal in_eop    : std_logic := '0';
+
+  signal out_ready : std_logic := '1';
+  signal out_valid : std_logic;
+  signal out_data  : std_logic_vector(7 downto 0);
+  signal out_sop   : std_logic;
+  signal out_eop   : std_logic;
+
+  type byte_array_t is array (natural range <>) of std_logic_vector(7 downto 0);
+
+  -- ARP Request koji je "formalno ARP" (EtherType=0x0806) i OPER=Request (0x0001),
+  -- ali je NEVA?E?I jer HLEN nije 6 (namjerno stavljamo 5).
+  --
+  -- TPA je MATCH sa DUT IP (192.168.1.1) da se izoluje razlog odbacivanja (format).
+  constant arp_bad_hlen : byte_array_t(0 to 41) := (
+    x"FF", x"FF", x"FF", x"FF", x"FF", x"FF",               -- dst MAC (broadcast)
+    x"00", x"11", x"22", x"33", x"44", x"55",               -- src MAC (requester)
+    x"08", x"06",                                           -- EtherType ARP
+
+    x"00", x"01",                                           -- HTYPE = 1 (Ethernet)
+    x"08", x"00",                                           -- PTYPE = 0x0800 (IPv4)
+    x"05",                                                  -- HLEN  = 5  <-- NAMJERNO POGRE?NO (treba 6)
+    x"04",                                                  -- PLEN  = 4
+    x"00", x"01",                                           -- OPER  = 1 (ARP Request)  <-- ispravno
+
+    x"00", x"11", x"22", x"33", x"44", x"55",               -- SHA
+    x"C0", x"A8", x"01", x"64",                             -- SPA = 192.168.1.100
+    x"00", x"00", x"00", x"00", x"00", x"00",               -- THA = unknown
+    x"C0", x"A8", x"01", x"01"                              -- TPA = 192.168.1.1 (MATCH sa DUT)
+  );
+
+begin
+
+  uut: entity work.arp_responder(rtl)
+    generic map (
+      IP_ADDRESS  => x"C0A80101",
+      MAC_ADDRESS => x"02AABBCCDDEE"
+    )
+    port map (
+      clock     => clock,
+      reset     => reset,
+
+      in_ready  => in_ready,
+      in_valid  => in_valid,
+      in_data   => in_data,
+      in_sop    => in_sop,
+      in_eop    => in_eop,
+
+      out_ready => out_ready,
+      out_valid => out_valid,
+      out_data  => out_data,
+      out_sop   => out_sop,
+      out_eop   => out_eop
+    );
+
+  ------------------------------------------------------------------------------
+  -- Clock
+  ------------------------------------------------------------------------------
+  clock_gen : process
+  begin
+    while true loop
+      clock <= '1'; wait for tclk/2;
+      clock <= '0'; wait for tclk/2;
+    end loop;
+  end process;
+
+  ------------------------------------------------------------------------------
+  -- Reset: dr?i 1 jedan takt, pa spusti (sinhrono na rising edge)
+  ------------------------------------------------------------------------------
+  rst_gen : process
+  begin
+    reset <= '1';
+    wait until rising_edge(clock);
+    reset <= '0';
+    wait;
+  end process;
+
+  ------------------------------------------------------------------------------
+  -- Stimulus (ULAZ): napredujemo samo kad je in_ready=1
+  ------------------------------------------------------------------------------
+  stim_proc : process
+    variable i : integer := 0;
+  begin
+    in_valid <= '0';
+    in_sop   <= '0';
+    in_eop   <= '0';
+    in_data  <= (others => '0');
+
+    wait until reset = '0';
+    wait until rising_edge(clock);
+
+    i := 0;
+    in_valid <= '1';
+    in_data  <= arp_bad_hlen(i);
+    in_sop   <= '1';
+    in_eop   <= '0';
+
+    while i <= 41 loop
+      wait until rising_edge(clock);
+
+      if in_ready = '1' then
+        i := i + 1;
+
+        if i <= 41 then
+          in_data <= arp_bad_hlen(i);
+          in_sop  <= '0';
+
+          if i = 41 then
+            in_eop <= '1';
+          else
+            in_eop <= '0';
+          end if;
+
+        else
+          in_valid <= '0';
+          in_sop   <= '0';
+          in_eop   <= '0';
+          in_data  <= (others => '0');
+        end if;
+      end if;
+    end loop;
+
+    wait;
+  end process;
+
+  ------------------------------------------------------------------------------
+  -- OUT READY: ne o?ekujemo TX, pa out_ready ostaje stalno '1'
+  ------------------------------------------------------------------------------
+  out_ready <= '1';
+
+  ------------------------------------------------------------------------------
+  -- CHECKER:
+  -- O?ekivanje: DUT NE SMIJE generisati ARP Reply (out_valid mora ostati 0),
+  -- jer je ARP format neva?e?i (HLEN pogre?an).
+  ------------------------------------------------------------------------------
+  check_proc : process
+    variable ok        : boolean := true;
+    variable saw_eop   : boolean := false;
+    variable post_cnt  : integer := 0;
+  begin
+    wait until reset = '0';
+
+    while true loop
+      wait until rising_edge(clock);
+      wait for 0 ns;
+
+      if out_valid = '1' then
+        report "GRESKA: out_valid se aktivirao u scenariju 4 (neva?e?i ARP format - HLEN) - DUT ne smije slati ARP Reply"
+          severity error;
+        ok := false;
+      end if;
+
+      if (in_valid='1' and in_ready='1' and in_eop='1') then
+        saw_eop := true;
+        post_cnt := 0;
+      end if;
+
+      if saw_eop then
+        post_cnt := post_cnt + 1;
+        if post_cnt = 20 then
+          exit;
+        end if;
+      end if;
+    end loop;
+
+    if ok then
+      report "SCENARIJ 4 OK: DUT je ispravno ignorisao ARP Request sa neva?e?im formatom (HLEN != 6)."
+        severity note;
+    else
+      report "SCENARIJ 4: zavrseno, ali ima GRESAKA (vidi error poruke)."
+        severity error;
+    end if;
+
+    wait;
+  end process;
+
+end architecture;

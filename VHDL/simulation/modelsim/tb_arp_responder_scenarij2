@@ -1,0 +1,197 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity tb_arp_responder_scenarij2 is
+end entity;
+
+architecture tb of tb_arp_responder_scenarij2 is
+
+  constant tclk : time := 10 ns;
+
+  signal clock     : std_logic := '1';
+  signal reset     : std_logic := '1';
+
+  signal in_ready  : std_logic;
+  signal in_valid  : std_logic := '0';
+  signal in_data   : std_logic_vector(7 downto 0) := (others => '0');
+  signal in_sop    : std_logic := '0';
+  signal in_eop    : std_logic := '0';
+
+  signal out_ready : std_logic := '1';
+  signal out_valid : std_logic;
+  signal out_data  : std_logic_vector(7 downto 0);
+  signal out_sop   : std_logic;
+  signal out_eop   : std_logic;
+
+  type byte_array_t is array (natural range <>) of std_logic_vector(7 downto 0);
+
+  -- ARP Request: TPA = 192.168.2.50 (mismatch u odnosu na DUT IP 192.168.1.1)
+  constant arp_req_mismatch : byte_array_t(0 to 41) := (
+    x"FF", x"FF", x"FF", x"FF", x"FF", x"FF",               -- dst MAC (broadcast)
+    x"00", x"11", x"22", x"33", x"44", x"55",               -- src MAC (requester)
+    x"08", x"06",                                           -- EtherType ARP
+    x"00", x"01", x"08", x"00", x"06", x"04", x"00", x"01", -- HTYPE,PTYPE,HLEN,PLEN,OPER=Request
+    x"00", x"11", x"22", x"33", x"44", x"55",               -- SHA
+    x"C0", x"A8", x"01", x"64",                             -- SPA = 192.168.1.100
+    x"00", x"00", x"00", x"00", x"00", x"00",               -- THA = unknown
+    x"C0", x"A8", x"02", x"32"                              -- TPA = 192.168.2.50 (MISMATCH)
+  );
+
+begin
+
+  uut: entity work.arp_responder(rtl)
+    generic map (
+      IP_ADDRESS  => x"C0A80101",
+      MAC_ADDRESS => x"02AABBCCDDEE"
+    )
+    port map (
+      clock     => clock,
+      reset     => reset,
+
+      in_ready  => in_ready,
+      in_valid  => in_valid,
+      in_data   => in_data,
+      in_sop    => in_sop,
+      in_eop    => in_eop,
+
+      out_ready => out_ready,
+      out_valid => out_valid,
+      out_data  => out_data,
+      out_sop   => out_sop,
+      out_eop   => out_eop
+    );
+
+  ------------------------------------------------------------------------------
+  -- Clock
+  ------------------------------------------------------------------------------
+  clock_gen : process
+  begin
+    while true loop
+      clock <= '1'; wait for tclk/2;
+      clock <= '0'; wait for tclk/2;
+    end loop;
+  end process;
+
+  ------------------------------------------------------------------------------
+  -- Reset: dr?i 1 jedan takt, pa spusti
+  ------------------------------------------------------------------------------
+  rst_gen : process
+  begin
+    reset <= '1';
+
+    -- poravnaj se na clock ivice
+    wait until rising_edge(clock);
+    reset <= '0';                   -- deassert na rising edge (sinhrono)
+
+    wait;
+  end process;
+
+  ------------------------------------------------------------------------------
+  -- Stimulus (ULAZ): Avalon-ST source mora drzati valid/data/sop/eop stabilno
+  -- dok je in_ready=0. Ovdje napredujemo samo kad je in_ready=1.
+  ------------------------------------------------------------------------------
+  stim_proc : process
+    variable i : integer := 0;
+  begin
+    in_valid <= '0';
+    in_sop   <= '0';
+    in_eop   <= '0';
+    in_data  <= (others => '0');
+
+    wait until reset = '0';
+
+    -- pauza 1 pun takt nakon reseta
+    wait until rising_edge(clock);
+
+    i := 0;
+    in_valid <= '1';
+    in_data  <= arp_req_mismatch(i);
+    in_sop   <= '1';
+    in_eop   <= '0';
+
+    while i <= 41 loop
+      wait until rising_edge(clock);
+
+      if in_ready = '1' then
+        i := i + 1;
+
+        if i <= 41 then
+          in_data <= arp_req_mismatch(i);
+          in_sop  <= '0';
+          if i = 41 then
+            in_eop <= '1';
+          else
+            in_eop <= '0';
+          end if;
+        else
+          in_valid <= '0';
+          in_sop   <= '0';
+          in_eop   <= '0';
+          in_data  <= (others => '0');
+        end if;
+      end if;
+    end loop;
+
+    wait;
+  end process;
+
+  ------------------------------------------------------------------------------
+  -- OUT READY: u scenariju 2 ne o?ekujemo TX, pa out_ready ostaje stalno '1'.
+  ------------------------------------------------------------------------------
+  out_ready <= '1';
+
+  ------------------------------------------------------------------------------
+  -- CHECKER:
+  -- Scenarij 2 o?ekivanje: DUT NE SMIJE generisati ARP Reply (out_valid mora ostati 0).
+  -- Provjeravamo da se out_valid nikad ne aktivira tokom prijema okvira i jo? nekoliko
+  -- taktova nakon ?to je EOP prihva?en na ulazu.
+  ------------------------------------------------------------------------------
+  check_proc : process
+    variable ok        : boolean := true;
+    variable saw_eop   : boolean := false;
+    variable post_cnt  : integer := 0;
+  begin
+    wait until reset = '0';
+
+    -- pratimo od momenta kada krene stimulacija pa dok se ne potvrdi da je okvir zavr?en
+    -- (EOP prihva?en), i zatim jo? 20 taktova "after-window".
+    while true loop
+      wait until rising_edge(clock);
+      wait for 0 ns;
+
+      -- bilo kakav poku?aj slanja je gre?ka
+      if out_valid = '1' then
+        report "GRESKA: out_valid se aktivirao u scenariju 2 (TPA mismatch) - DUT ne smije slati ARP Reply"
+          severity error;
+        ok := false;
+      end if;
+
+      -- detektuj da je ulazni okvir zavr?io (EOP je prihva?en handshake-om)
+      if (in_valid='1' and in_ready='1' and in_eop='1') then
+        saw_eop := true;
+        post_cnt := 0;
+      end if;
+
+      -- nakon zavr?etka okvira brojimo jo? nekoliko taktova
+      if saw_eop then
+        post_cnt := post_cnt + 1;
+        if post_cnt = 20 then
+          exit;
+        end if;
+      end if;
+    end loop;
+
+    if ok then
+      report "SCENARIJ 2 OK: DUT je ispravno ignorisao ARP Request sa TPA mismatch (nije generisan ARP Reply)."
+        severity note;
+    else
+      report "SCENARIJ 2: zavrseno, ali ima GRESAKA (vidi error poruke)."
+        severity error;
+    end if;
+
+    wait;
+  end process;
+
+end architecture;
+

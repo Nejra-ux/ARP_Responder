@@ -1,0 +1,582 @@
+# Reading C:/intelFPGA_lite/19.1/modelsim_ase/tcl/vsim/pref.tcl
+# ERROR: No extended dataflow license exists
+# do arp_responder_run_msim_rtl_vhdl.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim - Intel FPGA Edition vmap 10.5b Lib Mapping Utility 2016.10 Oct  5 2016
+# vmap work rtl_work 
+# Copying C:/intelFPGA_lite/19.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# 
+# vcom -93 -work work {C:/Users/amina/Downloads/arp_projekat/arp_responder.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:10:08 on Feb 01,2026
+# vcom -reportprogress 300 -93 -work work C:/Users/amina/Downloads/arp_projekat/arp_responder.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity arp_responder
+# -- Compiling architecture rtl of arp_responder
+# End time: 18:10:08 on Feb 01,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij1
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:10:49 on Feb 01,2026
+# vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij1 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity tb_arp_responder_scenarij1
+# -- Compiling architecture tb of tb_arp_responder_scenarij1
+# -- Loading entity arp_responder
+# End time: 18:10:49 on Feb 01,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -gui -l msim_transcript work.tb_arp_responder_scenarij1
+# vsim -gui -l msim_transcript work.tb_arp_responder_scenarij1 
+# Start time: 18:10:57 on Feb 01,2026
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.tb_arp_responder_scenarij1(tb)
+# Loading work.arp_responder(rtl)
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij1/clock \
+sim:/tb_arp_responder_scenarij1/reset \
+sim:/tb_arp_responder_scenarij1/in_ready \
+sim:/tb_arp_responder_scenarij1/in_valid \
+sim:/tb_arp_responder_scenarij1/in_data \
+sim:/tb_arp_responder_scenarij1/in_sop \
+sim:/tb_arp_responder_scenarij1/in_eop \
+sim:/tb_arp_responder_scenarij1/out_ready \
+sim:/tb_arp_responder_scenarij1/out_valid \
+sim:/tb_arp_responder_scenarij1/out_data \
+sim:/tb_arp_responder_scenarij1/out_sop \
+sim:/tb_arp_responder_scenarij1/out_eop \
+sim:/tb_arp_responder_scenarij1/tclk \
+sim:/tb_arp_responder_scenarij1/arp_req \
+sim:/tb_arp_responder_scenarij1/arp_reply_exp
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: amina  Hostname: PORCHI  ProcessID: 54284
+#           Attempting to use alternate WLF file "./wlft4nxcea".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlft4nxcea
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij1/uut/pr_state \
+sim:/tb_arp_responder_scenarij1/uut/byte_index
+run
+# ** Note: SCENARIJ 1 OK: ARP Reply identican ocekivanom (provjeren).
+#    Time: 885 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij1
+vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij2
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:22:22 on Feb 01,2026
+# vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij2 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity tb_arp_responder_scenarij2
+# -- Compiling architecture tb of tb_arp_responder_scenarij2
+# -- Loading entity arp_responder
+# End time: 18:22:22 on Feb 01,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+quit -sim
+# End time: 18:22:32 on Feb 01,2026, Elapsed time: 0:11:35
+# Errors: 0, Warnings: 2
+vsim -gui -l msim_transcript work.tb_arp_responder_scenarij2
+# vsim -gui -l msim_transcript work.tb_arp_responder_scenarij2 
+# Start time: 18:22:39 on Feb 01,2026
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.tb_arp_responder_scenarij2(tb)
+# Loading work.arp_responder(rtl)
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij2/clock \
+sim:/tb_arp_responder_scenarij2/reset \
+sim:/tb_arp_responder_scenarij2/in_ready \
+sim:/tb_arp_responder_scenarij2/in_valid \
+sim:/tb_arp_responder_scenarij2/in_data \
+sim:/tb_arp_responder_scenarij2/in_sop \
+sim:/tb_arp_responder_scenarij2/in_eop \
+sim:/tb_arp_responder_scenarij2/out_ready \
+sim:/tb_arp_responder_scenarij2/out_valid \
+sim:/tb_arp_responder_scenarij2/out_data \
+sim:/tb_arp_responder_scenarij2/out_sop \
+sim:/tb_arp_responder_scenarij2/out_eop \
+sim:/tb_arp_responder_scenarij2/req_done \
+sim:/tb_arp_responder_scenarij2/tclk \
+sim:/tb_arp_responder_scenarij2/arp_req_mismatch
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: amina  Hostname: PORCHI  ProcessID: 54284
+#           Attempting to use alternate WLF file "./wlft794c5a".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlft794c5a
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij2/uut/pr_state \
+sim:/tb_arp_responder_scenarij2/uut/byte_index
+run
+quit -sim
+# End time: 18:36:29 on Feb 01,2026, Elapsed time: 0:13:50
+# Errors: 0, Warnings: 2
+vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij1
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:36:33 on Feb 01,2026
+# vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij1 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity tb_arp_responder_scenarij1
+# -- Compiling architecture tb of tb_arp_responder_scenarij1
+# -- Loading entity arp_responder
+# End time: 18:36:33 on Feb 01,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -gui -l msim_transcript work.tb_arp_responder_scenarij1
+# vsim -gui -l msim_transcript work.tb_arp_responder_scenarij1 
+# Start time: 18:36:40 on Feb 01,2026
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.tb_arp_responder_scenarij1(tb)
+# Loading work.arp_responder(rtl)
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij1/clock \
+sim:/tb_arp_responder_scenarij1/reset \
+sim:/tb_arp_responder_scenarij1/in_ready \
+sim:/tb_arp_responder_scenarij1/in_valid \
+sim:/tb_arp_responder_scenarij1/in_data \
+sim:/tb_arp_responder_scenarij1/in_sop \
+sim:/tb_arp_responder_scenarij1/in_eop \
+sim:/tb_arp_responder_scenarij1/out_ready \
+sim:/tb_arp_responder_scenarij1/out_valid \
+sim:/tb_arp_responder_scenarij1/out_data \
+sim:/tb_arp_responder_scenarij1/out_sop \
+sim:/tb_arp_responder_scenarij1/out_eop \
+sim:/tb_arp_responder_scenarij1/tclk \
+sim:/tb_arp_responder_scenarij1/arp_req \
+sim:/tb_arp_responder_scenarij1/arp_reply_exp
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: amina  Hostname: PORCHI  ProcessID: 54284
+#           Attempting to use alternate WLF file "./wlftn5mf45".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftn5mf45
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij1/uut/pr_state \
+sim:/tb_arp_responder_scenarij1/uut/byte_index
+run
+# ** Error: GRESKA: out_data se promijenio dok out_ready='0'
+#    Time: 570 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij1
+# ** Error: GRESKA: out_data mismatch na exp byte 11
+#    Time: 570 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij1
+# ** Error: GRESKA: out_data mismatch na exp byte 11
+#    Time: 580 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij1
+# ** Error: GRESKA: out_data mismatch na exp byte 11
+#    Time: 590 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij1
+# ** Error: GRESKA: out_data mismatch na exp byte 11
+#    Time: 600 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij1
+# ** Error: SCENARIJ 1: zavrseno, ali ima GRESAKA (vidi error poruke).
+#    Time: 900 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij1
+vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij1
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:45:47 on Feb 01,2026
+# vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij1 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity tb_arp_responder_scenarij1
+# -- Compiling architecture tb of tb_arp_responder_scenarij1
+# -- Loading entity arp_responder
+# End time: 18:45:47 on Feb 01,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -gui -l msim_transcript work.tb_arp_responder_scenarij1
+# End time: 18:45:59 on Feb 01,2026, Elapsed time: 0:09:19
+# Errors: 6, Warnings: 2
+# vsim -gui -l msim_transcript work.tb_arp_responder_scenarij1 
+# Start time: 18:45:59 on Feb 01,2026
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.tb_arp_responder_scenarij1(tb)
+# Loading work.arp_responder(rtl)
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij1/clock \
+sim:/tb_arp_responder_scenarij1/reset \
+sim:/tb_arp_responder_scenarij1/in_ready \
+sim:/tb_arp_responder_scenarij1/in_valid \
+sim:/tb_arp_responder_scenarij1/in_data \
+sim:/tb_arp_responder_scenarij1/in_sop \
+sim:/tb_arp_responder_scenarij1/in_eop \
+sim:/tb_arp_responder_scenarij1/out_ready \
+sim:/tb_arp_responder_scenarij1/out_valid \
+sim:/tb_arp_responder_scenarij1/out_data \
+sim:/tb_arp_responder_scenarij1/out_sop \
+sim:/tb_arp_responder_scenarij1/out_eop \
+sim:/tb_arp_responder_scenarij1/tclk \
+sim:/tb_arp_responder_scenarij1/arp_req \
+sim:/tb_arp_responder_scenarij1/arp_reply_exp
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: amina  Hostname: PORCHI  ProcessID: 54284
+#           Attempting to use alternate WLF file "./wlftwfwh8f".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftwfwh8f
+run
+# ** Error: GRESKA: out_data se promijenio dok out_ready='0'
+#    Time: 580 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij1
+# ** Error: GRESKA: out_data mismatch na exp byte 11
+#    Time: 580 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij1
+# ** Error: GRESKA: out_data mismatch na exp byte 11
+#    Time: 590 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij1
+# ** Error: GRESKA: out_data mismatch na exp byte 11
+#    Time: 600 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij1
+# ** Error: GRESKA: out_data mismatch na exp byte 11
+#    Time: 610 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij1
+# ** Error: SCENARIJ 1: zavrseno, ali ima GRESAKA (vidi error poruke).
+#    Time: 910 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij1
+vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij1
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:50:49 on Feb 01,2026
+# vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij1 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity tb_arp_responder_scenarij1
+# -- Compiling architecture tb of tb_arp_responder_scenarij1
+# -- Loading entity arp_responder
+# End time: 18:50:49 on Feb 01,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+quit -sim
+# End time: 18:50:59 on Feb 01,2026, Elapsed time: 0:05:00
+# Errors: 6, Warnings: 2
+# Load canceled
+vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij1
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 18:58:13 on Feb 01,2026
+# vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij1 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity tb_arp_responder_scenarij1
+# -- Compiling architecture tb of tb_arp_responder_scenarij1
+# -- Loading entity arp_responder
+# End time: 18:58:13 on Feb 01,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -gui -l msim_transcript work.tb_arp_responder_scenarij1
+# vsim -gui -l msim_transcript work.tb_arp_responder_scenarij1 
+# Start time: 18:58:20 on Feb 01,2026
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.tb_arp_responder_scenarij1(tb)
+# Loading work.arp_responder(rtl)
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij1/clock \
+sim:/tb_arp_responder_scenarij1/reset \
+sim:/tb_arp_responder_scenarij1/in_ready \
+sim:/tb_arp_responder_scenarij1/in_valid \
+sim:/tb_arp_responder_scenarij1/in_data \
+sim:/tb_arp_responder_scenarij1/in_sop \
+sim:/tb_arp_responder_scenarij1/in_eop \
+sim:/tb_arp_responder_scenarij1/out_ready \
+sim:/tb_arp_responder_scenarij1/out_valid \
+sim:/tb_arp_responder_scenarij1/out_data \
+sim:/tb_arp_responder_scenarij1/out_sop \
+sim:/tb_arp_responder_scenarij1/out_eop \
+sim:/tb_arp_responder_scenarij1/tclk \
+sim:/tb_arp_responder_scenarij1/arp_req \
+sim:/tb_arp_responder_scenarij1/arp_reply_exp
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: amina  Hostname: PORCHI  ProcessID: 54284
+#           Attempting to use alternate WLF file "./wlftrtv8ww".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftrtv8ww
+run
+# ** Note: SCENARIJ 1 OK: ARP Reply identican ocekivanom (provjeren).
+#    Time: 890 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij1
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij1/clock \
+sim:/tb_arp_responder_scenarij1/reset \
+sim:/tb_arp_responder_scenarij1/in_ready \
+sim:/tb_arp_responder_scenarij1/in_valid \
+sim:/tb_arp_responder_scenarij1/in_data \
+sim:/tb_arp_responder_scenarij1/in_sop \
+sim:/tb_arp_responder_scenarij1/in_eop \
+sim:/tb_arp_responder_scenarij1/out_ready \
+sim:/tb_arp_responder_scenarij1/out_valid \
+sim:/tb_arp_responder_scenarij1/out_data \
+sim:/tb_arp_responder_scenarij1/out_sop \
+sim:/tb_arp_responder_scenarij1/out_eop \
+sim:/tb_arp_responder_scenarij1/tclk \
+sim:/tb_arp_responder_scenarij1/arp_req \
+sim:/tb_arp_responder_scenarij1/arp_reply_exp
+quit -sim
+# End time: 19:00:15 on Feb 01,2026, Elapsed time: 0:01:55
+# Errors: 0, Warnings: 2
+vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij1
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 19:00:24 on Feb 01,2026
+# vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij1 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity tb_arp_responder_scenarij1
+# -- Compiling architecture tb of tb_arp_responder_scenarij1
+# -- Loading entity arp_responder
+# End time: 19:00:24 on Feb 01,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -gui -l msim_transcript work.tb_arp_responder_scenarij1
+# vsim -gui -l msim_transcript work.tb_arp_responder_scenarij1 
+# Start time: 19:00:31 on Feb 01,2026
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.tb_arp_responder_scenarij1(tb)
+# Loading work.arp_responder(rtl)
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij1/clock \
+sim:/tb_arp_responder_scenarij1/reset \
+sim:/tb_arp_responder_scenarij1/in_ready \
+sim:/tb_arp_responder_scenarij1/in_valid \
+sim:/tb_arp_responder_scenarij1/in_data \
+sim:/tb_arp_responder_scenarij1/in_sop \
+sim:/tb_arp_responder_scenarij1/in_eop \
+sim:/tb_arp_responder_scenarij1/out_ready \
+sim:/tb_arp_responder_scenarij1/out_valid \
+sim:/tb_arp_responder_scenarij1/out_data \
+sim:/tb_arp_responder_scenarij1/out_sop \
+sim:/tb_arp_responder_scenarij1/out_eop \
+sim:/tb_arp_responder_scenarij1/tclk \
+sim:/tb_arp_responder_scenarij1/arp_req \
+sim:/tb_arp_responder_scenarij1/arp_reply_exp
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: amina  Hostname: PORCHI  ProcessID: 54284
+#           Attempting to use alternate WLF file "./wlft7qqz7g".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlft7qqz7g
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij1/uut/pr_state \
+sim:/tb_arp_responder_scenarij1/uut/byte_index
+run
+# ** Note: SCENARIJ 1 OK: ARP Reply identican ocekivanom (provjeren).
+#    Time: 890 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij1
+vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij2
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 19:07:11 on Feb 01,2026
+# vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij2 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity tb_arp_responder_scenarij2
+# -- Compiling architecture tb of tb_arp_responder_scenarij2
+# -- Loading entity arp_responder
+# End time: 19:07:11 on Feb 01,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+quit -sim
+vsim -gui -l msim_transcript work.tb_arp_responder_scenarij2
+# End time: 19:07:29 on Feb 01,2026, Elapsed time: 0:06:58
+# Errors: 0, Warnings: 2
+# vsim -gui -l msim_transcript work.tb_arp_responder_scenarij2 
+# Start time: 19:07:30 on Feb 01,2026
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.tb_arp_responder_scenarij2(tb)
+# Loading work.arp_responder(rtl)
+# WARNING: No extended dataflow license exists
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij2/clock \
+sim:/tb_arp_responder_scenarij2/reset \
+sim:/tb_arp_responder_scenarij2/in_ready \
+sim:/tb_arp_responder_scenarij2/in_valid \
+sim:/tb_arp_responder_scenarij2/in_data \
+sim:/tb_arp_responder_scenarij2/in_sop \
+sim:/tb_arp_responder_scenarij2/in_eop \
+sim:/tb_arp_responder_scenarij2/out_ready \
+sim:/tb_arp_responder_scenarij2/out_valid \
+sim:/tb_arp_responder_scenarij2/out_data \
+sim:/tb_arp_responder_scenarij2/out_sop \
+sim:/tb_arp_responder_scenarij2/out_eop \
+sim:/tb_arp_responder_scenarij2/tclk \
+sim:/tb_arp_responder_scenarij2/arp_req_mismatch
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: amina  Hostname: PORCHI  ProcessID: 54284
+#           Attempting to use alternate WLF file "./wlftngd89t".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftngd89t
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij2/uut/pr_state \
+sim:/tb_arp_responder_scenarij2/uut/byte_index
+run
+# ** Note: SCENARIJ 2 OK: DUT je ispravno ignorisao ARP Request sa TPA mismatch (nije generisan ARP Reply).
+#    Time: 620 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij2
+quit -sim
+# End time: 20:06:32 on Feb 01,2026, Elapsed time: 0:59:02
+# Errors: 0, Warnings: 3
+vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij3
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 20:06:54 on Feb 01,2026
+# vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij3 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity tb_arp_responder_scenarij3
+# -- Compiling architecture tb of tb_arp_responder_scenarij3
+# -- Loading entity arp_responder
+# End time: 20:06:54 on Feb 01,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -gui -l msim_transcript work.tb_arp_responder_scenarij3
+# vsim -gui -l msim_transcript work.tb_arp_responder_scenarij3 
+# Start time: 20:07:02 on Feb 01,2026
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.tb_arp_responder_scenarij3(tb)
+# Loading work.arp_responder(rtl)
+# WARNING: No extended dataflow license exists
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij3/clock \
+sim:/tb_arp_responder_scenarij3/reset \
+sim:/tb_arp_responder_scenarij3/in_ready \
+sim:/tb_arp_responder_scenarij3/in_valid \
+sim:/tb_arp_responder_scenarij3/in_data \
+sim:/tb_arp_responder_scenarij3/in_sop \
+sim:/tb_arp_responder_scenarij3/in_eop \
+sim:/tb_arp_responder_scenarij3/out_ready \
+sim:/tb_arp_responder_scenarij3/out_valid \
+sim:/tb_arp_responder_scenarij3/out_data \
+sim:/tb_arp_responder_scenarij3/out_sop \
+sim:/tb_arp_responder_scenarij3/out_eop \
+sim:/tb_arp_responder_scenarij3/tclk \
+sim:/tb_arp_responder_scenarij3/non_arp_frame
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: amina  Hostname: PORCHI  ProcessID: 54284
+#           Attempting to use alternate WLF file "./wlfte5kqke".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlfte5kqke
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij3/uut/pr_state \
+sim:/tb_arp_responder_scenarij3/uut/byte_index
+run
+# ** Note: SCENARIJ 3 OK: DUT je ispravno odbacio okvir sa EtherType=0x0800 (nije generisan ARP Reply).
+#    Time: 620 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij3
+vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij4
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 21:46:30 on Feb 01,2026
+# vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij4 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity tb_arp_responder_scenarij4
+# -- Compiling architecture tb of tb_arp_responder_scenarij4
+# -- Loading entity arp_responder
+# End time: 21:46:30 on Feb 01,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+quit -sim
+vsim -gui -l msim_transcript work.tb_arp_responder_scenarij4
+# End time: 21:47:49 on Feb 01,2026, Elapsed time: 1:40:47
+# Errors: 0, Warnings: 3
+# vsim -gui -l msim_transcript work.tb_arp_responder_scenarij4 
+# Start time: 21:47:49 on Feb 01,2026
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.tb_arp_responder_scenarij4(tb)
+# Loading work.arp_responder(rtl)
+# WARNING: No extended dataflow license exists
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij4/clock \
+sim:/tb_arp_responder_scenarij4/reset \
+sim:/tb_arp_responder_scenarij4/in_ready \
+sim:/tb_arp_responder_scenarij4/in_valid \
+sim:/tb_arp_responder_scenarij4/in_data \
+sim:/tb_arp_responder_scenarij4/in_sop \
+sim:/tb_arp_responder_scenarij4/in_eop \
+sim:/tb_arp_responder_scenarij4/out_ready \
+sim:/tb_arp_responder_scenarij4/out_valid \
+sim:/tb_arp_responder_scenarij4/out_data \
+sim:/tb_arp_responder_scenarij4/out_sop \
+sim:/tb_arp_responder_scenarij4/out_eop \
+sim:/tb_arp_responder_scenarij4/tclk \
+sim:/tb_arp_responder_scenarij4/arp_bad_hlen
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: amina  Hostname: PORCHI  ProcessID: 54284
+#           Attempting to use alternate WLF file "./wlfti4wwjy".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlfti4wwjy
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij4/uut/pr_state \
+sim:/tb_arp_responder_scenarij4/uut/byte_index
+run
+# ** Note: SCENARIJ 4 OK: DUT je ispravno ignorisao ARP Request sa neva?e?im formatom (HLEN != 6).
+#    Time: 620 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij4
+vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij4
+# Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+# Start time: 21:52:23 on Feb 01,2026
+# vcom -reportprogress 300 -work work C:/Users/amina/Downloads/arp_projekat/simulation/modelsim/tb_arp_responder_scenarij4 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity tb_arp_responder_scenarij4
+# -- Compiling architecture tb of tb_arp_responder_scenarij4
+# -- Loading entity arp_responder
+# End time: 21:52:23 on Feb 01,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -gui -l msim_transcript work.tb_arp_responder_scenarij4
+# End time: 21:52:34 on Feb 01,2026, Elapsed time: 0:04:45
+# Errors: 0, Warnings: 3
+# vsim -gui -l msim_transcript work.tb_arp_responder_scenarij4 
+# Start time: 21:52:34 on Feb 01,2026
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.tb_arp_responder_scenarij4(tb)
+# Loading work.arp_responder(rtl)
+# WARNING: No extended dataflow license exists
+add wave -position insertpoint  \
+sim:/tb_arp_responder_scenarij4/clock \
+sim:/tb_arp_responder_scenarij4/reset \
+sim:/tb_arp_responder_scenarij4/in_ready \
+sim:/tb_arp_responder_scenarij4/in_valid \
+sim:/tb_arp_responder_scenarij4/in_data \
+sim:/tb_arp_responder_scenarij4/in_sop \
+sim:/tb_arp_responder_scenarij4/in_eop \
+sim:/tb_arp_responder_scenarij4/out_ready \
+sim:/tb_arp_responder_scenarij4/out_valid \
+sim:/tb_arp_responder_scenarij4/out_data \
+sim:/tb_arp_responder_scenarij4/out_sop \
+sim:/tb_arp_responder_scenarij4/out_eop \
+sim:/tb_arp_responder_scenarij4/tclk \
+sim:/tb_arp_responder_scenarij4/arp_bad_hlen
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: amina  Hostname: PORCHI  ProcessID: 54284
+#           Attempting to use alternate WLF file "./wlft4269x0".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlft4269x0
+run
+# ** Note: SCENARIJ 4 OK: DUT je ispravno ignorisao ARP Request sa nevazecim formatom (HLEN != 6).
+#    Time: 620 ns  Iteration: 2  Instance: /tb_arp_responder_scenarij4
+# End time: 22:24:34 on Feb 01,2026, Elapsed time: 0:32:00
+# Errors: 0, Warnings: 3

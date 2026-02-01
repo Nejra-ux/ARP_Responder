@@ -1,0 +1,71 @@
+; ============================================================
+;  wave_scenarij1.do  (ARP Responder - Scenarij 1)
+;  Pretpostavlja top: tb_arp_responder_scenarij1
+; ============================================================
+
+onerror {resume}
+
+; ako si ve? u simulaciji, samo restartaj
+if {[string length [currenttime]] > 0} {
+  restart -f
+}
+
+; ako nisi u simulaciji, pokreni je
+; (ako ti je top druga?iji, promijeni ime ispod)
+if {[string length [find instances -recursive -bydu tb_arp_responder_scenarij1]] == 0} {
+  vsim -voptargs=+acc work.tb_arp_responder_scenarij1
+}
+
+quietly WaveActivateNextPane {} 0
+delete wave *
+
+; --- izgled/format (da li?i na tvoju sliku) ---
+configure wave -namecolwidth 220
+configure wave -valuecolwidth 120
+configure wave -justifyvalue left
+configure wave -signalnamewidth 1
+configure wave -timelineunits ns
+configure wave -grid yes
+
+; ============================================================
+;  SIGNALI (redoslijed 1:1)
+; ============================================================
+
+add wave -noupdate -divider {AVALON-ST input}
+add wave -noupdate -label clk      /tb_arp_responder_scenarij1/clk
+add wave -noupdate -label reset    /tb_arp_responder_scenarij1/reset
+add wave -noupdate -label in_ready /tb_arp_responder_scenarij1/in_ready
+add wave -noupdate -label in_valid /tb_arp_responder_scenarij1/in_valid
+add wave -noupdate -label in_sop   /tb_arp_responder_scenarij1/in_sop
+add wave -noupdate -label in_eop   /tb_arp_responder_scenarij1/in_eop
+add wave -noupdate -label in_data  /tb_arp_responder_scenarij1/in_data
+
+add wave -noupdate -divider {AVALON-ST output}
+add wave -noupdate -label out_ready /tb_arp_responder_scenarij1/out_ready
+add wave -noupdate -label out_valid /tb_arp_responder_scenarij1/out_valid
+add wave -noupdate -label out_sop   /tb_arp_responder_scenarij1/out_sop
+add wave -noupdate -label out_eop   /tb_arp_responder_scenarij1/out_eop
+add wave -noupdate -label out_data  /tb_arp_responder_scenarij1/out_data
+
+add wave -noupdate -divider {internal}
+add wave -noupdate -label state      /tb_arp_responder_scenarij1/uut/pr_state
+add wave -noupdate -label byte_index /tb_arp_responder_scenarij1/uut/byte_index
+
+; --- radixi kao na slici ---
+radix hex      /tb_arp_responder_scenarij1/in_data
+radix hex      /tb_arp_responder_scenarij1/out_data
+radix unsigned /tb_arp_responder_scenarij1/uut/byte_index
+
+; update wave prozor
+update
+
+; ============================================================
+;  RUN + ZOOM
+; ============================================================
+; Ako ?eli? ta?no odre?eno trajanje (npr. 1200ns), koristi ovo:
+; run 1200 ns
+; wave zoom full
+
+; Najsigurnije: pusti do kraja TB-a
+run -all
+wave zoom full
