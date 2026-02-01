@@ -239,23 +239,94 @@ FSM implementiran u VHDL-u verifikovan je korištenjem State Machine Viewer alat
 
 ## Verifikacija pomoću simulacijskog alata ModelSim
 
-Verifikacija ARP respondera je urađena u **ModelSim-u** kroz testbench za **Scenarij 1** (ARP Request gdje se *Target IP (TPA)* poklapa sa `IP_ADDRESS` modula). Cilj je potvrditi da DUT korektno parsira okvir (42 bajta) i generiše ispravan **ARP Reply** (42 bajta).
+Verifikacija ARP Responder modula (DUT) izvršena je u alatu **ModelSim** kroz dva scenarija. U oba slučaja koristi se **Avalon-ST ready/valid** protokol i Ethernet/ARP okvir fiksne dužine **42 bajta** (14 bajta Ethernet + 28 bajta ARP).
 
-### Ready/Valid handshake + kontrola toka
-- **Ulaz (in_*)**: bajt se prenosi samo kad je `in_valid='1'` i `in_ready='1'`. Ako `in_ready='0'`, testbench drži stabilne `in_data/in_sop/in_eop` (ne mijenja se bajt dok handshake ne prođe).
-- **Izlaz (out_*)**: simuliran je **backpressure** tako što testbench tokom slanja reply-a privremeno spušta `out_ready='0'` na nekoliko taktova. DUT tada mora držati stabilne `out_data/out_sop/out_eop` dok `out_ready` ponovo ne postane `'1'`.
+Ciljevi verifikacije su:
+1. potvrditi korektno parsiranje ARP zahtjeva,
+2. potvrditi da se ARP odgovor generiše **samo** kada je zahtjev namijenjen DUT-u (TPA match),
+3. potvrditi ispravno ponašanje kontrole toka preko `valid/ready` signala.
+
+> Napomena: **CRC i padding nisu modelirani**, u skladu sa projektnim zahtjevima. Verifikacija se fokusira na Ethernet + ARP dio okvira i na korektan sadržaj ARP okvira koji DUT generiše.
+
+### Ready/Valid handshake i kontrola toka (Avalon-ST)
+
+U oba scenarija poštuje se standardni handshake mehanizam:
+
+- **Ulaz (in_*)**: bajt se prenosi isključivo kada su `in_valid='1'` i `in_ready='1'`.  
+
+- **Izlaz (out_*)**: bajt se smatra prihvaćenim isključivo kada su `out_valid='1'` i `out_ready='1'`.  
+  Ako `out_ready='0'` dok je `out_valid='1'`, DUT mora **zadržati stabilne** `out_data/out_sop/out_eop` i držati `out_valid='1'` sve dok `out_ready` ponovo ne postane `'1'`.
+
+## Scenarij 1 — Target IP match (generisanje ARP Reply)
+
+U ovom scenariju simulacijski izvor šalje **ARP Request** broadcast okvirom, gdje se *Target Protocol Address (TPA)* poklapa sa `IP_ADDRESS` DUT-a (npr. `192.168.1.1`). Očekuje se da DUT:
+- validira EtherType i ARP polja,
+- prepozna TPA match,
+- generiše **ARP Reply** (42 bajta) i pošalje ga preko Avalon-ST izlaza.
+
+### Kontrola toka na izlazu (out_ready)
+Tokom slanja odgovora, `out_ready` se privremeno spušta na `'0'` tokom nekoliko taktova kako bi se simuliralo da prijemna strana **trenutno nije spremna** da primi bajt. U tom periodu DUT mora:
+- zadržati aktivan `out_valid`,
+- držati stabilne `out_data/out_sop/out_eop`,
+- napredovati na sljedeći bajt isključivo kada ponovo nastupi handshake: `out_valid='1' AND out_ready='1'`.
 
 ### Provjera (checker)
-Checker upoređuje izlaz sa očekivanim ARP Reply okvirom (`arp_reply_exp`) i broji bajtove **samo na handshake**: `out_valid='1' AND out_ready='1'`. Time je verifikovano i pravilno ponašanje u slučaju backpressure-a.
+Checker provjerava:
+1. da je izlazni okvir identičan očekivanom `arp_reply_exp`,
+2. da je `out_sop='1'` samo na bajtu 0 i `out_eop='1'` samo na bajtu 41,
+3. da su izlazni signali stabilni dok je `out_ready='0'` (HOLD ponašanje),
+4. da se brojač očekivanog bajta povećava samo na handshake.
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_1_slika_1.jpg" width="1000"><br>
-  <em>Slika 10: ModelSim waveform — prijem ARP Request okvira (Scenarij 1).</em>
+  <img src="Idejni%20koncepti/tb_scenarij_1_wave_1.jpg" width="1000"><br>
+  <em>Slika 10: ModelSim waveform (0–500 ns) — prijem ARP Request okvira i početak obrade (Scenarij 1).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_1_slika_2.jpg" width="1000"><br>
-  <em>Slika 11: ModelSim waveform — slanje ARP Reply okvira uz ubačeni backpressure (out_ready='0' tokom nekoliko taktova).</em>
+  <img src="Idejni%20koncepti/tb_scenarij_1_wave_2.jpg" width="1000"><br>
+  <em>Slika 11: ModelSim waveform (500–1000 ns) — slanje ARP Reply okvira i provjera kontrole toka preko out_ready (Scenarij 1).</em>
+</p>
+
+<p align="center">
+  <img src="Idejni%20koncepti/tb_scenarij_1_transcript_no_errors.jpg" width="1000"><br>
+  <em>Slika 12: ModelSim transcript — nema prijavljenih grešaka tokom provjera (Scenarij 1).</em>
+</p>
+
+<p align="center">
+  <img src="Idejni%20koncepti/tb_scenarij_1_transcript_ok.jpg" width="1000"><br>
+  <em>Slika 13: ModelSim transcript — završna poruka checkera za Scenarij 1 (test uspješno prošao).</em>
+</p>
+
+## Scenarij 2 — Target IP mismatch (ignorisan ARP Request)
+
+U ovom scenariju simulacijski izvor šalje **ARP Request** gdje je *Target Protocol Address (TPA)* različit od `IP_ADDRESS` DUT-a (npr. `192.168.2.50` umjesto `192.168.1.1`). Očekuje se da DUT:
+- detektuje `TPA mismatch`,
+- **ne generiše ARP Reply**,
+- ne ulazi u TX fazu (tj. `out_valid` mora ostati `'0'`).
+
+### Provjera (checker)
+Checker verifikuje da se `out_valid` ne aktivira:
+- tokom prijema okvira,
+- kao ni u dodatnom vremenskom prozoru nakon završetka prijema (nakon EOP na ulazu).
+
+<p align="center">
+  <img src="Idejni%20koncepti/tb_scenarij_2_wave_1.jpg" width="1000"><br>
+  <em>Slika 14: ModelSim waveform (0–250 ns) — prijem ARP Request okvira sa TPA mismatch (Scenarij 2).</em>
+</p>
+
+<p align="center">
+  <img src="Idejni%20koncepti/tb_scenarij_2_wave_2.jpg" width="1000"><br>
+  <em>Slika 15: ModelSim waveform (250–500 ns) — potvrda da ne dolazi do TX faze (out_valid ostaje 0) (Scenarij 2).</em>
+</p>
+
+<p align="center">
+  <img src="Idejni%20koncepti/tb_scenarij_2_transcript_no_errors.jpg" width="1000"><br>
+  <em>Slika 16: ModelSim transcript — nema prijavljenih grešaka tokom provjera (Scenarij 2).</em>
+</p>
+
+<p align="center">
+  <img src="Idejni%20koncepti/tb_scenarij_2_transcript_ok.jpg" width="1000"><br>
+  <em>Slika 17: ModelSim transcript — završna poruka checkera za Scenarij 2 (DUT nije generisao ARP Reply).</em>
 </p>
 
 
