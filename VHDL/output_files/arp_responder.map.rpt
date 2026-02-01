@@ -1,5 +1,5 @@
 Analysis & Synthesis report for arp_responder
-Tue Jan 06 22:01:39 2026
+Sun Feb 01 16:56:51 2026
 Quartus Prime Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
 
 
@@ -46,13 +46,13 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Tue Jan 06 22:01:39 2026       ;
+; Analysis & Synthesis Status        ; Successful - Sun Feb 01 16:56:51 2026       ;
 ; Quartus Prime Version              ; 19.1.0 Build 670 09/22/2019 SJ Lite Edition ;
 ; Revision Name                      ; arp_responder                               ;
 ; Top-level Entity Name              ; arp_responder                               ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 307                                         ;
-;     Total combinational functions  ; 307                                         ;
+; Total logic elements               ; 308                                         ;
+;     Total combinational functions  ; 308                                         ;
 ;     Dedicated logic registers      ; 97                                          ;
 ; Total registers                    ; 97                                          ;
 ; Total pins                         ; 26                                          ;
@@ -174,36 +174,36 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------------+-----------------+-----------------+---------------------------------------------------------+---------+
 
 
-+---------------------------------------------------------+
-; Analysis & Synthesis Resource Usage Summary             ;
-+---------------------------------------------+-----------+
-; Resource                                    ; Usage     ;
-+---------------------------------------------+-----------+
-; Estimated Total logic elements              ; 307       ;
-;                                             ;           ;
-; Total combinational functions               ; 307       ;
-; Logic element usage by number of LUT inputs ;           ;
-;     -- 4 input functions                    ; 165       ;
-;     -- 3 input functions                    ; 112       ;
-;     -- <=2 input functions                  ; 30        ;
-;                                             ;           ;
-; Logic elements by mode                      ;           ;
-;     -- normal mode                          ; 300       ;
-;     -- arithmetic mode                      ; 7         ;
-;                                             ;           ;
-; Total registers                             ; 97        ;
-;     -- Dedicated logic registers            ; 97        ;
-;     -- I/O registers                        ; 0         ;
-;                                             ;           ;
-; I/O pins                                    ; 26        ;
-;                                             ;           ;
-; Embedded Multiplier 9-bit elements          ; 0         ;
-;                                             ;           ;
-; Maximum fan-out node                        ; clk~input ;
-; Maximum fan-out                             ; 97        ;
-; Total fan-out                               ; 1383      ;
-; Average fan-out                             ; 3.03      ;
-+---------------------------------------------+-----------+
++-----------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary               ;
++---------------------------------------------+-------------+
+; Resource                                    ; Usage       ;
++---------------------------------------------+-------------+
+; Estimated Total logic elements              ; 308         ;
+;                                             ;             ;
+; Total combinational functions               ; 308         ;
+; Logic element usage by number of LUT inputs ;             ;
+;     -- 4 input functions                    ; 167         ;
+;     -- 3 input functions                    ; 112         ;
+;     -- <=2 input functions                  ; 29          ;
+;                                             ;             ;
+; Logic elements by mode                      ;             ;
+;     -- normal mode                          ; 301         ;
+;     -- arithmetic mode                      ; 7           ;
+;                                             ;             ;
+; Total registers                             ; 97          ;
+;     -- Dedicated logic registers            ; 97          ;
+;     -- I/O registers                        ; 0           ;
+;                                             ;             ;
+; I/O pins                                    ; 26          ;
+;                                             ;             ;
+; Embedded Multiplier 9-bit elements          ; 0           ;
+;                                             ;             ;
+; Maximum fan-out node                        ; clock~input ;
+; Maximum fan-out                             ; 97          ;
+; Total fan-out                               ; 1389        ;
+; Average fan-out                             ; 3.04        ;
++---------------------------------------------+-------------+
 
 
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -211,7 +211,7 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+---------------+--------------+
 ; Compilation Hierarchy Node ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name ; Entity Name   ; Library Name ;
 +----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+---------------+--------------+
-; |arp_responder             ; 307 (307)           ; 97 (97)                   ; 0           ; 0            ; 0       ; 0         ; 26   ; 0            ; |arp_responder      ; arp_responder ; work         ;
+; |arp_responder             ; 308 (308)           ; 97 (97)                   ; 0           ; 0            ; 0       ; 0         ; 26   ; 0            ; |arp_responder      ; arp_responder ; work         ;
 +----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+---------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -289,17 +289,17 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;     ENA               ; 88                          ;
 ;     SCLR              ; 8                           ;
 ;     plain             ; 1                           ;
-; cycloneiii_lcell_comb ; 308                         ;
+; cycloneiii_lcell_comb ; 309                         ;
 ;     arith             ; 7                           ;
 ;         2 data inputs ; 7                           ;
-;     normal            ; 301                         ;
+;     normal            ; 302                         ;
 ;         1 data inputs ; 2                           ;
-;         2 data inputs ; 22                          ;
+;         2 data inputs ; 21                          ;
 ;         3 data inputs ; 112                         ;
-;         4 data inputs ; 165                         ;
+;         4 data inputs ; 167                         ;
 ;                       ;                             ;
 ; Max LUT depth         ; 9.00                        ;
-; Average LUT depth     ; 5.75                        ;
+; Average LUT depth     ; 5.87                        ;
 +-----------------------+-----------------------------+
 
 
@@ -318,7 +318,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 19.1.0 Build 670 09/22/2019 SJ Lite Edition
-    Info: Processing started: Tue Jan 06 22:01:26 2026
+    Info: Processing started: Sun Feb 01 16:56:37 2026
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off arp_responder -c arp_responder
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 8 of the 8 processors detected
@@ -326,18 +326,17 @@ Info (12021): Found 2 design units, including 1 entities, in source file arp_res
     Info (12022): Found design unit 1: arp_responder-rtl File: C:/Users/amina/Downloads/arp_projekat/arp_responder.vhd Line: 49
     Info (12023): Found entity 1: arp_responder File: C:/Users/amina/Downloads/arp_projekat/arp_responder.vhd Line: 24
 Info (12127): Elaborating entity "arp_responder" for the top level hierarchy
-Warning (10492): VHDL Process Statement warning at arp_responder.vhd(189): signal "in_ready_i" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/amina/Downloads/arp_projekat/arp_responder.vhd Line: 189
 Info (286030): Timing-Driven Synthesis is running
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 333 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 334 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 14 input pins
     Info (21059): Implemented 12 output pins
-    Info (21061): Implemented 307 logic cells
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 2 warnings
+    Info (21061): Implemented 308 logic cells
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 1 warning
     Info: Peak virtual memory: 4837 megabytes
-    Info: Processing ended: Tue Jan 06 22:01:39 2026
-    Info: Elapsed time: 00:00:13
-    Info: Total CPU time (on all processors): 00:00:24
+    Info: Processing ended: Sun Feb 01 16:56:51 2026
+    Info: Elapsed time: 00:00:14
+    Info: Total CPU time (on all processors): 00:00:26
 
 

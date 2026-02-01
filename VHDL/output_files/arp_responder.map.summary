@@ -1,10 +1,10 @@
-Analysis & Synthesis Status : Successful - Tue Jan 06 22:01:39 2026
+Analysis & Synthesis Status : Successful - Sun Feb 01 16:56:51 2026
 Quartus Prime Version : 19.1.0 Build 670 09/22/2019 SJ Lite Edition
 Revision Name : arp_responder
 Top-level Entity Name : arp_responder
 Family : Cyclone IV E
-Total logic elements : 307
-    Total combinational functions : 307
+Total logic elements : 308
+    Total combinational functions : 308
     Dedicated logic registers : 97
 Total registers : 97
 Total pins : 26
