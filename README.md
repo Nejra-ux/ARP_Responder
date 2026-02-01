@@ -111,7 +111,9 @@ Ovaj scenarij prikazuje situacije u kojima posmatrani čvor ne smije poslati ARP
   <em>Slika 4: UML sekvencijalni dijagram – Filtriranje tuđih zahtjeva i nevažećeg saobraćaja (non-ARP, nevažeći ARP, TPA mismatch)</em>
 </p>
 
-> Napomena: U ModelSim verifikaciji i Wavedrom prikazu slučajevi “bez odgovora” su testirani kroz dva odvojena testa, označena kao Scenarij 2 (TPA mismatch) i Scenarij 3 (Non-ARP EtherType). Funkcionalno, oba pripadaju istoj grupi filtriranja/ignorisanih okvira.
+> Napomena: Konceptualno postoje dvije grupe testova:  
+> **(1) sa odgovorom** – Scenarij 1, i **(2) bez odgovora** – Scenariji 2, 3 i 4, koji predstavljaju različite slučajeve filtriranja/odbacivanja okvira (TPA mismatch, non-ARP EtherType i nevažeći ARP format).
+
 
 ## WaveDrom dijagram
 Wavedrom dijagrami su kreirani pomoću WaveDrom alata. Izvorni `.json` fajlovi za sve prikazane scenarije dostupni su u direktoriju [Wavedrom](./Wavedrom).
@@ -277,7 +279,7 @@ FSM implementiran u VHDL-u verifikovan je korištenjem State Machine Viewer alat
 
 ## Verifikacija pomoću simulacijskog alata ModelSim
 
-Verifikacija je izvršena kroz tri testna slučaja, grupisana u dva konceptualna scenarija (sa odgovorom / bez odgovora). U svim slučajevima koristi se **Avalon-ST ready/valid** protokol i Ethernet/ARP okvir fiksne dužine **42 bajta** (14 bajta Ethernet + 28 bajta ARP).
+Verifikacija je izvršena kroz četiri testna slučaja, grupisana u dva konceptualna scenarija (sa odgovorom / bez odgovora). U svim slučajevima koristi se **Avalon-ST ready/valid** protokol i Ethernet/ARP okvir fiksne dužine **42 bajta** (14 bajta Ethernet + 28 bajta ARP).
 
 Ciljevi verifikacije su:
 1. potvrditi korektno parsiranje ARP zahtjeva,
@@ -401,7 +403,7 @@ Checker verifikuje da se `out_valid` ne aktivira:
 <p align="center">
   <img src="Idejni%20koncepti/tb_scenarij_3_transcript_ok.png" width="1000"><br>
   <em>Slika 23: ModelSim transcript — završna poruka checkera za Scenarij 3 (DUT ispravno nije generisao ARP Reply).</em>
-</p
+</p>
 
 ## Scenarij 4 — Nevažeći ARP format (pogrešan HLEN, odbacivanje na ARP sloju)
 
