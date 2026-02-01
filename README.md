@@ -90,7 +90,7 @@ Ovo je osnovni scenarij u kojem čvor prima ARP zahtjev koji je namijenjen uprav
 * **Rezultat:** Ciljni čvor šalje **ARP Reply** (unicast, `Opcode = 0x0002`) prema pošiljaocu zahtjeva, pri čemu u polju `SHA` navodi svoju MAC adresu. Pošiljalac zatim ažurira ARP tabelu i može slati IP pakete koristeći dobijenu MAC adresu.
 
 <p align="center">
-  <img src="Idejni%20koncepti/Scenarij_1.drawio.png" width="500"><br>
+  <img src="Docs/Scenarij_1.drawio.png" width="500"><br>
   <em>Slika 3: UML sekvencijalni dijagram – validan ARP zahtjev (TPA match)</em>
 </p>
 
@@ -107,7 +107,7 @@ Ovaj scenarij prikazuje situacije u kojima posmatrani čvor ne smije poslati ARP
 * **Rezultat:** Posmatrani čvor ignoriše okvir i **ne šalje** ARP Reply.
 
 <p align="center">
-  <img src="Idejni%20koncepti/Scenario 2 (2+3).drawio.png" width="600"><br>
+  <img src="Docs/Scenario 2 (2+3).drawio.png" width="600"><br>
   <em>Slika 4: UML sekvencijalni dijagram – Filtriranje tuđih zahtjeva i nevažećeg saobraćaja (non-ARP, nevažeći ARP, TPA mismatch)</em>
 </p>
 
@@ -268,13 +268,13 @@ Za parsiranje okvira koristi se `byte_index` i efektivni indeks `rx_idx`:
 
 Nakon kompilacije dizajna u Quartus Prime, provjeren je Compilation Report, čime je potvrđeno da je dizajn uspješno kompajliran.
 
-<p align="center"> <img src="Idejni%20koncepti/compilation_report.jpg" width="800"><br>
+<p align="center"> <img src="Docs/compilation_report.jpg" width="800"><br>
 <em>Slika 10: Prikaz Compilation Report-a nakon uspješne kompilacije dizajna.</em> </p>
 
 ### Verifikacija konačnog automata
 FSM implementiran u VHDL-u verifikovan je korištenjem State Machine Viewer alata u okviru Quartus Prime okruženja. Dobijeni grafički prikaz stanja i tranzicija potvrđuje usklađenost implementiranog FSM-a sa prethodno definisanim dijagramom.
 
-<p align="center"> <img src="Idejni%20koncepti/FSM_vhdl.jpg" width="700"><br>
+<p align="center"> <img src="Docs/FSM_vhdl.jpg" width="700"><br>
 <em>Slika 11: Verifikacija konačnog automata pomoću Quartus State Machine Viewer-a.</em> </p>
 
 ## Verifikacija pomoću simulacijskog alata ModelSim
@@ -318,22 +318,22 @@ Checker provjerava:
 4. da se brojač očekivanog bajta povećava samo na handshake.
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_1_wave_1.png" width="1000"><br>
+  <img src="Docs/tb_scenarij_1_wave_1.png" width="1000"><br>
   <em>Slika 12: ModelSim waveform (0–500 ns) — prijem ARP Request okvira i početak obrade (Scenarij 1).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_1_wave_2.png" width="1000"><br>
+  <img src="Docs/tb_scenarij_1_wave_2.png" width="1000"><br>
   <em>Slika 13: ModelSim waveform (500–1000 ns) — slanje ARP Reply okvira i provjera kontrole toka preko out_ready (Scenarij 1).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_1_transcript_no_errors.png" width="1000"><br>
+  <img src="Docs/tb_scenarij_1_transcript_no_errors.png" width="1000"><br>
   <em>Slika 14: ModelSim transcript — nema prijavljenih grešaka tokom provjera (Scenarij 1).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_1_transcript_ok.png" width="1000"><br>
+  <img src="Docs/tb_scenarij_1_transcript_ok.png" width="1000"><br>
   <em>Slika 15: ModelSim transcript — završna poruka checkera za Scenarij 1 (test uspješno prošao).</em>
 </p>
 
@@ -350,22 +350,22 @@ Checker verifikuje da se `out_valid` ne aktivira:
 - kao ni u dodatnom vremenskom prozoru nakon završetka prijema (nakon EOP na ulazu).
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_2_wave_1.png" width="1000"><br>
+  <img src="Docs/tb_scenarij_2_wave_1.png" width="1000"><br>
   <em>Slika 16: ModelSim waveform (0–250 ns) — prijem ARP Request okvira sa TPA mismatch (Scenarij 2).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_2_wave_2.png" width="1000"><br>
+  <img src="Docs/tb_scenarij_2_wave_2.png" width="1000"><br>
   <em>Slika 17: ModelSim waveform (250–500 ns) — potvrda da ne dolazi do TX faze (out_valid ostaje 0) (Scenarij 2).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_2_transcript_no_errors.png" width="1000"><br>
+  <img src="Docs/tb_scenarij_2_transcript_no_errors.png" width="1000"><br>
   <em>Slika 18: ModelSim transcript — nema prijavljenih grešaka tokom provjera (Scenarij 2).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_2_transcript_ok.png" width="1000"><br>
+  <img src="Docs/tb_scenarij_2_transcript_ok.png" width="1000"><br>
   <em>Slika 19: ModelSim transcript — završna poruka checkera za Scenarij 2 (DUT nije generisao ARP Reply).</em>
 </p>
 
@@ -386,22 +386,22 @@ Checker verifikuje da se `out_valid` ne aktivira:
 - kao ni u dodatnom vremenskom prozoru nakon završetka prijema (nakon EOP na ulazu), što potvrđuje da DUT ne pokušava slati odgovor na non-ARP saobraćaj.
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_3_wave_1.png" width="1000"><br>
+  <img src="Docs/tb_scenarij_3_wave_1.png" width="1000"><br>
   <em>Slika 20: ModelSim waveform (0–250 ns) — prijem Ethernet okvira sa EtherType=0x0800 (Non-ARP) i početak odbacivanja (Scenarij 3).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_3_wave_2.png" width="1000"><br>
+  <img src="Docs/tb_scenarij_3_wave_2.png" width="1000"><br>
   <em>Slika 21: ModelSim waveform (250–500 ns) — potvrda da ne dolazi do TX faze (out_valid ostaje 0) (Scenarij 3).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_3_transcript_no_errors.png" width="1000"><br>
+  <img src="Docs/tb_scenarij_3_transcript_no_errors.png" width="1000"><br>
   <em>Slika 22: ModelSim transcript — nema prijavljenih grešaka tokom provjera (Scenarij 3).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_3_transcript_ok.png" width="1000"><br>
+  <img src="Docs/tb_scenarij_3_transcript_ok.png" width="1000"><br>
   <em>Slika 23: ModelSim transcript — završna poruka checkera za Scenarij 3 (DUT ispravno nije generisao ARP Reply).</em>
 </p>
 
@@ -421,22 +421,22 @@ Checker verifikuje da se `out_valid` ne aktivira:
 - kao ni u dodatnom vremenskom prozoru nakon završetka prijema (nakon EOP na ulazu), što potvrđuje da DUT ne pokušava slati odgovor na formalno neispravnu ARP poruku.
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_4_wave_1.png" width="1000"><br>
+  <img src="Docs/tb_scenarij_4_wave_1.png" width="1000"><br>
   <em>Slika 24: ModelSim waveform (0–250 ns) — prijem ARP Request okvira sa nevažećim HLEN (Scenarij 4).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_4_wave_2.png" width="1000"><br>
+  <img src="Docs/tb_scenarij_4_wave_2.png" width="1000"><br>
   <em>Slika 25: ModelSim waveform (250–500 ns) — potvrda da ne dolazi do TX faze (out_valid ostaje 0) (Scenarij 4).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_4_transcript_no_errors.png" width="1000"><br>
+  <img src="Docs/tb_scenarij_4_transcript_no_errors.png" width="1000"><br>
   <em>Slika 26: ModelSim transcript — nema prijavljenih grešaka tokom provjera (Scenarij 4).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_4_transcript_ok.png" width="1000"><br>
+  <img src="Docs/tb_scenarij_4_transcript_ok.png" width="1000"><br>
   <em>Slika 27: ModelSim transcript — završna poruka checkera za Scenarij 4 (DUT ispravno nije generisao ARP Reply).</em>
 </p>
 
