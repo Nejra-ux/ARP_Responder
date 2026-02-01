@@ -61,30 +61,33 @@ Kombinacijom ovih polja, ARP omogućava da čvor jednoznačno identifikuje ko tr
 
 U ovom projektu implementira se VHDL modul ARP Responder, čija je uloga da odgovori na ARP upite za rezoluciju MAC adrese lokalnog čvora. Modul prima Ethernet/ARP okvire putem Avalon-ST interfejsa i generiše odgovarajući ARP reply kada je ciljna IP adresa jednaka adresi konfigurisanog čvora.
 IP adresa i MAC adresa uređaja definišu se kao generički parametri prilikom instanciranja modula. Komunikacija preko ulaznih i izlaznih portova odvija se korištenjem ready/valid rukovanja, koje obezbjeđuje pouzdan prijenos podataka kroz tok.
-U nastavku je prikazan popis svih signala korištenih u ARP Responder modulu: 
-- `clock`: Takt signal
-- `reset`: Reset signal (aktivna visoka vrednost)
-- `in_data[7:0]`: Ulazni podaci (bajt po bajt)
-- `in_valid`: Validnost ulaznih podataka
-- `in_sop`: Start of Packet za ulaz
-- `in_eop`: End of Packet za ulaz
-- `in_ready`: Ready signal za ulaz (modul spreman za prijem)
-- `out_data[7:0]`: Izlazni podaci (bajt po bajt)
-- `out_valid`: Validnost izlaznih podataka
-- `out_sop`: Start of Packet za izlaz
-- `out_eop`: End of Packet za izlaz
-- `out_ready`: Ready signal za izlaz (primalac spreman).
+U nastavku je prikazan popis svih signala korištenih u ARP Responder modulu (Avalon-ST streaming interfejs).
+
+| IN/OUT | Tip | Signal | Opis |
+|---|---|---|---|
+| IN | `STD_LOGIC` | `clock` | Takt signal koji sinhronizira sekvencijalnu logiku modula. |
+| IN | `STD_LOGIC` | `reset` | Reset signal (aktivna visoka vrijednost); vraća FSM i interne registre u početno stanje. |
+| IN | `STD_LOGIC_VECTOR(7 downto 0)` | `in_data` | Ulazni podaci (bajt-po-bajt) – dolazni Ethernet/ARP okvir. |
+| IN | `STD_LOGIC` | `in_valid` | Označava da je `in_data` važeći u trenutnom taktu. |
+| IN | `STD_LOGIC` | `in_sop` | Start of Packet (ulaz) – aktivan na prvom bajtu paketa. |
+| IN | `STD_LOGIC` | `in_eop` | End of Packet (ulaz) – aktivan na posljednjem bajtu paketa. |
+| OUT | `STD_LOGIC` | `in_ready` | Modul spreman za prijem; prijem bajta se dešava kada su `in_valid=1` i `in_ready=1`. |
+| OUT | `STD_LOGIC_VECTOR(7 downto 0)` | `out_data` | Izlazni podaci (bajt-po-bajt) – generisani ARP Reply okvir. |
+| OUT | `STD_LOGIC` | `out_valid` | Označava da je `out_data` važeći u trenutnom taktu. |
+| OUT | `STD_LOGIC` | `out_sop` | Start of Packet (izlaz) – aktivan na prvom bajtu ARP Reply paketa. |
+| OUT | `STD_LOGIC` | `out_eop` | End of Packet (izlaz) – aktivan na posljednjem bajtu ARP Reply paketa. |
+| IN | `STD_LOGIC` | `out_ready` | Primalac spreman; slanje bajta se dešava kada su `out_valid=1` i `out_ready=1`. |
 
 ## Scenariji za testiranje
 
 Validacija ARP Responder modula izvršena je kroz dva ključna scenarija koji pokrivaju ispravno procesiranje, filtriranje saobraćaja i ignorisanje nepodržanih protokola.
 
 ### **1. Generisanje ARP odgovora (Target IP Match)**
-Ovo je osnovni scenarij u kojem modul prima ARP zahtjev koji je namijenjen upravo njemu.
+Ovo je osnovni scenarij u kojem čvor prima ARP zahtjev koji je namijenjen upravo njemu.
 
-*   **Ulaz:** Testbench šalje broadcast **ARP Request** u kojem je `Target IP` jednak IP adresi modula (npr. `192.168.1.1`).
-*   **Proces:** Modul detektuje ispravan `EtherType (0x0806)` i poklapanje IP adrese.
-*   **Rezultat:** Modul generiše **ARP Reply** (unicast) sa svojom MAC adresom. Izlazni signal `out_valid` postaje aktivan.
+* **Mrežni događaj:** Čvor *ARP resolver* šalje broadcast **ARP Request** (`EtherType = 0x0806`, `Opcode = 0x0001`) sa traženom ciljnom IP adresom (`TPA`).
+* **Obrada:** Svi čvorovi u broadcast domeni prime zahtjev, ali **odgovara samo** čvor čija IP adresa odgovara `TPA`.
+* **Rezultat:** Ciljni čvor šalje **ARP Reply** (unicast, `Opcode = 0x0002`) prema pošiljaocu zahtjeva, pri čemu u polju `SHA` navodi svoju MAC adresu. Pošiljalac zatim ažurira ARP tabelu i može slati IP pakete koristeći dobijenu MAC adresu.
 
 <p align="center">
   <img src="Idejni%20koncepti/Scenarij_1.drawio.png" width="500"><br>
@@ -94,13 +97,15 @@ Ovo je osnovni scenarij u kojem modul prima ARP zahtjev koji je namijenjen uprav
 
 ### **2. Filtriranje tuđih zahtjeva i nevažećeg saobraćaja (Target IP Mismatch)**
 
-Ovaj scenarij izvršava provjeru  da li modul ispravno ignoriše ARP zahtjeve koji su namijenjeni drugim uređajima u mreži te testira robusnost dizajna na okvire koji nisu relevantni za ARP rezoluciju.
-* **Ulaz:** Testbench generiše niz testnih vektora koji ne zadovoljavaju uslove za odgovor:
-o	Target IP Mismatch: ARP Request sa ispravnim formatom, ali Target IP adresom koja ne pripada modulu (npr. `192.168.1.50`). 
-o	Non-ARP: Ethernet okviri koji nisu ARP protokola (npr. IPv4 paket gdje je `EtherType = 0x0800`).
-o	Invalid ARP Format/Opcode: ARP okviri koji nisu zahtjev za rezoluciju (`Opcode ≠ 0x0001`) ili imaju neispravne parametre zaglavlja (`HTYPE ≠ 0x0001`, `PTYPE ≠ 0x0800`, `HLEN ≠ 6`, `PLEN ≠ 4`). 
-* **Proces:**  Modul vrši sekvencijalnu validaciju zaglavlja. Prvo provjerava EtherType, zatim ispravnost ARP parametara i Opcode polja, te konačno poredi Target IP adresu. Ukoliko bilo koji od ovih uslova nije zadovoljen (pogrešan protokol, neispravan format, pogrešan Opcode ili tuđa IP adresa), modul prekida dalju obradu.
-* **Rezultat:**  Modul ignoriše paket (DROP) i ne generiše ARP Reply. Izlazna linija out_valid ostaje neaktivna ('0'), čime se potvrđuje da modul ispravno odbacuje sav saobraćaj koji ne zahtijeva njegovu intervenciju.
+Ovaj scenarij prikazuje situacije u kojima posmatrani čvor ne smije poslati ARP odgovor.
+
+* **Slučajevi bez odgovora:**
+  - **Non-ARP okvir:** `EtherType ≠ 0x0806` (npr. IPv4 okvir gdje je `EtherType = 0x0800`).
+  - **Nevažeća ARP poruka:** ARP okvir koji nema ispravne parametre zaglavlja ili nije ARP Request, npr. važi bilo koji od uslova:  
+    `HTYPE ≠ 0x0001` **ili** `PTYPE ≠ 0x0800` **ili** `HLEN ≠ 6` **ili** `PLEN ≠ 4` **ili** `Opcode ≠ 0x0001`.
+  - **Target IP mismatch:** ARP Request je formalno ispravan, ali ciljni IP (`TPA`) **ne pripada** posmatranom čvoru.
+* **Rezultat:** Posmatrani čvor ignoriše okvir i **ne šalje** ARP Reply.
+
 <p align="center">
   <img src="Idejni%20koncepti/Scenario 2 (2+3).drawio.png" width="600"><br>
   <em>Slika 4: UML sekvencijalni dijagram – Filtriranje tuđih zahtjeva i nevažećeg saobraćaja (Target IP Mismatch) </em>
