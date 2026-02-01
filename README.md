@@ -22,11 +22,11 @@ Kada čvor želi poslati IP paket ka određenoj IPv4 adresi u istoj lokalnoj mre
    - IP/MAC adrese pošiljaoca zahtjeva u odgovarajućim poljima.
 4. Pošiljalac ažurira svoju ARP tabelu, upisuje par (IP, MAC) i omogućava slanje IP paketa ka tom odredištu koristeći dobijenu MAC adresu [1].
 
-Na narednoj slici prikazan je proces ARP komunikacije, uključujući ARP request i ARP reply:
+Na narednoj slici prikazan je proces ARP komunikacije, uključujući ARP Request i ARP Reply:
 
 <p align="center">
 <img width="600" height="500" alt="image" src="https://github.com/user-attachments/assets/bd80100d-f5b2-4fc2-bf94-2921d3f7d430" /><br>
-  <em> Slika 1. Proces ARP komunikacije kroz request i reply poruke [6]</em>
+  <em> Slika 1: Proces ARP komunikacije kroz request i reply poruke [6]</em>
 </p>
 
 
@@ -39,7 +39,7 @@ Struktura ARP zaglavlja prikazana je na Slici 2 i sastoji se od sljedećih polja
 
 <p align="center">
  <img width="900" height="500" alt="image" src="https://github.com/user-attachments/assets/bc90bd7e-3b97-43aa-a1e2-2c374282ac84" /><br>
-  <em> Slika 2. Dijelovi ARP headera [3]</em>
+  <em> Slika 2: Dijelovi ARP headera [3]</em>
 </p>
 
 
@@ -80,9 +80,9 @@ U nastavku je prikazan popis svih signala korištenih u ARP Responder modulu (Av
 
 ## Scenariji za testiranje
 
-Validacija ARP Responder modula izvršena je kroz dva ključna scenarija koji pokrivaju ispravno procesiranje, filtriranje saobraćaja i ignorisanje nepodržanih protokola.
+Validacija ARP Responder modula izvršena je kroz dva konceptualna scenarija (sa odgovorom / bez odgovora) koji pokrivaju ispravno procesiranje, filtriranje saobraćaja i ignorisanje nepodržanih protokola.
 
-### **1. Generisanje ARP odgovora (Target IP Match)**
+### **1. Generisanje ARP odgovora (TPA match)**
 Ovo je osnovni scenarij u kojem čvor prima ARP zahtjev koji je namijenjen upravo njemu.
 
 * **Mrežni događaj:** Čvor *ARP resolver* šalje broadcast **ARP Request** (`EtherType = 0x0806`, `Opcode = 0x0001`) sa traženom ciljnom IP adresom (`TPA`).
@@ -91,11 +91,11 @@ Ovo je osnovni scenarij u kojem čvor prima ARP zahtjev koji je namijenjen uprav
 
 <p align="center">
   <img src="Idejni%20koncepti/Scenarij_1.drawio.png" width="500"><br>
-  <em>Slika 3: UML sekvencijalni dijagram – validna ARP rezolucija</em>
+  <em>Slika 3: UML sekvencijalni dijagram – validan ARP zahtjev (TPA match)</em>
 </p>
 
 
-### **2. Filtriranje tuđih zahtjeva i nevažećeg saobraćaja (Target IP Mismatch)**
+### **2. Filtriranje tuđih zahtjeva i nevažećeg saobraćaja**
 
 Ovaj scenarij prikazuje situacije u kojima posmatrani čvor ne smije poslati ARP odgovor.
 
@@ -108,15 +108,17 @@ Ovaj scenarij prikazuje situacije u kojima posmatrani čvor ne smije poslati ARP
 
 <p align="center">
   <img src="Idejni%20koncepti/Scenario 2 (2+3).drawio.png" width="600"><br>
-  <em>Slika 4: UML sekvencijalni dijagram – Filtriranje tuđih zahtjeva i nevažećeg saobraćaja (Target IP Mismatch) </em>
+  <em>Slika 4: UML sekvencijalni dijagram – Filtriranje tuđih zahtjeva i nevažećeg saobraćaja (non-ARP, nevažeći ARP, TPA mismatch)</em>
 </p>
+
+> Napomena: U ModelSim verifikaciji i Wavedrom prikazu slučajevi “bez odgovora” su testirani kroz dva odvojena testa, označena kao Scenarij 2 (TPA mismatch) i Scenarij 3 (Non-ARP EtherType). Funkcionalno, oba pripadaju istoj grupi filtriranja/ignorisanih okvira.
 
 ## WaveDrom dijagram
 Wavedrom dijagrami su kreirani pomoću WaveDrom alata. Izvorni `.json` fajlovi za sve prikazane scenarije dostupni su u direktoriju [Wavedrom](./Wavedrom).
 
 Dijagrami pokrivaju sljedeće scenarije:
 
-### Scenario 1: Generisanje ARP odgovora (Target IP Match)
+### Scenarij 1: Generisanje ARP odgovora (Target IP Match)
 
 Ovaj scenarij demonstrira nominalni rad ARP Responder modula kada primi ARP Request paket namijenjen upravo njemu. Prikazani dijagram prikazuje kompletan ciklus: od detekcije broadcast zahtjeva do generisanja unicast odgovora.
 
@@ -139,7 +141,7 @@ Ethernet Odgovor: Paket se šalje kao Unicast. Destination MAC se postavlja na a
 ARP Payload: Opcode se mijenja u `00 02` (ARP Reply). U polje Sender IP upisuje se lokalna adresa (`192.168.1.1`), dok se originalni pošiljalac postavlja kao Target.
 Kraj: Signal `out_eop` označava kraj prenosa, nakon čega se FSM vraća u IDLE.
 
-### Scenario 2: Odbacivanje tuđeg zahtjeva (Target IP Mismatch)
+### Scenarij 2: Odbacivanje tuđeg zahtjeva (Target IP Mismatch) 
 
 
 Dijagram prikazuje ponašanje modula kada primi ARP zahtjev koji nije namijenjen ovom uređaju (nepoklapanje IP adrese).
@@ -163,7 +165,43 @@ Umjesto prelaska u fazu slanja, dešava se sljedeće:
 Stanje: Automat prelazi u stanje `DROP` kako bi prekinuo obradu, a zatim se odmah vraća u `IDLE`.
 Izlaz: Avalon-ST Output signali (`out_valid`, `out_sop`) ostaju na nuli. Modul ostaje "tih" i ne šalje odgovor, efikasno filtrirajući nepotreban saobraćaj.
 
+### Scenarij 3: Odbacivanje Non-ARP okvira (pogrešan EtherType)
 
+Ovaj scenarij testira granični slučaj u kojem modul prima Ethernet okvir koji **nije ARP** (npr. IPv4), tj. kada je `EtherType ≠ 0x0806`. Cilj je potvrditi da se okvir odbacuje odmah na Ethernet sloju i da se **ne pokušava** parsiranje ARP polja niti generiše bilo kakav odgovor.
+
+<p align="center">
+  <img src="Wavedrom/Scenarij_3.png" width="1000"><br>
+  <em>Slika 7: Wavedrom za Non-ARP okvir (EtherType = 0x0800) </em>
+</p>
+
+* **1. Ulazna faza: Prijem i Ethernet identifikacija (RX)**
+Modul prima Ethernet okvir preko Avalon-ST ulaza (`in_valid = 1`, `in_sop = 1`). Tok bajtova se parsira bajt-po-bajt do polja EtherType:
+- Na bajtovima 12–13 se očitava `EtherType = 0x0800`, što označava IPv4 okvir (Non-ARP).
+- Time se aktivira indikator `eth_fail`, jer okvir nije relevantan za ARP responder logiku.
+
+* **2. Ishod: Odbacivanje okvira (DROP)**
+Nakon detekcije `eth_fail`, FSM:
+- prelazi u stanje `DROP` i ignoriše preostale bajtove okvira do `in_eop`,
+- **ne aktivira** izlazne signale (`out_valid` ostaje 0), tj. ne ulazi u `TX_SEND`.
+
+### Scenarij 4: Odbacivanje nevažeće ARP poruke (pogrešan ARP format – HLEN)
+
+Ovaj scenarij testira slučaj u kojem modul prima okvir koji **jeste ARP** (`EtherType = 0x0806`) i čak izgleda kao ARP Request (`Opcode = 0x0001`), ali ARP zaglavlje **nije validno** jer jedno od fiksnih ARP polja ne odgovara standardnom Ethernet/IPv4 formatu. U ovom testu namjerno je postavljeno pogrešno polje **HLEN** (`HLEN ≠ 6`). Cilj je potvrditi da modul odbacuje ovakvu poruku u fazi validacije ARP polja i da **ne generiše** ARP Reply.
+
+<p align="center">
+  <img src="Wavedrom/Scenarij_4.png" width="1000"><br>
+  <em>Slika 8: Wavedrom za nevažeći ARP okvir (pogrešan HLEN)</em>
+</p>
+
+* **1. Ulazna faza: Prijem i identifikacija ARP okvira (RX)**
+Modul prima Ethernet okvir preko Avalon-ST ulaza (`in_valid = 1`, `in_sop = 1`). Tok bajtova se parsira bajt-po-bajt:
+- Na bajtovima 12–13 očitava se `EtherType = 0x0806`, čime se potvrđuje da je riječ o ARP okviru.
+- U ARP zaglavlju `Opcode = 0x0001` označava ARP Request, ali se tokom provjere fiksnih ARP polja detektuje da je `HLEN` pogrešan (nije 6).
+
+* **2. Ishod: Odbacivanje okvira (DROP)**
+Nakon detekcije greške u ARP formatu (`arp_fields_fail`), FSM:
+- prelazi u stanje `DROP` i ignoriše preostale bajtove okvira do `in_eop`,
+- **ne aktivira** izlazne signale (`out_valid` ostaje 0), tj. ne ulazi u `TX_SEND`.
 
 ## Konačni automat 
 
@@ -188,7 +226,7 @@ Tokom RX faze (`RX_ETH_HDR`, `RX_ARP_FIELDS`, `RX_ARP_ADDRS`) `byte_index` preds
 
 <p align="center">
 <img width="800" height="800" alt="image" src="FSM/FSM_diagram.png" width="600"><br>
-  <em>Slika 7: Dijagram konačnog automata (FSM) ARP Responder modula.</em>
+  <em>Slika 9: Dijagram konačnog automata (FSM) ARP Responder modula.</em>
 </p>
 
 
@@ -229,17 +267,17 @@ Za parsiranje okvira koristi se `byte_index` i efektivni indeks `rx_idx`:
 Nakon kompilacije dizajna u Quartus Prime, provjeren je Compilation Report, čime je potvrđeno da je dizajn uspješno kompajliran.
 
 <p align="center"> <img src="Idejni%20koncepti/compilation_report.jpg" width="800"><br>
-<em>Slika 8: Prikaz Compilation Report-a nakon uspješne kompilacije dizajna.</em> </p>
+<em>Slika 10: Prikaz Compilation Report-a nakon uspješne kompilacije dizajna.</em> </p>
 
 ### Verifikacija konačnog automata
 FSM implementiran u VHDL-u verifikovan je korištenjem State Machine Viewer alata u okviru Quartus Prime okruženja. Dobijeni grafički prikaz stanja i tranzicija potvrđuje usklađenost implementiranog FSM-a sa prethodno definisanim dijagramom.
 
 <p align="center"> <img src="Idejni%20koncepti/FSM_vhdl.jpg" width="700"><br>
-<em>Slika 9: Verifikacija konačnog automata pomoću Quartus State Machine Viewer-a.</em> </p>
+<em>Slika 11: Verifikacija konačnog automata pomoću Quartus State Machine Viewer-a.</em> </p>
 
 ## Verifikacija pomoću simulacijskog alata ModelSim
 
-Verifikacija ARP Responder modula (DUT) izvršena je u alatu **ModelSim** kroz dva scenarija. U oba slučaja koristi se **Avalon-ST ready/valid** protokol i Ethernet/ARP okvir fiksne dužine **42 bajta** (14 bajta Ethernet + 28 bajta ARP).
+Verifikacija je izvršena kroz tri testna slučaja, grupisana u dva konceptualna scenarija (sa odgovorom / bez odgovora). U svim slučajevima koristi se **Avalon-ST ready/valid** protokol i Ethernet/ARP okvir fiksne dužine **42 bajta** (14 bajta Ethernet + 28 bajta ARP).
 
 Ciljevi verifikacije su:
 1. potvrditi korektno parsiranje ARP zahtjeva,
@@ -250,7 +288,7 @@ Ciljevi verifikacije su:
 
 ### Ready/Valid handshake i kontrola toka (Avalon-ST)
 
-U oba scenarija poštuje se standardni handshake mehanizam:
+U svim testnim slučajevima poštuje se standardni handshake mehanizam:
 
 - **Ulaz (in_*)**: bajt se prenosi isključivo kada su `in_valid='1'` i `in_ready='1'`.  
 
@@ -279,22 +317,22 @@ Checker provjerava:
 
 <p align="center">
   <img src="Idejni%20koncepti/tb_scenarij_1_wave_1.png" width="1000"><br>
-  <em>Slika 10: ModelSim waveform (0–500 ns) — prijem ARP Request okvira i početak obrade (Scenarij 1).</em>
+  <em>Slika 12: ModelSim waveform (0–500 ns) — prijem ARP Request okvira i početak obrade (Scenarij 1).</em>
 </p>
 
 <p align="center">
   <img src="Idejni%20koncepti/tb_scenarij_1_wave_2.png" width="1000"><br>
-  <em>Slika 11: ModelSim waveform (500–1000 ns) — slanje ARP Reply okvira i provjera kontrole toka preko out_ready (Scenarij 1).</em>
+  <em>Slika 13: ModelSim waveform (500–1000 ns) — slanje ARP Reply okvira i provjera kontrole toka preko out_ready (Scenarij 1).</em>
 </p>
 
 <p align="center">
   <img src="Idejni%20koncepti/tb_scenarij_1_transcript_no_errors.png" width="1000"><br>
-  <em>Slika 12: ModelSim transcript — nema prijavljenih grešaka tokom provjera (Scenarij 1).</em>
+  <em>Slika 14: ModelSim transcript — nema prijavljenih grešaka tokom provjera (Scenarij 1).</em>
 </p>
 
 <p align="center">
   <img src="Idejni%20koncepti/tb_scenarij_1_transcript_ok.png" width="1000"><br>
-  <em>Slika 13: ModelSim transcript — završna poruka checkera za Scenarij 1 (test uspješno prošao).</em>
+  <em>Slika 15: ModelSim transcript — završna poruka checkera za Scenarij 1 (test uspješno prošao).</em>
 </p>
 
 ## Scenarij 2 — Target IP mismatch (ignorisan ARP Request)
@@ -311,22 +349,93 @@ Checker verifikuje da se `out_valid` ne aktivira:
 
 <p align="center">
   <img src="Idejni%20koncepti/tb_scenarij_2_wave_1.png" width="1000"><br>
-  <em>Slika 14: ModelSim waveform (0–250 ns) — prijem ARP Request okvira sa TPA mismatch (Scenarij 2).</em>
+  <em>Slika 16: ModelSim waveform (0–250 ns) — prijem ARP Request okvira sa TPA mismatch (Scenarij 2).</em>
 </p>
 
 <p align="center">
   <img src="Idejni%20koncepti/tb_scenarij_2_wave_2.png" width="1000"><br>
-  <em>Slika 15: ModelSim waveform (250–500 ns) — potvrda da ne dolazi do TX faze (out_valid ostaje 0) (Scenarij 2).</em>
+  <em>Slika 17: ModelSim waveform (250–500 ns) — potvrda da ne dolazi do TX faze (out_valid ostaje 0) (Scenarij 2).</em>
 </p>
 
 <p align="center">
   <img src="Idejni%20koncepti/tb_scenarij_2_transcript_no_errors.png" width="1000"><br>
-  <em>Slika 16: ModelSim transcript — nema prijavljenih grešaka tokom provjera (Scenarij 2).</em>
+  <em>Slika 18: ModelSim transcript — nema prijavljenih grešaka tokom provjera (Scenarij 2).</em>
 </p>
 
 <p align="center">
   <img src="Idejni%20koncepti/tb_scenarij_2_transcript_ok.png" width="1000"><br>
-  <em>Slika 17: ModelSim transcript — završna poruka checkera za Scenarij 2 (DUT nije generisao ARP Reply).</em>
+  <em>Slika 19: ModelSim transcript — završna poruka checkera za Scenarij 2 (DUT nije generisao ARP Reply).</em>
+</p>
+
+## Scenarij 3 — Non-ARP okvir (pogrešan EtherType, odbacivanje na Ethernet sloju)
+
+U ovom scenariju simulacijski izvor šalje Ethernet okvir fiksne dužine **42 bajta**, ali sa **EtherType ≠ 0x0806** (npr. `0x0800` – IPv4). Time se testira ponašanje DUT-a u slučaju kada okvir **nije ARP**, tj. kada već na Ethernet sloju mora biti prepoznat kao nerelevantan za ARP proces.
+
+Očekuje se da DUT:
+- detektuje pogrešan EtherType (`eth_fail`),
+- pređe u režim odbacivanja okvira (DROP) i ignoriše bajtove do `in_eop`,
+- **ne generiše ARP Reply** i ne ulazi u TX fazu (`out_valid` mora ostati `'0'`).
+
+> Napomena: Iako ostatak payload-a nije ARP, okvir je zadržan na **42 bajta** radi konzistentnosti sa testbench logikom i kako bi se verifikacija fokusirala na ključnu odluku DUT-a: odbacivanje okvira na osnovu EtherType polja.
+
+### Provjera (checker)
+Checker verifikuje da se `out_valid` ne aktivira:
+- tokom prijema cijelog okvira sa EtherType `0x0800`,
+- kao ni u dodatnom vremenskom prozoru nakon završetka prijema (nakon EOP na ulazu), što potvrđuje da DUT ne pokušava slati odgovor na non-ARP saobraćaj.
+
+<p align="center">
+  <img src="Idejni%20koncepti/tb_scenarij_3_wave_1.png" width="1000"><br>
+  <em>Slika 20: ModelSim waveform (0–250 ns) — prijem Ethernet okvira sa EtherType=0x0800 (Non-ARP) i početak odbacivanja (Scenarij 3).</em>
+</p>
+
+<p align="center">
+  <img src="Idejni%20koncepti/tb_scenarij_3_wave_2.png" width="1000"><br>
+  <em>Slika 21: ModelSim waveform (250–500 ns) — potvrda da ne dolazi do TX faze (out_valid ostaje 0) (Scenarij 3).</em>
+</p>
+
+<p align="center">
+  <img src="Idejni%20koncepti/tb_scenarij_3_transcript_no_errors.png" width="1000"><br>
+  <em>Slika 22: ModelSim transcript — nema prijavljenih grešaka tokom provjera (Scenarij 3).</em>
+</p>
+
+<p align="center">
+  <img src="Idejni%20koncepti/tb_scenarij_3_transcript_ok.png" width="1000"><br>
+  <em>Slika 23: ModelSim transcript — završna poruka checkera za Scenarij 3 (DUT ispravno nije generisao ARP Reply).</em>
+</p
+
+## Scenarij 4 — Nevažeći ARP format (pogrešan HLEN, odbacivanje na ARP sloju)
+
+U ovom scenariju simulacijski izvor šalje **ARP Request** Ethernet okvirom fiksne dužine **42 bajta** (14 bajtova Ethernet + 28 bajtova ARP), pri čemu su `EtherType = 0x0806` i `Opcode = 0x0001` ispravni. Međutim, ARP zaglavlje je namjerno napravljeno **nevažećim** tako što je polje **HLEN** postavljeno na pogrešnu vrijednost (`HLEN ≠ 6`). Time se testira da DUT ne odgovara na ARP poruke koje nisu u standardnom Ethernet/IPv4 ARP formatu.
+
+Očekuje se da DUT:
+- prepozna da je okvir ARP (`EtherType = 0x0806`),
+- u fazi provjere fiksnih ARP polja detektuje grešku (`arp_fields_fail`) zbog pogrešnog `HLEN`,
+- pređe u režim odbacivanja okvira (DROP) i ignoriše bajtove do `in_eop`,
+- **ne generiše ARP Reply** i ne ulazi u TX fazu (`out_valid` mora ostati `'0'`).
+
+### Provjera (checker)
+Checker verifikuje da se `out_valid` ne aktivira:
+- tokom prijema cijelog ARP okvira sa pogrešnim `HLEN`,
+- kao ni u dodatnom vremenskom prozoru nakon završetka prijema (nakon EOP na ulazu), što potvrđuje da DUT ne pokušava slati odgovor na formalno neispravnu ARP poruku.
+
+<p align="center">
+  <img src="Idejni%20koncepti/tb_scenarij_4_wave_1.png" width="1000"><br>
+  <em>Slika 24: ModelSim waveform (0–250 ns) — prijem ARP Request okvira sa nevažećim HLEN (Scenarij 4).</em>
+</p>
+
+<p align="center">
+  <img src="Idejni%20koncepti/tb_scenarij_4_wave_2.png" width="1000"><br>
+  <em>Slika 25: ModelSim waveform (250–500 ns) — potvrda da ne dolazi do TX faze (out_valid ostaje 0) (Scenarij 4).</em>
+</p>
+
+<p align="center">
+  <img src="Idejni%20koncepti/tb_scenarij_4_transcript_no_errors.png" width="1000"><br>
+  <em>Slika 26: ModelSim transcript — nema prijavljenih grešaka tokom provjera (Scenarij 4).</em>
+</p>
+
+<p align="center">
+  <img src="Idejni%20koncepti/tb_scenarij_4_transcript_ok.png" width="1000"><br>
+  <em>Slika 27: ModelSim transcript — završna poruka checkera za Scenarij 4 (DUT ispravno nije generisao ARP Reply).</em>
 </p>
 
 
@@ -342,7 +451,7 @@ Checker verifikuje da se `out_valid` ne aktivira:
 
 [4] Fortinet, “What is ARP?,” [Na internetu]. Dostupno: https://www.fortinet.com/resources/cyberglossary/what-is-arp [pristupljeno 01.02.2026.].
 
-[5] Intel, “Avalon® Interface Specifications,” ver. 22.3, Sep. 2025. [Na internetu]. Dostupno: https://www.intel.com/content/www/us/en/docs/programmable/683091/22-3/ introduction-to-the-interface-specifications.html [pristupljeno 01.02.2026.].
+[5] Intel, “Avalon® Interface Specifications,” ver. 22.3, Sep. 2025. [Na internetu]. Dostupno: https://www.intel.com/content/www/us/en/docs/programmable/683091/22-3/introduction-to-the-interface-specifications.html [pristupljeno 01.02.2026.].
 
 [6] K. Blažeka, “Address Resolution Protocol (ARP),” [Na internetu]. Dostupno: http://kristinka-blazeka-blog.from.hr/?page_id=913 [pristupljeno 01.02.2026.].
 
