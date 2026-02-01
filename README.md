@@ -10,7 +10,7 @@ Cilj ovog projekta je implementacija ARP Responder modula u VHDL-u, koji prima E
 
 ARP (Address Resolution Protocol) je protokol koji povezuje logičko adresiranje na mrežnom sloju (IPv4 adrese) sa fizičkim adresiranjem na podatkovnom sloju (MAC adrese) u lokalnoj mreži. U tipičnoj Ethernet LAN mreži, Ethernet okvir se isporučuje na osnovu MAC adrese odredišta, dok aplikacije i protokoli viših slojeva (npr. TCP/UDP) komuniciraju korištenjem IP adresa.
 
-Kada čvor želi poslati IP paket ka određenoj IPv4 adresi u istoj lokalnoj mreži, on mora znati kojoj MAC adresi ta IP adresa pripada. Ako tražena IP adresa nije prisutna u lokalnoj ARP tabeli (ARP cache), čvor inicira ARP postupak razrješenja adrese (engl. address resolution):
+Kada čvor želi poslati IP paket ka određenoj IPv4 adresi u istoj lokalnoj mreži, on mora znati kojoj MAC adresi ta IP adresa pripada. Ako tražena IP adresa nije prisutna u lokalnoj ARP tabeli (ARP cache), čvor inicira ARP postupak razrješenja adrese (engl. *address resolution*):
 
 1. Generiše se ARP Request – broadcast Ethernet okvir u kojem se navodi:
    - IP adresa čvora čija se MAC adresa traži,
@@ -26,7 +26,7 @@ Na narednoj slici prikazan je proces ARP komunikacije, uključujući ARP request
 
 <p align="center">
 <img width="600" height="500" alt="image" src="https://github.com/user-attachments/assets/bd80100d-f5b2-4fc2-bf94-2921d3f7d430" /><br>
-  <em> Slika 1. Proces ARP komunikacije kroz request i reply poruke [1]</em>
+  <em> Slika 1. Proces ARP komunikacije kroz request i reply poruke [6]</em>
 </p>
 
 
@@ -34,7 +34,7 @@ Na narednoj slici prikazan je proces ARP komunikacije, uključujući ARP request
 ## ARP poruka i struktura ARP paketa
 
 ARP poruka se ne prenosi samostalno, već je enkapsulirana unutar Ethernet okvira. Dužina Ethernet zaglavlja je 14 bajtova, dok je dužina ARP zaglavlja 28 bajtova. Informacije vezane za Address Resolution Protocol nalaze se upravo u ovom dijelu.
-U ARP paketu, EtherType u Ethernet zaglavlju ima vrijednost `0x0806` [2]. Ostali dijelovi Ethernet zaglavlja isti su kao i kod drugih Ethernet paketa.
+U ARP paketu, EtherType u Ethernet zaglavlju ima vrijednost `0x0806` [3]. Ostali dijelovi Ethernet zaglavlja isti su kao i kod drugih Ethernet paketa.
 Struktura ARP zaglavlja prikazana je na Slici 2 i sastoji se od sljedećih polja:
 
 <p align="center">
@@ -55,12 +55,12 @@ Struktura ARP zaglavlja prikazana je na Slici 2 i sastoji se od sljedećih polja
 - **Target hardware address (THA)** – MAC adresa odredišta (kod ARP Requesta se često stavlja nula, jer još nije poznata).
 - **Target protocol address (TPA)** – IP adresa odredišta čija se MAC adresa traži [3].
 
-Kombinacijom ovih polja, ARP omogućava da čvor jednoznačno identifikuje ko traži adresu (sender) i za koju IP adresu (target) želi da dobije MAC adresu. Višebajtna polja u ARP zaglavlju kodirana su u mrežnom poretku bajtova (engl. network byte order), odnosno s najznačajnijim bajtom prvim. Ova činjenica je od posebnog značaja za hardversku implementaciju protokola, gdje se obrada ARP poruke vrši bajt-po-bajt putem streaming interfejsa [4].
+Kombinacijom ovih polja, ARP omogućava da čvor jednoznačno identifikuje ko traži adresu (sender) i za koju IP adresu (target) želi da dobije MAC adresu. Višebajtna polja u ARP zaglavlju kodirana su u mrežnom poretku bajtova (engl. *network byte order*), odnosno s najznačajnijim bajtom prvim. Ova činjenica je od posebnog značaja za hardversku implementaciju protokola, gdje se obrada ARP poruke vrši bajt-po-bajt putem streaming interfejsa.
 
 ## Opis projekta i popis signala
 
 U ovom projektu implementira se VHDL modul ARP Responder, čija je uloga da odgovori na ARP upite za rezoluciju MAC adrese lokalnog čvora. Modul prima Ethernet/ARP okvire putem Avalon-ST interfejsa i generiše odgovarajući ARP reply kada je ciljna IP adresa jednaka adresi konfigurisanog čvora.
-IP adresa i MAC adresa uređaja definišu se kao generički parametri prilikom instanciranja modula, što omogućava jednostavnu integraciju u različite mrežne konfiguracije. Komunikacija preko ulaznih i izlaznih portova odvija se korištenjem ready/valid rukovanja, koje obezbjeđuje pouzdan prijenos podataka kroz tok.
+IP adresa i MAC adresa uređaja definišu se kao generički parametri prilikom instanciranja modula. Komunikacija preko ulaznih i izlaznih portova odvija se korištenjem ready/valid rukovanja, koje obezbjeđuje pouzdan prijenos podataka kroz tok.
 U nastavku je prikazan popis svih signala korištenih u ARP Responder modulu: 
 - `clock`: Takt signal
 - `reset`: Reset signal (aktivna visoka vrednost)
@@ -162,7 +162,7 @@ Izlaz: Avalon-ST Output signali (`out_valid`, `out_sop`) ostaju na nuli. Modul o
 
 ## Konačni automat 
 
-Konačni automat (engl. *Finite State Machine – FSM*) predstavlja formalni način modeliranja sekvencijalnih logičkih sklopova, gdje se rad sistema opisuje kroz konačan skup stanja i uslovne prelaze između njih. Takav model može biti veoma koristan pri projektovanju određenih tipova sistema, posebno onih čiji zadaci čine jasno definisan slijed. [7] U praksi se FSM može prikazati na dva komplementarna načina: **dijagramom stanja**, koji grafički predstavlja specifikaciju automata (sva moguća stanja, ulazne uslove prelaza i ponašanje/izlaze u pojedinim stanjima), ili **hardverski baziranom reprezentacijom**, koja naglasak stavlja na RTL implementaciju kroz kombinacionu i sekvencijalnu logiku. Dijagram stanja je posebno koristan jer pojednostavljuje razumijevanje i provjeru dizajna prije same implementacije, dok hardverski prikaz direktno pokazuje kako se automat realizuje u digitalnom kolu. U okviru ovog projekta, FSM je korišten kao kontroler koji parsira ulazni tok podataka kroz više slojeva mrežnog okvira, obuhvatajući identifikaciju početka paketa, validaciju zaglavlja po slojevima i donošenje odluke o daljoj obradi na osnovu sadržaja okvira.
+Konačni automat (engl. *Finite State Machine – FSM*) predstavlja formalni način modeliranja sekvencijalnih logičkih sklopova, gdje se rad sistema opisuje kroz konačan skup stanja i uslovne prelaze između njih. Takav model može biti veoma koristan pri projektovanju određenih tipova sistema, posebno onih čiji zadaci čine jasno definisan slijed [7]. U praksi se FSM može prikazati na dva komplementarna načina: **dijagramom stanja**, koji grafički predstavlja specifikaciju automata (sva moguća stanja, ulazne uslove prelaza i ponašanje/izlaze u pojedinim stanjima), ili **hardverski baziranom reprezentacijom**, koja naglasak stavlja na RTL implementaciju kroz kombinacionu i sekvencijalnu logiku. Dijagram stanja je posebno koristan jer pojednostavljuje razumijevanje i provjeru dizajna prije same implementacije, dok hardverski prikaz direktno pokazuje kako se automat realizuje u digitalnom kolu. U okviru ovog projekta, FSM je korišten kao kontroler koji parsira ulazni tok podataka kroz više slojeva mrežnog okvira, obuhvatajući identifikaciju početka paketa, validaciju zaglavlja po slojevima i donošenje odluke o daljoj obradi na osnovu sadržaja okvira.
 
 ### Princip rada konačnog automata
 Modul u stanju mirovanja čeka početak novog Ethernet okvira, koji se na Avalon-ST ulazu detektuje aktivacijom signala `in_sop` uz `in_valid`. Nakon detekcije SOP-a, FSM započinje parsiranje okvira bajt-po-bajt i prvo vrši provjeru Ethernet zaglavlja, odnosno polja EtherType. Ukoliko EtherType nije jednak vrijednosti **0x0806** (ARP), okvir se smatra nerelevantnim za ARP rezoluciju i FSM prelazi u stanje **DROP**, gdje ne generiše nikakav izlazni saobraćaj, već samo ignoriše preostali dio okvira do `in_eop`.
@@ -253,20 +253,19 @@ Checker upoređuje izlaz sa očekivanim ARP Reply okvirom (`arp_reply_exp`) i br
 
 ## Literatura
 
-   
-[1] **Spurgeon, Charles E.**, **Zimmerman, Joann**. *Ethernet: The Definitive Guide: Designing and Managing Local Area Networks*. 2nd ed. O'Reilly, 2025.
+[1] D. C. Plummer, “An Ethernet Address Resolution Protocol: Or Converting Network Protocol Addresses to 48-bit Ethernet Address for Transmission on Ethernet Hardware,” RFC 826, Nov. 1982. [Na internetu]. Dostupno: https://www.rfc-editor.org/rfc/rfc826.html [pristupljeno 01.02.2026.].
 
-[2] **Medhi, Deepankar**, **Ramasamy, Karthikeyan**. *Network Routing: Algorithms, Protocols, and Architectures*. Morgan Kaufmann, 2007. (Includes CD-ROM).
+[2] C. E. Spurgeon i J. Zimmerman, *Ethernet: The Definitive Guide: Designing and Managing Local Area Networks*, 2. izd. Sebastopol, CA, SAD: O’Reilly Media, 2014.
 
-[3] “Address Resolution Protocol (ARP),” IPCisco. [Online]. Available: https://ipcisco.com/lesson/address-resolution-protocol-arp/. 
+[3] IPCisco, “Address Resolution Protocol (ARP),” [Na internetu]. Dostupno: https://ipcisco.com/lesson/address-resolution-protocol-arp/ [pristupljeno 01.02.2026.].
 
-[4] A. Author et al., “Various Solutions for Address Resolution Protocol Spoofing Attacks,” ResearchGate. [Online]. Available: https://www.researchgate.net/publication/276282183_Various_Solutions_for_Address_Resolution_Protocol_Spoofing_Attacks. 
+[4] Fortinet, “What is ARP?,” [Na internetu]. Dostupno: https://www.fortinet.com/resources/cyberglossary/what-is-arp [pristupljeno 01.02.2026.].
 
-[5] “What is ARP?,” Fortinet. [Online]. Available: https://www.fortinet.com/resources/cyberglossary/what-is-arp. 
+[5] Intel, “Avalon® Interface Specifications,” ver. 22.3, Sep. 2025. [Na internetu]. Dostupno: https://www.intel.com/content/www/us/en/docs/programmable/683091/22-3/ introduction-to-the-interface-specifications.html [pristupljeno 01.02.2026.].
 
-[6] **Intel**. *Avalon Interface Specification, Intel Quartus Prime Design Suite 20.1*, v2022.01.24.  
+[6] K. Blažeka, “Address Resolution Protocol (ARP),” [Na internetu]. Dostupno: http://kristinka-blazeka-blog.from.hr/?page_id=913 [pristupljeno 01.02.2026.].
 
-[7] **Volnei A. Pedroni**, Circuit Design and Simulation with VHDL, The MIT Press, Cambridge, Massachussets, 2004.
+[7] V. A. Pedroni, *Circuit Design and Simulation with VHDL*. Cambridge, MA, SAD: The MIT Press, 2004.
 
 
 
