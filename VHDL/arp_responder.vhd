@@ -27,7 +27,7 @@ ENTITY arp_responder IS
     MAC_ADDRESS : STD_LOGIC_VECTOR(47 DOWNTO 0) := x"02AABBCCDDEE"
   );
   PORT (
-    clk   : IN  STD_LOGIC;
+    clock : IN  STD_LOGIC;
     reset : IN  STD_LOGIC;  -- AKTIVNO '1'
 
     -- Avalon-ST ulaz
@@ -143,7 +143,8 @@ BEGIN
   -----------------------------------------------------------------------------
   PROCESS(pr_state, in_valid, in_sop, in_eop, out_ready, byte_index,
           eth_fail, arp_fields_fail, tpa_mismatch,
-          eth_fail_this, arp_fields_fail_this, tpa_mismatch_this, rx_idx)
+          eth_fail_this, arp_fields_fail_this, tpa_mismatch_this, rx_idx,
+          in_ready_i)
     VARIABLE eth_fail_n        : STD_LOGIC;
     VARIABLE arp_fields_fail_n : STD_LOGIC;
     VARIABLE tpa_mismatch_n    : STD_LOGIC;
@@ -185,32 +186,36 @@ BEGIN
           nx_state <= RX_ARP_FIELDS;
         END IF;
 
-     WHEN RX_ARP_ADDRS =>
-  IF (in_valid='1' AND in_ready_i='1') THEN
+      WHEN RX_ARP_ADDRS =>
+        IF (in_valid='1' AND in_ready_i='1') THEN
 
-    -- mismatch bilo kad u 38..41 -> DROP
-    IF (tpa_mismatch_n='1') THEN
-      nx_state <= DROP;
+          -- mismatch bilo kad u 38..41 -> DROP, osim ako je EOP već došao (zadnji bajt)
+          IF (tpa_mismatch_n='1') THEN
+            IF (in_eop='1') THEN
+              nx_state <= IDLE;  -- mismatch na zadnjem bajtu, okvir je završen
+            ELSE
+              nx_state <= DROP;  -- mismatch prije kraja, vrti do EOP
+            END IF;
 
-    -- zadnji bajt (41): ako je EOP tu -> TX, ako nije -> predugačak -> DROP
-    ELSIF (rx_idx=41) THEN
-      IF (in_eop='1') THEN
-        nx_state <= TX_SEND;
-      ELSE
-        nx_state <= DROP;
-      END IF;
+          -- zadnji bajt (41): ako je EOP tu -> TX, ako nije -> predugačak -> DROP
+          ELSIF (rx_idx=41) THEN
+            IF (in_eop='1') THEN
+              nx_state <= TX_SEND;
+            ELSE
+              nx_state <= DROP;
+            END IF;
 
-    -- ako EOP dođe prije 41 -> kratak okvir
-    ELSIF (in_eop='1') THEN
-      nx_state <= IDLE;
+          -- ako EOP dođe prije 41 -> kratak okvir
+          ELSIF (in_eop='1') THEN
+            nx_state <= IDLE;
 
-    ELSE
-      nx_state <= RX_ARP_ADDRS;
-    END IF;
+          ELSE
+            nx_state <= RX_ARP_ADDRS;
+          END IF;
 
-  ELSE
-    nx_state <= RX_ARP_ADDRS;
-  END IF;
+        ELSE
+          nx_state <= RX_ARP_ADDRS;
+        END IF;
 
       WHEN DROP =>
         IF (in_valid='1' AND in_eop='1') THEN
@@ -232,10 +237,10 @@ BEGIN
   -----------------------------------------------------------------------------
   -- SEKVENCIJALNI DIO: stanje, brojač, pamćenje SHA/SPA
   -----------------------------------------------------------------------------
-  PROCESS(clk)
+  PROCESS(clock)
     VARIABLE idx : INTEGER;
   BEGIN
-    IF RISING_EDGE(clk) THEN
+    IF RISING_EDGE(clock) THEN
       IF reset='1' THEN
         pr_state <= IDLE;
         byte_index <= (OTHERS => '0');
