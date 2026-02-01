@@ -278,22 +278,22 @@ Checker provjerava:
 4. da se brojač očekivanog bajta povećava samo na handshake.
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_1_wave_1.jpg" width="1000"><br>
+  <img src="Idejni%20koncepti/tb_scenarij_1_wave_1.png" width="1000"><br>
   <em>Slika 10: ModelSim waveform (0–500 ns) — prijem ARP Request okvira i početak obrade (Scenarij 1).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_1_wave_2.jpg" width="1000"><br>
+  <img src="Idejni%20koncepti/tb_scenarij_1_wave_2.png" width="1000"><br>
   <em>Slika 11: ModelSim waveform (500–1000 ns) — slanje ARP Reply okvira i provjera kontrole toka preko out_ready (Scenarij 1).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_1_transcript_no_errors.jpg" width="1000"><br>
+  <img src="Idejni%20koncepti/tb_scenarij_1_transcript_no_errors.png" width="1000"><br>
   <em>Slika 12: ModelSim transcript — nema prijavljenih grešaka tokom provjera (Scenarij 1).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_1_transcript_ok.jpg" width="1000"><br>
+  <img src="Idejni%20koncepti/tb_scenarij_1_transcript_ok.png" width="1000"><br>
   <em>Slika 13: ModelSim transcript — završna poruka checkera za Scenarij 1 (test uspješno prošao).</em>
 </p>
 
@@ -310,22 +310,22 @@ Checker verifikuje da se `out_valid` ne aktivira:
 - kao ni u dodatnom vremenskom prozoru nakon završetka prijema (nakon EOP na ulazu).
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_2_wave_1.jpg" width="1000"><br>
+  <img src="Idejni%20koncepti/tb_scenarij_2_wave_1.png" width="1000"><br>
   <em>Slika 14: ModelSim waveform (0–250 ns) — prijem ARP Request okvira sa TPA mismatch (Scenarij 2).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_2_wave_2.jpg" width="1000"><br>
+  <img src="Idejni%20koncepti/tb_scenarij_2_wave_2.png" width="1000"><br>
   <em>Slika 15: ModelSim waveform (250–500 ns) — potvrda da ne dolazi do TX faze (out_valid ostaje 0) (Scenarij 2).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_2_transcript_no_errors.jpg" width="1000"><br>
+  <img src="Idejni%20koncepti/tb_scenarij_2_transcript_no_errors.png" width="1000"><br>
   <em>Slika 16: ModelSim transcript — nema prijavljenih grešaka tokom provjera (Scenarij 2).</em>
 </p>
 
 <p align="center">
-  <img src="Idejni%20koncepti/tb_scenarij_2_transcript_ok.jpg" width="1000"><br>
+  <img src="Idejni%20koncepti/tb_scenarij_2_transcript_ok.png" width="1000"><br>
   <em>Slika 17: ModelSim transcript — završna poruka checkera za Scenarij 2 (DUT nije generisao ARP Reply).</em>
 </p>
 
